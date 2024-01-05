@@ -1,0 +1,17 @@
+{
+    "name": "@sside-net/eslint",
+    "version": "0.0.0",
+    "description": "sside-net shared eslint",
+    "main": ".eslintrc.cjs",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/sside/sside-net.git"
+    },
+    "private": true,
+    "devDependencies": {
+        "@typescript-eslint/eslint-plugin": "^6.17.0",
+        "@typescript-eslint/parser": "^6.17.0",
+        "eslint": "^8.56.0",
+        "typescript": "^5.3.3"
+    }
+}
