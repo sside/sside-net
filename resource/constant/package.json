@@ -1,0 +1,21 @@
+{
+    "name": "@sside-net/constant",
+    "version": "0.0.0",
+    "description": "Configurable values per environment.",
+    "main": "index.js",
+    "scripts": {
+        "dev": "tsc --watch",
+        "build": "tsc --build",
+        "lint": "eslint"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/sside/sside-net.git"
+    },
+    "private": true,
+    "devDependencies": {
+        "@sside-net/eslint": "*",
+        "@sside-net/tsconfig": "*",
+        "typescript": "^5.3.3"
+    }
+}
