@@ -13,6 +13,8 @@
             "dependsOn": ["^dev"],
             "cache": false,
             "persistent": true
-        }
+        },
+        "update:check": {},
+        "update:execute": {}
     }
 }
