@@ -1,12 +1,13 @@
 import { EnvironmentType } from "@sside-net/constant";
+import { DeepPartial } from "utility-types";
 
 interface ApplicationConfiguration {
     siteName: "sside.net";
 }
 
-const base: ApplicationConfiguration = {
+const base = {
     siteName: "sside.net",
-};
+} satisfies DeepPartial<ApplicationConfiguration>;
 
 const development: ApplicationConfiguration = {
     ...base,
