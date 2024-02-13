@@ -21,7 +21,7 @@ export class BlogEntryQuery {
         blogEntryId: string,
         transaction?: Prisma.TransactionClient,
     ): Promise<BlogEntryWithRelations | null> {
-        return await this.findFirstWithRelations(
+        return this.findFirstWithRelations(
             {
                 where: {
                     id: blogEntryId,
@@ -35,7 +35,7 @@ export class BlogEntryQuery {
         { slug, title, bodyMarkdown, metaTagIds }: BlogEntryRequireData,
         transaction?: Prisma.TransactionClient,
     ): Promise<BlogEntry> {
-        return await this.blogEntry(transaction).create({
+        return this.blogEntry(transaction).create({
             data: {
                 slug,
                 blogEntryDraft: {
@@ -58,7 +58,7 @@ export class BlogEntryQuery {
         { slug, title, bodyMarkdown, metaTagIds }: BlogEntryRequireData,
         transaction?: Prisma.TransactionClient,
     ): Promise<BlogEntry> {
-        return await this.blogEntry(transaction).update({
+        return this.blogEntry(transaction).update({
             where: {
                 id: blogEntryId,
             },
@@ -89,7 +89,7 @@ export class BlogEntryQuery {
         { slug, title, bodyMarkdown, metaTagIds }: BlogEntryRequireData,
         transaction?: Prisma.TransactionClient,
     ): Promise<BlogEntry> {
-        return await this.blogEntry(transaction).create({
+        return this.blogEntry(transaction).create({
             data: {
                 slug,
                 blogEntryHistories: {
@@ -112,7 +112,7 @@ export class BlogEntryQuery {
         { slug, title, bodyMarkdown, metaTagIds }: BlogEntryRequireData,
         transaction?: Prisma.TransactionClient,
     ): Promise<BlogEntry> {
-        return await this.blogEntry(transaction).update({
+        return this.blogEntry(transaction).update({
             where: {
                 id: blogEntryId,
             },
@@ -153,7 +153,7 @@ export class BlogEntryQuery {
         args: Prisma.BlogEntryFindFirstArgs,
         transaction?: Prisma.TransactionClient,
     ) {
-        return await this.blogEntry(transaction).findFirst({
+        return this.blogEntry(transaction).findFirst({
             ...args,
             include: this.JOIN_RELATED_TABLES_PRISMA_INCLUDE,
         });
@@ -163,7 +163,7 @@ export class BlogEntryQuery {
         args: Prisma.BlogEntryFindUniqueArgs,
         transaction?: Prisma.TransactionClient,
     ) {
-        return await this.blogEntry(transaction).findUnique({
+        return this.blogEntry(transaction).findUnique({
             ...args,
             include: this.JOIN_RELATED_TABLES_PRISMA_INCLUDE,
         });
@@ -173,7 +173,7 @@ export class BlogEntryQuery {
         args: Prisma.BlogEntryFindManyArgs,
         transaction?: Prisma.TransactionClient,
     ) {
-        return await this.blogEntry(transaction).findMany({
+        return this.blogEntry(transaction).findMany({
             ...args,
             include: this.JOIN_RELATED_TABLES_PRISMA_INCLUDE,
         });

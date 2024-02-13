@@ -22,10 +22,10 @@ export class DatabaseService extends PrismaClient implements OnModuleInit {
         prismaTransactionOption?: PrismaTransactionOption,
     ): Promise<T> {
         if (ongoingTransaction) {
-            return await callback(ongoingTransaction);
+            return callback(ongoingTransaction);
         }
 
-        return await this.$transaction(async (transaction) => {
+        return this.$transaction(async (transaction) => {
             this.logger.log("DBトランザクションを開始します。", {
                 name: callback.name ?? "No name",
                 ...prismaTransactionOption,

@@ -38,6 +38,6 @@ export class BlogEntryService {
             metaTagIds,
         });
 
-        return await this.blogEntryQuery.createOneDraft(blogEntryRequireData);
+        return this.blogEntryQuery.createOneDraft(blogEntryRequireData);
     }
 }

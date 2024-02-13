@@ -6,6 +6,9 @@ module.exports = {
         "prettier",
     ],
     parser: "@typescript-eslint/parser",
+    parserOptions: {
+        project: "./tsconfig.json",
+    },
     plugins: ["@typescript-eslint"],
     env: {
         node: true,
@@ -13,5 +16,6 @@ module.exports = {
     },
     rules: {
         "@typescript-eslint/member-ordering": "error",
+        "@typescript-eslint/return-await": "error",
     },
 };
