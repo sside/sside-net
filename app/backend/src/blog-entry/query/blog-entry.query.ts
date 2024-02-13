@@ -9,13 +9,13 @@ export type BlogEntryWithRelations = NonNullable<
 
 @Injectable()
 export class BlogEntryQuery {
-    constructor(private readonly databaseService: DatabaseService) {}
-
     private readonly JOIN_RELATED_TABLES_PRISMA_INCLUDE = {
         blogEntryHistories: true,
         blogEntryDraft: true,
         blogEntryMetaTags: true,
     } satisfies Prisma.BlogEntryInclude;
+
+    constructor(private readonly databaseService: DatabaseService) {}
 
     async findOneById(
         blogEntryId: string,
