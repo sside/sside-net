@@ -11,7 +11,7 @@ datasource db {
 }
 
 model BlogEntry {
-  id        String   @id @default(uuid()) @db.Char(36)
+  id        String   @id @default(uuid()) @db.Uuid
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
@@ -24,31 +24,31 @@ model BlogEntry {
 }
 
 model BlogEntryHistory {
-  id        String   @id @default(uuid()) @db.Char(36)
+  id        String   @id @default(uuid()) @db.Uuid
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
   title        String @db.VarChar(1000)
   bodyMarkdown String @map("body_markdown")
 
-  blogEntryId String    @db.Char(36)
+  blogEntryId String    @db.Uuid
   blogEntry   BlogEntry @relation(fields: [blogEntryId], references: [id], onDelete: Cascade)
 }
 
 model BlogEntryDraft {
-  id        String   @id @default(uuid()) @db.Char(36)
+  id        String   @id @default(uuid()) @db.Uuid
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
   title        String @db.VarChar(1000)
   bodyMarkdown String @map("body_markdown")
 
-  blogEntryId String    @unique @db.Char(36)
+  blogEntryId String    @unique @db.Uuid
   blogEntry   BlogEntry @relation(fields: [blogEntryId], references: [id], onDelete: Cascade)
 }
 
 model BlogEntryMetaTag {
-  id        String   @id @default(uuid()) @db.Char(36)
+  id        String   @id @default(uuid()) @db.Uuid
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
