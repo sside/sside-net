@@ -1,10 +1,10 @@
 import { NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module";
 import { INestApplication } from "@nestjs/common";
-import { JsonLogger } from "../library/json-logger/JsonLogger";
+import { JsonLogger } from "./library/json-logger/JsonLogger";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { getApplicationConfig } from "@sside-net/app-config";
-import { Environment } from "../library/environment/Environment";
+import { Environment } from "./library/environment/Environment";
 
 const logger = new JsonLogger();
 
@@ -17,6 +17,7 @@ const listenPort = process.env.PORT ?? FALLBACK_LISTEN_PORT;
 async function bootstrap(): Promise<void> {
     logger.log("バックエンドの起動を開始します。", {
         listenPort,
+        environmentType: environment.type,
     });
 
     const { isDevelopment } = environment;
