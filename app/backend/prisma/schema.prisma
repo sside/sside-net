@@ -1,0 +1,69 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model BlogEntry {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  slug String @unique @db.VarChar(300)
+
+  blogEntryDraft BlogEntryDraft?
+
+  blogEntryHistories BlogEntryHistory[]
+  blogEntryMetaTags  BlogEntryMetaTag[]
+
+  @@map("blog_entry")
+}
+
+model BlogEntryHistory {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  title        String @db.VarChar(1000)
+  bodyMarkdown String @map("body_markdown")
+
+  blogEntryId Int       @map("blog_entry_id")
+  blogEntry   BlogEntry @relation(fields: [blogEntryId], references: [id], onDelete: Cascade)
+
+  @@map("blog_entry_history")
+}
+
+model BlogEntryDraft {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  title        String @db.VarChar(1000)
+  bodyMarkdown String @map("body_markdown")
+
+  blogEntryId Int       @unique @map("blog_entry_id")
+  blogEntry   BlogEntry @relation(fields: [blogEntryId], references: [id], onDelete: Cascade)
+
+  @@map("blog_entry_draft")
+}
+
+model BlogEntryMetaTag {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  name String @db.VarChar(300)
+
+  blogEntries BlogEntry[]
+
+  @@map("blog_entry_meta_tag")
+}
