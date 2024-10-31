@@ -27,5 +27,8 @@
         "library/*",
         "resource/*",
         "config/*"
-    ]
+    ],
+    "volta": {
+        "node": "22.11.0"
+    }
 }
