@@ -1,0 +1,31 @@
+{
+    "name": "sside-net",
+    "private": true,
+    "scripts": {
+        "build": "turbo build",
+        "dev": "turbo dev",
+        "lint": "turbo lint",
+        "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+        "prepare": "husky"
+    },
+    "devDependencies": {
+        "@commitlint/cli": "^19.5.0",
+        "@commitlint/config-conventional": "^19.5.0",
+        "@trivago/prettier-plugin-sort-imports": "^4.3.0",
+        "husky": "^9.1.6",
+        "lint-staged": "^15.2.10",
+        "npm-check-updates": "^17.1.9",
+        "prettier": "^3.3.3",
+        "turbo": "^2.2.3"
+    },
+    "engines": {
+        "node": ">=22"
+    },
+    "packageManager": "npm@10.8.2",
+    "workspaces": [
+        "app/*",
+        "library/*",
+        "resource/*",
+        "config/*"
+    ]
+}
