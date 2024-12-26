@@ -4,7 +4,9 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - ../..:/workspaces:cached
+      - ../:/workspaces/:cached
+      - app_node_modules:/workspaces/node_modules
+      - ../.docker/commandhistory:/commandhistory
     tty: true
     command: sleep infinity
     ports:
@@ -23,3 +25,5 @@ services:
       interval: 1s
       retries: 30
       timeout: 30s
+volumes:
+  app_node_modules:
