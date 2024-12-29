@@ -1,0 +1,22 @@
+{
+    "name": "@sside-net/jest",
+    "version": "0.0.0",
+    "description": "sside-net shared ts-jest config",
+    "main": "jest.config.js",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/sside/sside-net.git"
+    },
+    "scripts": {
+        "update": "ncu",
+        "update:execute": "ncu -u"
+    },
+    "private": true,
+    "devDependencies": {
+        "@types/jest": "^29.5.14",
+        "jest": "^29.7.0",
+        "npm-check-updates": "^17.1.12",
+        "ts-jest": "^29.2.5",
+        "typescript": "^5.7.2"
+    }
+}
