@@ -4,9 +4,15 @@ module.exports = {
     importOrder: [
         "^react",
         "^next",
+        "^@nestjs/(.*)$",
         "<THIRD_PARTY_MODULES>",
         "^@sside-net/(.*)$",
         "^[./]",
     ],
-    importOrderParserPlugins: ["typescript", "jsx", "decorators-legacy"],
+    importOrderParserPlugins: [
+        "typescript",
+        "jsx",
+        "classProperties",
+        "decorators-legacy",
+    ],
 };
