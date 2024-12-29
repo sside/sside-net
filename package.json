@@ -6,8 +6,8 @@
         "dev": "turbo dev",
         "lint": "turbo lint",
         "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-        "update": "turbo update",
-        "update:execute": "turbo update:execute && npm install",
+        "update": "ncu && turbo update",
+        "update:execute": "ncu -u && turbo update:execute && npm install",
         "prepare": "husky"
     },
     "devDependencies": {
