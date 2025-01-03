@@ -1,6 +1,5 @@
 import { Module } from "@nestjs/common";
 import { DatabaseModule } from "../database/database.module";
-import { DatabaseService } from "../database/database.service";
 import { BlogEntryService } from "./blog-entry.service";
 import { BlogEntryDraftQuery } from "./query/blog-entry-draft.query";
 import { BlogEntryHistoryQuery } from "./query/blog-entry-history.query";

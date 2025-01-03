@@ -47,8 +47,10 @@ describe("DatabaseService", () => {
                     },
                 });
 
-                throw new Error();
+                throw new Error("意図的なエラー");
             });
+            // 意図的なエラーを起こしているため無視
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (e) {}
 
         const entry = await service.blogEntry.findUnique({

@@ -1,9 +1,4 @@
-import {
-    Injectable,
-    Logger,
-    OnModuleDestroy,
-    OnModuleInit,
-} from "@nestjs/common";
+import { Injectable, OnModuleDestroy, OnModuleInit } from "@nestjs/common";
 import { Prisma, PrismaClient } from "@prisma/client";
 import * as process from "node:process";
 import { LoggerService } from "../logger/logger.service";
@@ -28,7 +23,7 @@ export class DatabaseService
 
     async onModuleInit() {
         console.log(process.env.DATABASE_URL);
-        this.loggerService.log("接続情報", {
+        this.loggerService.debug("接続情報", {
             DATABASE_URL: process.env.DATABASE_URL,
         });
         await this.$connect();
