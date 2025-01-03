@@ -12,7 +12,6 @@ CREATE TABLE "blog_entry" (
 CREATE TABLE "blog_entry_history" (
     "id" SERIAL NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updated_at" TIMESTAMP(3) NOT NULL,
     "title" VARCHAR(1000) NOT NULL,
     "body_markdown" TEXT NOT NULL,
     "blog_entry_id" INTEGER NOT NULL,
@@ -45,7 +44,9 @@ CREATE TABLE "blog_entry_meta_tag" (
 -- CreateTable
 CREATE TABLE "_BlogEntryToBlogEntryMetaTag" (
     "A" INTEGER NOT NULL,
-    "B" INTEGER NOT NULL
+    "B" INTEGER NOT NULL,
+
+    CONSTRAINT "_BlogEntryToBlogEntryMetaTag_AB_pkey" PRIMARY KEY ("A","B")
 );
 
 -- CreateIndex
@@ -55,7 +56,7 @@ CREATE UNIQUE INDEX "blog_entry_slug_key" ON "blog_entry"("slug");
 CREATE UNIQUE INDEX "blog_entry_draft_blog_entry_id_key" ON "blog_entry_draft"("blog_entry_id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "_BlogEntryToBlogEntryMetaTag_AB_unique" ON "_BlogEntryToBlogEntryMetaTag"("A", "B");
+CREATE UNIQUE INDEX "blog_entry_meta_tag_name_key" ON "blog_entry_meta_tag"("name");
 
 -- CreateIndex
 CREATE INDEX "_BlogEntryToBlogEntryMetaTag_B_index" ON "_BlogEntryToBlogEntryMetaTag"("B");

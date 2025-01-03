@@ -5,6 +5,7 @@ module.exports = {
         "^react",
         "^next",
         "^@nestjs/(.*)$",
+        "^@prisma/(.*)$",
         "<THIRD_PARTY_MODULES>",
         "^@sside-net/(.*)$",
         "^[./]",

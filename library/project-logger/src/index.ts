@@ -53,15 +53,17 @@ export class ProjectLogger {
                     logItems.length,
                 );
             }
-        }
 
-        for (const [key, value] of Object.entries(logObject)) {
-            logObject = this.appendNonDuplicatedProperty(
-                logObject,
-                key,
-                value,
-                logItems.length,
-            );
+            for (const [key, value] of Object.entries(
+                logItem as Record<string, unknown>,
+            )) {
+                logObject = this.appendNonDuplicatedProperty(
+                    logObject,
+                    key,
+                    value,
+                    logItems.length,
+                );
+            }
         }
 
         return logObject;
@@ -73,7 +75,7 @@ export class ProjectLogger {
         value: unknown,
         maxSuffixNumber: number,
     ): Record<string, unknown> {
-        if (typeof logObject[propertyName] !== "undefined") {
+        if (typeof logObject[propertyName] === "undefined") {
             logObject[propertyName] = value;
 
             return logObject;

@@ -31,10 +31,9 @@ model BlogEntry {
 model BlogEntryHistory {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
 
   title        String @db.VarChar(1000)
-  bodyMarkdown String @map("body_markdown")
+  bodyMarkdown String @map("body_markdown") @db.Text
 
   blogEntryId Int       @map("blog_entry_id")
   blogEntry   BlogEntry @relation(fields: [blogEntryId], references: [id], onDelete: Cascade)
@@ -48,7 +47,7 @@ model BlogEntryDraft {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   title        String @db.VarChar(1000)
-  bodyMarkdown String @map("body_markdown")
+  bodyMarkdown String @map("body_markdown") @db.Text
 
   blogEntryId Int       @unique @map("blog_entry_id")
   blogEntry   BlogEntry @relation(fields: [blogEntryId], references: [id], onDelete: Cascade)
@@ -61,7 +60,7 @@ model BlogEntryMetaTag {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  name String @db.VarChar(300)
+  name String @unique @db.VarChar(300)
 
   blogEntries BlogEntry[]
 
