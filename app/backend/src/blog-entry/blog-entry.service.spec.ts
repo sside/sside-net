@@ -11,7 +11,7 @@ describe("BlogEntryService", () => {
     let blogEntryService: BlogEntryService;
 
     beforeEach(async () => {
-        prepareTestDatabase(true, true);
+        prepareTestDatabase();
 
         const module: TestingModule = await Test.createTestingModule({
             imports: [DatabaseModule, LoggerModule],
@@ -27,8 +27,27 @@ describe("BlogEntryService", () => {
     });
 
     test("エントリを作成、取得が行えること。", async () => {
-        const { id } = (await blogEntryService.seed(1, 0))[0][0];
+        const { id } = (await blogEntryService.seed(1))[0][0];
         const found = await blogEntryService.getById(id);
         expect(id).toBe(found.id);
+    });
+
+    describe("公開エントリ", () => {
+        test("publishAtプロパティがあること。", async () => {
+            const publishedBlogEntry = await blogEntryService.getById(
+                (await blogEntryService.seed(1))[0][0].id,
+            );
+
+            expect(publishedBlogEntry.publishAt).toBeTruthy();
+        });
+        test("履歴が1つ以上あること。", async () => {
+            const publishedBlogEntry = await blogEntryService.getById(
+                (await blogEntryService.seed(1))[0][0].id,
+            );
+
+            expect(
+                publishedBlogEntry.blogEntryHistories?.length,
+            ).toBeGreaterThanOrEqual(1);
+        });
     });
 });

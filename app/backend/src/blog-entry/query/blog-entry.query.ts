@@ -37,13 +37,11 @@ export class BlogEntryQuery {
     }
 
     async insert(
-        { slug }: Prisma.BlogEntryCreateInput,
+        blogEntry: Prisma.BlogEntryCreateInput,
         transaction?: Prisma.TransactionClient,
     ): Promise<BlogEntry> {
         return await this.blogEntry(transaction).create({
-            data: {
-                slug,
-            },
+            data: blogEntry,
         });
     }
 
@@ -57,6 +55,44 @@ export class BlogEntryQuery {
                 id: blogEntryId,
             },
             data: blogEntry,
+        });
+    }
+
+    async upsertDraft(
+        blogEntryId: number,
+        blogEntry: Prisma.BlogEntryUpdateInput,
+        blogEntryDraft: Omit<Prisma.BlogEntryDraftCreateInput, "blogEntry">,
+        transaction?: Prisma.TransactionClient,
+    ): Promise<BlogEntry> {
+        return await this.blogEntry(transaction).update({
+            where: {
+                id: blogEntryId,
+            },
+            data: {
+                ...blogEntry,
+                blogEntryDraft: {
+                    upsert: {
+                        create: blogEntryDraft,
+                        update: blogEntryDraft,
+                    },
+                },
+            },
+        });
+    }
+
+    async deleteDraft(
+        blogEntryId: number,
+        transaction?: Prisma.TransactionClient,
+    ): Promise<BlogEntry> {
+        return await this.blogEntry(transaction).update({
+            where: {
+                id: blogEntryId,
+            },
+            data: {
+                blogEntryDraft: {
+                    delete: true,
+                },
+            },
         });
     }
 

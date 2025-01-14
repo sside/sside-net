@@ -9,8 +9,6 @@ import { DatabaseService } from "../database/database.service";
 import { LoggerService } from "../logger/logger.service";
 import { Seedable } from "../type/service/Seedable";
 import { createErrorMessage } from "../utility/error-message/createErrorMessage";
-import { BlogEntryDraftQuery } from "./query/blog-entry-draft.query";
-import { BlogEntryHistoryQuery } from "./query/blog-entry-history.query";
 import {
     BlogEntryQuery,
     BlogEntryWithRelations,
@@ -22,8 +20,6 @@ export class BlogEntryService implements Seedable {
         private readonly loggerService: LoggerService,
         private readonly databaseService: DatabaseService,
         private readonly blogEntryQuery: BlogEntryQuery,
-        private readonly blogEntryHistoryQuery: BlogEntryHistoryQuery,
-        private readonly blogEntryDraftQuery: BlogEntryDraftQuery,
     ) {
         this.loggerService.setContext(this.constructor.name);
     }
@@ -68,14 +64,12 @@ export class BlogEntryService implements Seedable {
         const { id } = await this.blogEntryQuery.insert(
             {
                 slug,
-            },
-            ongoingTransaction,
-        );
-        await this.blogEntryDraftQuery.upsert(
-            id,
-            {
-                title,
-                bodyMarkdown,
+                blogEntryDraft: {
+                    create: {
+                        title,
+                        bodyMarkdown,
+                    },
+                },
             },
             ongoingTransaction,
         );
@@ -97,19 +91,10 @@ export class BlogEntryService implements Seedable {
             ongoingTransaction: !!ongoingTransaction,
         });
 
-        await this.blogEntryQuery.update(
+        await this.blogEntryQuery.upsertDraft(
             blogEntryId,
-            {
-                slug,
-            },
-            ongoingTransaction,
-        );
-        await this.blogEntryDraftQuery.upsert(
-            blogEntryId,
-            {
-                title,
-                bodyMarkdown,
-            },
+            { slug },
+            { title, bodyMarkdown },
             ongoingTransaction,
         );
 
@@ -138,6 +123,18 @@ export class BlogEntryService implements Seedable {
         return await this.publishExistDraft(id, ongoingTransaction);
     }
 
+    async unpublish(blogEntryId: number): Promise<BlogEntryWithRelations> {
+        this.loggerService.log("BlogEntryの公開を取り下げます。", {
+            blogEntryId,
+        });
+
+        await this.blogEntryQuery.update(blogEntryId, {
+            publishAt: null,
+        });
+
+        return await this.getById(blogEntryId);
+    }
+
     async publishExistDraft(
         blogEntryId: number,
         ongoingTransaction?: Prisma.TransactionClient,
@@ -148,10 +145,11 @@ export class BlogEntryService implements Seedable {
         });
 
         await this.databaseService.transaction(async (transaction) => {
-            const { blogEntryDraft } = await this.getById(
-                blogEntryId,
-                transaction,
-            );
+            const {
+                blogEntryDraft,
+                publishAt: existsPublishAt,
+                blogEntryHistories,
+            } = await this.getById(blogEntryId, transaction);
             if (!blogEntryDraft) {
                 throw new ConflictException(
                     createErrorMessage(
@@ -162,26 +160,42 @@ export class BlogEntryService implements Seedable {
             }
 
             const { title, bodyMarkdown } = blogEntryDraft;
-            await this.blogEntryHistoryQuery.create(
-                blogEntryId,
-                {
-                    title,
-                    bodyMarkdown,
-                },
-                transaction,
-            );
-            await this.blogEntryDraftQuery.deleteByBlogEntryId(
-                blogEntryId,
-                transaction,
-            );
+            const latestHistory = blogEntryHistories?.at(-1);
+            const publishAt = existsPublishAt ?? new Date();
+
+            if (
+                latestHistory?.title !== title ||
+                latestHistory?.bodyMarkdown !== bodyMarkdown
+            ) {
+                await this.blogEntryQuery.update(
+                    blogEntryId,
+                    {
+                        publishAt,
+                        blogEntryHistories: {
+                            create: {
+                                title,
+                                bodyMarkdown,
+                                createdAt: publishAt,
+                            },
+                        },
+                    },
+                    transaction,
+                );
+            } else {
+                await this.blogEntryQuery.update(blogEntryId, {
+                    publishAt,
+                });
+            }
+
+            await this.blogEntryQuery.deleteDraft(blogEntryId, transaction);
         }, ongoingTransaction);
 
         return await this.getById(blogEntryId);
     }
 
     async seed(
-        publishedCount = 5,
-        draftCount = 5,
+        publishedCount = 0,
+        draftCount = 0,
     ): Promise<[BlogEntry[], BlogEntry[]]> {
         this.loggerService.log("BlogEntryのseedを作成します。", {
             draftCount,

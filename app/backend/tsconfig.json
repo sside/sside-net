@@ -1,6 +1,7 @@
 {
     "compilerOptions": {
         "module": "commonjs",
+        "lib": ["ES2023"],
         "declaration": true,
         "removeComments": true,
         "emitDecoratorMetadata": true,
@@ -12,7 +13,8 @@
         "baseUrl": "./",
         "incremental": true,
         "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": false,
         "strict": true,
-        "forceConsistentCasingInFileNames": false
+        "strictPropertyInitialization": false
     }
 }

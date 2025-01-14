@@ -20,6 +20,8 @@ model BlogEntry {
 
   slug String @unique @db.VarChar(300)
 
+  publishAt DateTime? @map("publish_at")
+
   blogEntryDraft BlogEntryDraft?
 
   blogEntryHistories BlogEntryHistory[]
