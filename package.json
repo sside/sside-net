@@ -11,14 +11,14 @@
         "prepare": "husky"
     },
     "devDependencies": {
-        "@commitlint/cli": "^19.6.1",
-        "@commitlint/config-conventional": "^19.6.0",
-        "@trivago/prettier-plugin-sort-imports": "^5.2.0",
+        "@commitlint/cli": "^19.8.0",
+        "@commitlint/config-conventional": "^19.8.0",
+        "@trivago/prettier-plugin-sort-imports": "^5.2.2",
         "husky": "^9.1.7",
-        "lint-staged": "^15.3.0",
-        "npm-check-updates": "^17.1.12",
-        "prettier": "^3.4.2",
-        "turbo": "^2.3.3"
+        "lint-staged": "^15.5.0",
+        "npm-check-updates": "^17.1.15",
+        "prettier": "^3.5.3",
+        "turbo": "^2.4.4"
     },
     "engines": {
         "node": ">=22"
@@ -29,7 +29,7 @@
         "resource/*",
         "config/*"
     ],
-    "packageManager": "npm@11.0.0",
+    "packageManager": "npm@11.2.0",
     "volta": {
         "node": "22.11.0"
     }
