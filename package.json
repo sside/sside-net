@@ -1,0 +1,42 @@
+{
+    "name": "sside-net",
+    "scripts": {
+        "build": "turbo run build",
+        "dev": "turbo run dev",
+        "test": "turbo run test",
+        "lint": "turbo run lint",
+        "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md,yml,yaml,json}\"",
+        "update:check": "ncu && turbo run update:check",
+        "update:execute": "ncu -u && turbo run update:execute && npm install",
+        "template": "cross-env NODE_OPTIONS='--import=tsx' plop --plopfile=./plopfile.ts",
+        "prepare": "husky"
+    },
+    "devDependencies": {
+        "@commitlint/cli": "^19.8.1",
+        "@commitlint/config-conventional": "^19.8.1",
+        "@inquirer/search": "^3.0.15",
+        "@trivago/prettier-plugin-sort-imports": "^5.2.2",
+        "husky": "^9.1.7",
+        "inquirer-autocomplete-prompt": "^3.0.1",
+        "lint-staged": "^16.1.1",
+        "npm-check-updates": "^18.0.1",
+        "plop": "^4.0.1",
+        "prettier": "^3.5.3",
+        "turbo": "^2.5.4"
+    },
+    "engines": {
+        "node": ">=22"
+    },
+    "packageManager": "npm@11.4.2",
+    "workspaces": [
+        "app/*",
+        "config/*",
+        "library/*",
+        "resource/*"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/sside/sside-net.git"
+    },
+    "private": true
+}

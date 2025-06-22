@@ -1,0 +1,28 @@
+{
+    "name": "@sside-net/constant",
+    "version": "0.0.0",
+    "description": "sside.net shared constants and types.",
+    "main": "dist/index.js",
+    "files": [
+        "dist"
+    ],
+    "scripts": {
+        "dev": "rimraf dist && tsc --watch",
+        "build": "rimraf dist && tsc --build",
+        "lint": "eslint --fix",
+        "update:check": "ncu",
+        "update:execute": "ncu -u"
+    },
+    "dependencies": {},
+    "devDependencies": {
+        "@sside-net/eslint": "*",
+        "@sside-net/tsconfig": "*",
+        "rimraf": "^6.0.1",
+        "typescript": "^5.8.2"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/sside/sside-net.git"
+    },
+    "private": true
+}

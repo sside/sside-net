@@ -1,0 +1,11 @@
+{
+    "name": "@sside-net/tsconfig",
+    "version": "0.0.0",
+    "description": "sside.net shared tsconfig",
+    "main": "tsconfig.json",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/sside/sside-net.git"
+    },
+    "private": true
+}
