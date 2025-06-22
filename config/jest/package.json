@@ -13,9 +13,5 @@
         "npm-check-updates": "^18.0.1",
         "ts-jest": "^29.4.0"
     },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/sside/sside-net.git"
-    },
     "private": true
 }
