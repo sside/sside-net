@@ -18,7 +18,7 @@
         "@sside-net/eslint": "*",
         "@sside-net/tsconfig": "*",
         "rimraf": "^6.0.1",
-        "typescript": "^5.8.2"
+        "typescript": "^5.8.3"
     },
     "repository": {
         "type": "git",
