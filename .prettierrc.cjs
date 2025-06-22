@@ -11,4 +11,9 @@ module.exports = {
     ],
     importOrderSeparation: false,
     experimentalTernaries: true,
+    importOrderParserPlugins: [
+        "typescript",
+        "classProperties",
+        "decorators-legacy",
+    ],
 };
