@@ -1,0 +1,63 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model BlogEntry {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  slug      String    @unique
+  publishAt DateTime? @map("publish_at")
+
+  blogEntryHistories BlogEntryHistory[]
+  blogEntryDraft     BlogEntryDraft?
+  blogEntryMetaTags  BlogEntryMetaTag[]
+
+  @@map("blog_entry")
+}
+
+model BlogEntryHistory {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at")
+
+  title        String
+  bodyMarkdown String @map("body_markdown")
+
+  blogEntryId Int       @unique
+  blogEntry   BlogEntry @relation(fields: [blogEntryId], references: [id], onDelete: Cascade)
+
+  @@map("blog_entry_history")
+}
+
+model BlogEntryDraft {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  title        String
+  bodyMarkdown String @map("body_markdown")
+
+  blogEntryId Int       @unique
+  blogEntry   BlogEntry @relation(fields: [blogEntryId], references: [id], onDelete: Cascade)
+
+  @@map("blog_entry_draft")
+}
+
+model BlogEntryMetaTag {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  name String @unique
+
+  blogEntries BlogEntry[]
+}
