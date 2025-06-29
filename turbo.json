@@ -13,7 +13,7 @@
             "dependsOn": ["^lint"]
         },
         "test": {
-            "dependsOn": ["^lint"]
+            "dependsOn": ["^test"]
         },
         "update:check": {
             "cache": false

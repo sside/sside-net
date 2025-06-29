@@ -10,7 +10,8 @@
         "test": "jest",
         "test:e2e": "jest --config ./test/jest-e2e.json",
         "update:check": "ncu",
-        "update:execute": "ncu -u"
+        "update:execute": "ncu -u",
+        "postinstall": "prisma generate"
     },
     "dependencies": {
         "@nestjs/common": "^11.1.3",
