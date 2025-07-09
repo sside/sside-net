@@ -4,8 +4,10 @@
     "description": "sside.net shared utility",
     "main": "dist/index.js",
     "scripts": {
-        "dev": "rimraf dist && tsc --watch",
+        "dev": "tsc --watch",
+        "dev:shared": "npm run dev",
         "build": "rimraf dist && tsc --build",
+        "build:shared": "npm run build",
         "lint": "eslint --fix",
         "test": "jest",
         "update:check": "ncu",

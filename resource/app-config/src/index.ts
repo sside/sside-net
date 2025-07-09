@@ -6,7 +6,7 @@ import { testAppConfig } from "./config/testAppConfig";
 
 export const getAppConfig = (environmentType?: EnvironmentType): AppConfig => {
     const { Production, Local, Test } = EnvironmentType;
-    switch (environmentType || process.env.NODE_ENV) {
+    switch (environmentType ?? process.env.NODE_ENV) {
         case Production:
             return productionAppConfig;
         case Local:

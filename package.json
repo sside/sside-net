@@ -3,6 +3,7 @@
     "scripts": {
         "build": "turbo run build",
         "dev": "turbo run dev",
+        "dev:shared": "turbo run build:shared && turbo run dev:shared",
         "test": "turbo run test",
         "lint": "turbo run lint",
         "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md,yml,yaml,json}\"",

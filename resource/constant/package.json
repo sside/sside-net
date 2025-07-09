@@ -7,8 +7,10 @@
         "dist"
     ],
     "scripts": {
-        "dev": "rimraf dist && tsc --watch",
+        "dev": "tsc --watch",
+        "dev:shared": "npm run dev",
         "build": "rimraf dist && tsc --build",
+        "build:shared": "npm run build",
         "lint": "eslint --fix",
         "update:check": "ncu",
         "update:execute": "ncu -u"

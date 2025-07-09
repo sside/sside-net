@@ -6,8 +6,17 @@
             "cache": false,
             "persistent": true
         },
+        "dev:shared": {
+            "cache": false,
+            "persistent": true
+        },
         "build": {
-            "dependsOn": ["^build"]
+            "dependsOn": ["^build"],
+            "cache": false
+        },
+        "build:shared": {
+            "dependsOn": ["^build:shared"],
+            "cache": false
         },
         "lint": {
             "dependsOn": ["^lint"]

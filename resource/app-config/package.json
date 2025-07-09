@@ -4,16 +4,19 @@
     "description": "sside.net application config.",
     "main": "dist/index.js",
     "scripts": {
-        "dev": "rimraf dist && tsc --watch",
+        "dev": "tsc --watch",
+        "dev:shared": "npm run dev",
         "build": "rimraf dist && tsc --build",
+        "build:shared": "npm run build",
         "test": "jest",
         "lint": "eslint --fix",
         "update:check": "ncu",
         "update:execute": "ncu -u"
     },
-    "dependencies": {},
+    "dependencies": {
+        "@sside-net/constant": "*"
+    },
     "devDependencies": {
-        "@sside-net/constant": "*",
         "@sside-net/eslint": "*",
         "@sside-net/tsconfig": "*",
         "@sside-net/jest": "*",

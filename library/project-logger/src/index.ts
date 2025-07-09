@@ -1,7 +1,8 @@
 import { getAppConfig } from "@sside-net/app-config";
 import { Logger, pino } from "pino";
+import { Primitive } from "utility-types";
 
-type LogInputObject = Record<string, unknown> | Error;
+type LogInputObject = Record<string, unknown> | Primitive | Error;
 
 export class ProjectLogger {
     private logger: Logger;
@@ -37,12 +38,39 @@ export class ProjectLogger {
     ): Record<string, unknown> {
         const [inputTarget, inputMergeItem, ...rest] = logObjects;
         const [target, mergeItem] = [inputTarget, inputMergeItem].map(
-            (inputItem) =>
-                inputItem instanceof Error ?
-                    ProjectLogger.errorToLogObject(inputItem)
-                :   inputItem,
+            (inputItem) => {
+                if (inputItem instanceof Error) {
+                    return ProjectLogger.errorToLogObject(inputItem);
+                }
+
+                if (inputItem === null) {
+                    return {
+                        message: "null",
+                    };
+                }
+                if (typeof inputItem === "undefined") {
+                    return {
+                        message: "undefined",
+                    };
+                }
+
+                switch (typeof inputItem) {
+                    case "string":
+                    case "number":
+                    case "bigint":
+                    case "boolean":
+                    case "symbol":
+                    case "function":
+                        return {
+                            message: inputItem.toString(),
+                        };
+                }
+
+                return inputItem as Record<string, unknown>;
+            },
         );
-        if (!mergeItem) {
+
+        if (!inputMergeItem) {
             return target;
         }
 
@@ -81,6 +109,9 @@ export class ProjectLogger {
     }
 
     log(message: string, ...logObjects: LogInputObject[]): void {
+        for (const item of [message, ...logObjects]) {
+            console.log("log method", typeof item, JSON.stringify(item));
+        }
         this.logger.info(ProjectLogger.createLogObject(message, ...logObjects));
     }
 
