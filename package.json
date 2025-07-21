@@ -9,7 +9,7 @@
         "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md,yml,yaml,json}\"",
         "update:check": "ncu && turbo run update:check",
         "update:execute": "ncu -u && turbo run update:execute && npm install",
-        "template": "cross-env NODE_OPTIONS='--import=tsx' plop --plopfile=./plopfile.ts",
+        "template": "plop",
         "prepare": "husky"
     },
     "devDependencies": {
