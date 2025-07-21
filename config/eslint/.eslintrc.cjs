@@ -13,17 +13,20 @@ module.exports = {
         browser: true,
     },
     rules: {
-        "@typescript-eslint/member-ordering": "error",
         "@typescript-eslint/no-require-imports": "off",
         "@typescript-eslint/no-empty-object-type": "off",
+
+        curly: "warn",
+        "@typescript-eslint/member-ordering": "warn",
         "padding-line-between-statements": [
-            "error",
+            "warn",
             {
                 blankLine: "always",
                 prev: "*",
                 next: "return",
             },
         ],
+
         "@typescript-eslint/no-unused-vars": [
             "error",
             {
