@@ -109,9 +109,6 @@ export class ProjectLogger {
     }
 
     log(message: string, ...logObjects: LogInputObject[]): void {
-        for (const item of [message, ...logObjects]) {
-            console.log("log method", typeof item, JSON.stringify(item));
-        }
         this.logger.info(ProjectLogger.createLogObject(message, ...logObjects));
     }
 
