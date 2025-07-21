@@ -17,7 +17,7 @@ describe("DatabaseService", () => {
     });
 
     test("DBに接続できること。", async () => {
-        expect(async () => await databaseService.$connect()).not.toThrow();
+        await expect(databaseService.$connect()).resolves.not.toThrow();
     });
 
     describe("transaction", () => {
