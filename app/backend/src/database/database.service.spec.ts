@@ -7,7 +7,7 @@ describe("DatabaseService", () => {
     let databaseService: DatabaseService;
 
     beforeEach(async () => {
-        prepareTestDatabase({});
+        prepareTestDatabase();
 
         const module: TestingModule = await Test.createTestingModule({
             providers: [DatabaseService],
@@ -60,7 +60,7 @@ describe("DatabaseService", () => {
 
             try {
                 await databaseService.transaction(async (transactionClient) => {
-                    transactionClient.blogEntry.update({
+                    await transactionClient.blogEntry.update({
                         where: {
                             id,
                         },
@@ -68,7 +68,7 @@ describe("DatabaseService", () => {
                             slug: bar,
                         },
                     });
-                    transactionClient.blogEntry.create({
+                    await transactionClient.blogEntry.create({
                         data: {
                             slug: baz,
                             blogEntryDraft: {

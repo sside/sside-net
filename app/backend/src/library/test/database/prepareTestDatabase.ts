@@ -1,16 +1,21 @@
+import { ProjectLogger } from "@sside-net/project-logger";
 import { execSync } from "node:child_process";
 import { resolve } from "node:path";
 import { getDatabaseFileDirectoryPath } from "./getDatabaseFileDirectoryPath";
 
-export const prepareTestDatabase = ({
-    isSkipSeeding = false,
-    isLogCommandResult = false,
-}: {
-    isSkipSeeding?: boolean;
-    isLogCommandResult?: boolean;
-}): void => {
-    console.log(isSkipSeeding, isLogCommandResult);
+/**
+ * テスト用DBを作成し、環境変数DATABASE_URLにセットする。
+ * @param isLogCommandResult
+ */
+export const prepareTestDatabase = (isLogCommandResult = false): void => {
+    const logger = new ProjectLogger("prepareTestDatabase");
     const jestWorkerId = process.env.JEST_WORKER_ID;
+
+    logger.log("テスト用DBの初期化を行います。", {
+        isLogCommandResult,
+        jestWorkerId,
+    });
+
     if (!jestWorkerId) {
         throw new Error(`環境変数JEST_WORKER_IDが未定義です。`);
     }
@@ -22,21 +27,17 @@ export const prepareTestDatabase = ({
             jestWorkerId.padStart(3, "0") + `.test.sqlite`,
         );
 
-    let command =
-        "npx --no-install prisma migrate reset --force --skip-generate";
-    if (isSkipSeeding) {
-        command += " --skip-seed";
-    }
+    const command = `npx --no-install prisma migrate reset --force --skip-generate --skip-seed`;
     const result = execSync(command, {
         env: process.env,
     });
 
     if (isLogCommandResult) {
-        console.log(
-            `テスト用データベース初期化。NODE_ENV: ${process.env.NODE_ENV}`,
-        );
-        console.log(command);
-        console.log(result.toString());
+        logger.log(`テスト用DB初期化実行。`, {
+            NODE_ENV: process.env.NODE_ENV,
+            command,
+            result: result.toString(),
+        });
     }
 
     return;

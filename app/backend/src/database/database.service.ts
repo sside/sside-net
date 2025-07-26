@@ -58,4 +58,14 @@ export class DatabaseService
             }
         }, transactionOption);
     }
+
+    async hasConnection(): Promise<boolean> {
+        try {
+            await this.$queryRaw`SELECT 1;`;
+
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
 }

@@ -3,15 +3,21 @@ module.exports = {
     root: true,
     extends: [
         "eslint:recommended",
-        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-type-checked",
         "prettier",
     ],
-    parser: "@typescript-eslint/parser",
     plugins: ["@typescript-eslint"],
+    parser: "@typescript-eslint/parser",
+    parserOptions: {
+        projectService: true,
+        // 使用するpackage側で以下を追加
+        // tsconfigRootDir: __dirname
+    },
     env: {
         node: true,
         browser: true,
     },
+    ignorePatterns: [".eslintrc.cjs"],
     rules: {
         "@typescript-eslint/no-require-imports": "off",
         "@typescript-eslint/no-empty-object-type": "off",
@@ -27,6 +33,7 @@ module.exports = {
             },
         ],
 
+        "@typescript-eslint/no-floating-promises": "error",
         "@typescript-eslint/no-unused-vars": [
             "error",
             {

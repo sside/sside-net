@@ -9,4 +9,8 @@ module.exports = {
         // "@typescript-eslint/no-floating-promises": "warn",
         // "@typescript-eslint/no-unsafe-argument": "warn",
     },
+    parserOptions: {
+        ...eslintrc.parserOptions,
+        tsconfigRootDir: __dirname,
+    },
 };
