@@ -90,6 +90,25 @@ export class BlogEntryQuery {
         });
     }
 
+    async updateBlogEntryMetaTags(
+        blogEntryId: number,
+        blogEntryMetaTagIds: number[],
+        transaction?: Prisma.TransactionClient,
+    ): Promise<BlogEntry> {
+        return await this.blogEntry(transaction).update({
+            where: {
+                id: blogEntryId,
+            },
+            data: {
+                blogEntryMetaTags: {
+                    set: blogEntryMetaTagIds.map((id) => ({
+                        id,
+                    })),
+                },
+            },
+        });
+    }
+
     async insertPublishedHistory(
         blogEntryId: number,
         { slug, title, bodyMarkdown }: BlogEntryInput,
