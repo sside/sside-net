@@ -6,6 +6,8 @@ import {
     NotFoundException,
 } from "@nestjs/common";
 import { Prisma } from "@prisma/client";
+import { createIntegerArray } from "@sside-net/utility";
+import { BlogEntryMetaTagService } from "./blog-entry-meta-tag.service";
 import {
     BlogEntryQuery,
     BlogEntryWithRelations,
@@ -16,7 +18,10 @@ import { BlogEntryInput } from "./type/BlogEntryInput";
 export class BlogEntryService {
     private readonly logger = new Logger(this.constructor.name);
 
-    constructor(private readonly blogEntryQuery: BlogEntryQuery) {}
+    constructor(
+        private readonly blogEntryMetaTagService: BlogEntryMetaTagService,
+        private readonly blogEntryQuery: BlogEntryQuery,
+    ) {}
 
     async getByBlogEntryId(
         blogEntryId: number,
@@ -209,6 +214,32 @@ export class BlogEntryService {
         );
     }
 
+    async setRelatedBlogEntryMetaTagsByName(
+        blogEntryId: number,
+        blogEntryMetaTagNames: string[],
+        ongoingTransaction?: Prisma.TransactionClient,
+    ): Promise<BlogEntryWithRelations> {
+        this.logger.log(`BlogEntryにBlogEntryMetaTagを紐づけします。`, {
+            blogEntryId,
+            blogEntryMetaTagNames,
+            ongoingTransaction: !!ongoingTransaction,
+        });
+
+        return await this.getByBlogEntryId(
+            (
+                await this.blogEntryQuery.updateBlogEntryMetaTags(
+                    blogEntryId,
+                    (
+                        await this.blogEntryMetaTagService.getOrCreateByNames(
+                            blogEntryMetaTagNames,
+                        )
+                    ).map(({ id }) => id),
+                    ongoingTransaction,
+                )
+            ).id,
+        );
+    }
+
     async seed(
         publishedCount: number,
         historyCount: number,
@@ -223,37 +254,38 @@ export class BlogEntryService {
         faker.seed(0);
         fakerJA.seed(0);
 
+        const createBlogEntryInput = (
+            overWrite?: Partial<BlogEntryInput>,
+        ): BlogEntryInput => ({
+            ...{
+                slug: faker.lorem.slug(),
+                bodyMarkdown: fakerJA.lorem.text(),
+                title: fakerJA.book.title(),
+            },
+            ...overWrite,
+        });
+
         const publishes: BlogEntryWithRelations[] = [];
         for (let i = 0; i < publishedCount; i++) {
-            publishes.push(
-                await this.createPublished({
-                    slug: faker.lorem.slug(),
-                    bodyMarkdown: fakerJA.lorem.text(),
-                    title: fakerJA.book.title(),
-                }),
+            const { id, slug } = await this.createPublished(
+                createBlogEntryInput(),
             );
-        }
-        for (let i = 0; i < historyCount; i++) {
-            for (let j = 0; j <= i; j++) {
-                const { id, slug } = publishes.at(i)!;
-                await this.addBlogEntryHistory(id, {
-                    slug,
-                    title: fakerJA.book.title(),
-                    bodyMarkdown: fakerJA.lorem.text(),
-                });
+
+            for (let j = 0; j < historyCount; j++) {
+                await this.addBlogEntryHistory(
+                    id,
+                    createBlogEntryInput({ slug }),
+                );
             }
+
+            publishes.push(await this.getByBlogEntryId(id));
         }
 
-        const drafts: BlogEntryWithRelations[] = [];
-        for (let i = 0; i < draftCount; i++) {
-            drafts.push(
-                await this.createDraft({
-                    slug: faker.lorem.slug(),
-                    title: fakerJA.book.title(),
-                    bodyMarkdown: fakerJA.lorem.text(),
-                }),
-            );
-        }
+        const drafts = await Promise.all(
+            createIntegerArray(draftCount).map(() =>
+                this.createDraft(createBlogEntryInput()),
+            ),
+        );
 
         return [publishes, drafts];
     }

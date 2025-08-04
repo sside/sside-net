@@ -48,9 +48,6 @@ CREATE TABLE "_BlogEntryToBlogEntryMetaTag" (
 CREATE UNIQUE INDEX "blog_entry_slug_key" ON "blog_entry"("slug");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "blog_entry_history_blogEntryId_key" ON "blog_entry_history"("blogEntryId");
-
--- CreateIndex
 CREATE UNIQUE INDEX "blog_entry_draft_blogEntryId_key" ON "blog_entry_draft"("blogEntryId");
 
 -- CreateIndex
