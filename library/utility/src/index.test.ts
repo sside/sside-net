@@ -1,5 +1,6 @@
 import { describe, expect, test } from "@jest/globals";
 import {
+    createIntegerArray,
     createIntegerRange,
     parseDecimalFloat,
     parseDecimalInt,
@@ -28,6 +29,29 @@ describe("parseDecimalInt", () => {
         expect(parseDecimalInt("123456")).toBe(123456);
         expect(parseDecimalInt("0.123456")).toBe(0);
         expect(parseDecimalInt("-123456")).toBe(-123456);
+    });
+});
+
+describe("createIntegerArray", () => {
+    test("指定した要素数の配列が返ること。", () => {
+        expect(createIntegerArray(10).length).toBe(10);
+        expect(createIntegerArray(5)).toStrictEqual([0, 1, 2, 3, 4]);
+    });
+
+    test("0個を指定した場合、空配列が返ること。", () => {
+        expect(createIntegerArray(0).length).toBe(0);
+    });
+
+    test("スタート値を設定した場合、その数値分シフトした値の配列が返ること。", () => {
+        expect(createIntegerArray(5, 20)).toStrictEqual([20, 21, 22, 23, 24]);
+    });
+
+    test("スタート値が負数の場合エラーが投げられること。", () => {
+        expect(() => createIntegerArray(10, -1)).toThrow(/負数/);
+    });
+
+    test("スタート値が整数でない場合エラーが投げられること。", () => {
+        expect(() => createIntegerArray(10, 7.1)).toThrow(/整数/);
     });
 });
 

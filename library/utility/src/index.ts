@@ -6,17 +6,31 @@ export const parseDecimalFloat = (input: string | number | Nullish): number =>
 export const parseDecimalInt = (input: string | number | Nullish): number =>
     Math.trunc(parseDecimalFloat(input));
 
+export const createIntegerArray = (length: number, start = 0): number[] => {
+    if (!Number.isInteger(start)) {
+        throw new Error(`整数以外が入力されています。`);
+    }
+
+    if (start < 0) {
+        throw new Error(`負数が入力されています。`);
+    }
+
+    return Array(length)
+        .fill(undefined)
+        .map((_, index) => index + start);
+};
+
 export const createIntegerRange = (start: number, end: number): number[] => {
     if (![start, end].every(Number.isInteger)) {
         throw new Error("整数以外が入力されています。");
     }
 
-    if (start === end) {
-        throw new Error("startとendが同じ値です。");
-    }
-
     if ([start, end].some((value) => value < 0)) {
         throw new Error("負の数値が入力されています。");
+    }
+
+    if (start === end) {
+        throw new Error("startとendが同じ値です。");
     }
 
     const isIncrease = start < end;
