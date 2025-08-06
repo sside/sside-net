@@ -15,20 +15,20 @@
     "devDependencies": {
         "@commitlint/cli": "^19.8.1",
         "@commitlint/config-conventional": "^19.8.1",
-        "@inquirer/search": "^3.0.15",
+        "@inquirer/search": "^3.1.0",
         "@trivago/prettier-plugin-sort-imports": "^5.2.2",
         "husky": "^9.1.7",
         "inquirer-autocomplete-prompt": "^3.0.1",
-        "lint-staged": "^16.1.2",
-        "npm-check-updates": "^18.0.1",
+        "lint-staged": "^16.1.4",
+        "npm-check-updates": "^18.0.2",
         "plop": "^4.0.1",
-        "prettier": "^3.5.3",
-        "turbo": "^2.5.4"
+        "prettier": "^3.6.2",
+        "turbo": "^2.5.5"
     },
     "engines": {
         "node": ">=22"
     },
-    "packageManager": "npm@11.4.2",
+    "packageManager": "npm@11.5.2",
     "workspaces": [
         "app/*",
         "config/*",
