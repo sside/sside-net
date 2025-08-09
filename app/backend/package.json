@@ -16,9 +16,9 @@
     },
     "dependencies": {
         "@faker-js/faker": "^9.9.0",
-        "@nestjs/common": "^11.1.5",
-        "@nestjs/core": "^11.1.5",
-        "@nestjs/platform-express": "^11.1.5",
+        "@nestjs/common": "^11.1.6",
+        "@nestjs/core": "^11.1.6",
+        "@nestjs/platform-express": "^11.1.6",
         "@prisma/client": "^6.13.0",
         "luxon": "^3.7.1",
         "reflect-metadata": "^0.2.2",
@@ -27,7 +27,7 @@
     "devDependencies": {
         "@nestjs/cli": "^11.0.10",
         "@nestjs/schematics": "^11.0.7",
-        "@nestjs/testing": "^11.1.5",
+        "@nestjs/testing": "^11.1.6",
         "@sside-net/eslint": "*",
         "@sside-net/jest": "*",
         "@swc/cli": "^0.7.8",
