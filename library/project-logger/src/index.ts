@@ -1,5 +1,5 @@
 import { getAppConfig } from "@sside-net/app-config";
-import { Logger, pino } from "pino";
+import Pino, { Logger } from "pino";
 import { Primitive } from "utility-types";
 
 type LogInputObject = Record<string, unknown> | Primitive | Error;
@@ -8,7 +8,7 @@ export class ProjectLogger {
     private logger: Logger;
 
     constructor(context: string) {
-        this.logger = pino({
+        this.logger = Pino({
             name: context,
             level: getAppConfig().global.log.level,
         });
