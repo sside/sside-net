@@ -14,7 +14,8 @@
         "update:execute": "ncu -u"
     },
     "dependencies": {
-        "@sside-net/constant": "*"
+        "@sside-net/constant": "*",
+        "@sside-net/utility": "*"
     },
     "devDependencies": {
         "@sside-net/eslint": "*",

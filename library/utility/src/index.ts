@@ -1,3 +1,5 @@
+import { EnvironmentType } from "@sside-net/constant";
+import * as process from "node:process";
 import { Nullish } from "utility-types";
 
 export const parseDecimalFloat = (input: string | number | Nullish): number =>
@@ -40,4 +42,26 @@ export const createIntegerRange = (start: number, end: number): number[] => {
         .map((_, index) => index + small);
 
     return isIncrease ? range : range.toReversed();
+};
+
+export const getEnvironmentType = (
+    environmentType?: string,
+): EnvironmentType => {
+    const solvedEnvironmentType = (
+        environmentType ??
+        process.env.NEXT_PUBLIC_APP_ENV ??
+        process.env.APP_ENV
+    )?.trim();
+
+    if (
+        !Object.values(EnvironmentType).includes(
+            solvedEnvironmentType as EnvironmentType,
+        )
+    ) {
+        throw new Error(
+            `未定義の環境種別を参照しようとしています。solvedEnvironmentType: ${solvedEnvironmentType}, inputValue: ${environmentType} NEXT_PUBLIC_APP_ENV: ${process.env.NEXT_PUBLIC_APP_ENV}, APP_ENV: ${process.env.APP_ENV}`,
+        );
+    }
+
+    return solvedEnvironmentType as EnvironmentType;
 };
