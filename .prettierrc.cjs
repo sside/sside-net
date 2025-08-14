@@ -1,6 +1,7 @@
 module.exports = {
     plugins: ["@trivago/prettier-plugin-sort-imports"],
     singleAttributePerLine: true,
+    experimentalTernaries: true,
     importOrder: [
         "^@storybook/",
         "^react$",
@@ -10,9 +11,9 @@ module.exports = {
         "^[./]",
     ],
     importOrderSeparation: false,
-    experimentalTernaries: true,
     importOrderParserPlugins: [
         "typescript",
+        "jsx",
         "classProperties",
         "decorators-legacy",
     ],
