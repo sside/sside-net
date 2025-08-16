@@ -2,55 +2,57 @@ import { INestApplication, ValidationPipe } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { getAppConfig } from "@sside-net/app-config";
+import { EnvironmentType } from "@sside-net/constant";
+import { updateOpenApiDocument } from "@sside-net/open-api";
 import { ProjectLogger } from "@sside-net/project-logger";
-import { parseDecimalInt } from "@sside-net/utility";
+import { getEnvironmentType, parseDecimalInt } from "@sside-net/utility";
 import helmet from "helmet";
-import * as process from "node:process";
 import { AppModule } from "./app.module";
 import { JsonLogger } from "./library/logger/JsonLogger";
 
 const logger = new ProjectLogger("NestJS bootstrap");
 
 async function bootstrap() {
+    const DEFAULT_LISTEN_PORT = 27250;
+    const listenPort = parseDecimalInt(process.env.PORT) || DEFAULT_LISTEN_PORT;
+
     const app = await NestFactory.create(AppModule, {
         logger: new JsonLogger(),
     });
 
-    applyValidationPipe(app);
-    wearHelmet(app);
-    serveSwaggerDocument(app);
-
-    const listenPort = parseDecimalInt(process.env.PORT) || 3000;
+    app.useGlobalPipes(new ValidationPipe());
+    app.use(helmet());
+    if (getEnvironmentType() !== EnvironmentType.Production) {
+        await serveSwaggerDocument(app, "swagger", listenPort);
+    }
 
     logger.log("サーバを起動します。", {
         listenPort,
     });
 
-    await app.listen(process.env.PORT ?? 3000);
+    await app.listen(listenPort);
 }
 
-function applyValidationPipe(app: INestApplication) {
-    logger.log("ValidationPipeをグローバルで有効にします。");
+/**
+ * Swaggerドキュメントのサーブとopen-apiパッケージのドキュメント更新
+ */
+async function serveSwaggerDocument(
+    app: INestApplication,
+    documentPath: string,
+    listenPort: number,
+) {
+    logger.log("Swaggerドキュメントをサーブします。", {
+        url: `http://localhost:${listenPort}/${documentPath}`,
+    });
 
-    return app.useGlobalPipes(new ValidationPipe());
-}
-
-function wearHelmet(app: INestApplication) {
-    logger.log("appにHelmetを適用します。");
-
-    return app.use(helmet());
-}
-
-function serveSwaggerDocument(app: INestApplication) {
-    logger.log("Swaggerドキュメントをサーブします。");
-
-    const documentBuilder = new DocumentBuilder()
-        .setTitle(getAppConfig().global.appName)
-        .build();
-
-    SwaggerModule.setup("swagger", app, () =>
-        SwaggerModule.createDocument(app, documentBuilder),
+    const openApiDocument = SwaggerModule.createDocument(
+        app,
+        new DocumentBuilder().setTitle(getAppConfig().global.appName).build(),
     );
+
+    await updateOpenApiDocument(JSON.stringify(openApiDocument), true, true);
+
+    SwaggerModule.setup(documentPath, app, openApiDocument);
 }
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises

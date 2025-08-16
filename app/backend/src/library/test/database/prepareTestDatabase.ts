@@ -12,11 +12,14 @@ export const prepareTestDatabase = (isLogCommandResult = false): void => {
     const jestWorkerId = process.env.JEST_WORKER_ID;
 
     logger.log("テスト用DBの初期化を行います。", {
+        NODE_ENV: process.env.NODE_ENV,
+        APP_ENV: process.env.APP_ENV,
+        JEST_WORKER_ID: process.env.JEST_WORKER_ID,
         isLogCommandResult,
         jestWorkerId,
     });
 
-    if (!jestWorkerId) {
+    if (!process.env.JEST_WORKER_ID) {
         throw new Error(`環境変数JEST_WORKER_IDが未定義です。`);
     }
 
@@ -24,7 +27,7 @@ export const prepareTestDatabase = (isLogCommandResult = false): void => {
         "file:" +
         resolve(
             getDatabaseFileDirectoryPath(),
-            jestWorkerId.padStart(3, "0") + `.test.sqlite`,
+            process.env.JEST_WORKER_ID.padStart(3, "0") + `.test.sqlite`,
         );
 
     const command = `npx --no-install prisma migrate reset --force --skip-generate --skip-seed`;
@@ -35,6 +38,8 @@ export const prepareTestDatabase = (isLogCommandResult = false): void => {
     if (isLogCommandResult) {
         logger.log(`テスト用DB初期化実行。`, {
             NODE_ENV: process.env.NODE_ENV,
+            APP_ENV: process.env.APP_ENV,
+            DATABASE_URL: process.env.DATABASE_URL,
             command,
             result: result.toString(),
         });

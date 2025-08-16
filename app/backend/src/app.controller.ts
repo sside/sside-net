@@ -5,7 +5,7 @@ import {
     HttpStatus,
     InternalServerErrorException,
 } from "@nestjs/common";
-import { ApiInternalServerErrorResponse, ApiOkResponse } from "@nestjs/swagger";
+import { ApiOkResponse } from "@nestjs/swagger";
 import { DatabaseService } from "./database/database.service";
 
 @Controller()
@@ -15,7 +15,6 @@ export class AppController {
     @Get("health-check")
     @HttpCode(HttpStatus.OK)
     @ApiOkResponse()
-    @ApiInternalServerErrorResponse()
     async getHello(): Promise<void> {
         if (!(await this.databaseService.hasConnection())) {
             throw new InternalServerErrorException(

@@ -2,9 +2,10 @@
     "name": "@sside-net/backend",
     "version": "0.0.0",
     "description": "sside.net backend",
+    "private": true,
     "scripts": {
         "start": "node dist/main",
-        "dev": "nest start --watch",
+        "dev": "nest start --watch --env-file .env",
         "build": "nest build",
         "lint": "eslint --fix",
         "test": "jest",
@@ -15,12 +16,16 @@
         "postinstall": "prisma generate"
     },
     "dependencies": {
+        "@dotenvx/dotenvx": "^1.48.4",
         "@faker-js/faker": "^9.9.0",
         "@nestjs/common": "^11.1.6",
         "@nestjs/core": "^11.1.6",
         "@nestjs/platform-express": "^11.1.6",
         "@nestjs/swagger": "^11.2.0",
         "@prisma/client": "^6.13.0",
+        "@sside-net/open-api": "*",
+        "@sside-net/constant": "*",
+        "@sside-net/utility": "*",
         "class-transformer": "^0.5.1",
         "class-validator": "^0.14.2",
         "helmet": "^8.1.0",
@@ -48,6 +53,5 @@
         "ts-node": "^10.9.2",
         "tsconfig-paths": "^4.2.0",
         "typescript": "^5.9.2"
-    },
-    "private": true
+    }
 }

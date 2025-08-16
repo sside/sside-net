@@ -1,0 +1,21 @@
+{
+    "name": "@sside-net/api-client",
+    "version": "0.0.0",
+    "description": "sside.net OpenAPI client",
+    "main": "dist/index.js",
+    "scripts": {
+        "dev": "tsc --watch",
+        "dev:shared": "npm run dev",
+        "build": "rimraf dist && tsc --build",
+        "build:shared": "npm run build",
+        "update:check": "ncu",
+        "update:execute": "ncu -u"
+    },
+    "dependencies": {},
+    "devDependencies": {
+        "@sside-net/tsconfig": "*",
+        "rimraf": "^6.0.1",
+        "typescript": "^5.9.2"
+    },
+    "private": true
+}
