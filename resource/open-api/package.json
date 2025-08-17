@@ -10,7 +10,7 @@
     "scripts": {
         "build": "rimraf dist && tsc --build",
         "build:shared": "npm run build",
-        "generate:client": "docker run --rm --volume \"../..:/local\" openapitools/openapi-generator-cli:v7.14.0 generate -i /local/resource/open-api/open-api.json -g typescript-fetch -o /local/library/api-client/src",
+        "generate:client": "docker run --rm --volume \"../..:/local\" openapitools/openapi-generator-cli:v7.14.0 generate -i /local/resource/open-api/open-api.json -g typescript-fetch -o /local/library/api-client/src --additional-properties=allowUnicodeIdentifiers=true",
         "lint": "eslint --fix",
         "update:check": "ncu",
         "update:execute": "ncu -u"
