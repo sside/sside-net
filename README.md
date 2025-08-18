@@ -9,5 +9,8 @@ sside.net web site
 ```powershell
 # run on administrator
 New-Item -Path .\ -Name .env -Value .\.env.sample -ItemType SymbolicLink
-New-Item -Path .\app\backend\ -Name .env -Value .\.env -ItemType SymbolicLink
 ```
+
+### WebStormからテストを実行する場合の注意点
+
+Run configのNode optionsに`--env-file ../../.env.test`を追加する。

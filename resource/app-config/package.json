@@ -8,7 +8,7 @@
         "dev:shared": "npm run dev",
         "build": "rimraf dist && tsc --build",
         "build:shared": "npm run build",
-        "test": "jest",
+        "test": "dotenvx run --env-file ../../.env.test -- jest",
         "lint": "eslint --fix",
         "update:check": "ncu",
         "update:execute": "ncu -u"

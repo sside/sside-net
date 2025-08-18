@@ -5,10 +5,10 @@
     "private": true,
     "scripts": {
         "start": "node dist/main",
-        "dev": "nest start --watch --env-file .env",
+        "dev": "dotenvx run --env-file ../../.env -- nest start --watch",
         "build": "nest build",
         "lint": "eslint --fix",
-        "test": "jest",
+        "test": "dotenvx run --env-file ../../.env.test -- jest",
         "test:e2e": "jest --config ./test/jest-e2e.json",
         "nest:generate": "nest generate",
         "update:check": "ncu",
