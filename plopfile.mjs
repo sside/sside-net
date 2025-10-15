@@ -1,3 +1,4 @@
+import { pascalCase, camelCase } from "change-case";
 import Ignore from "ignore";
 import InquirerAutoCompletePrompt from "inquirer-autocomplete-prompt";
 import { readdirSync, existsSync, readFileSync } from "node:fs";
@@ -45,9 +46,11 @@ function ignoreRelativePaths(
     return ignore.filter(relativePaths);
 }
 
-function getChildDirectoryPaths(packagePath = "") {
-    const IGNORE_FILE_NAMES = [".gitignore"];
-
+function getChildDirectoryPaths(
+    packagePath = "",
+    ignoreFileNames = [".gitignore"],
+) {
+    console.log("packagePath", packagePath);
     let childDirectoryRelativePaths = Array.from(
         new Set(
             readdirSync(dirName, {
@@ -63,7 +66,7 @@ function getChildDirectoryPaths(packagePath = "") {
     childDirectoryRelativePaths = ignoreRelativePaths(
         childDirectoryRelativePaths,
         resolve(dirName),
-        IGNORE_FILE_NAMES,
+        ignoreFileNames,
     );
 
     const inPackageRelativePaths = childDirectoryRelativePaths
@@ -79,7 +82,7 @@ function getChildDirectoryPaths(packagePath = "") {
     return ignoreRelativePaths(
         inPackageRelativePaths,
         resolve(dirName, packagePath),
-        IGNORE_FILE_NAMES,
+        ignoreFileNames,
     );
 }
 
@@ -105,7 +108,7 @@ export default function (
             });
 
             const childDirectoryPaths =
-                getChildDirectoryPaths(packageRelativePath);
+                getChildDirectoryPaths(packageRelativePath).toSorted();
             const { outputRelativePath } = await inquirer.prompt({
                 type: "autocomplete",
                 name: "outputRelativePath",
@@ -124,23 +127,26 @@ export default function (
                 name: "outputDirectoryName",
                 message: "作成するディレクトリ名を入力(作らない場合は空)。",
             });
+
             const { pseudoEnumName } = await inquirer.prompt({
                 type: "input",
                 name: "pseudoEnumName",
                 message: "作成する疑似enum名を入力。",
             });
 
+            const outputDirectoryFullPath = resolve(
+                dirName,
+                packageRelativePath,
+                outputRelativePath,
+                outputDirectoryName,
+            );
+
             console.log({
                 dirName,
                 packageRelativePath,
                 outputRelativePath,
                 outputDirectoryName,
-                outputDirectoryFullPath: resolve(
-                    dirName,
-                    packageRelativePath,
-                    outputRelativePath,
-                    outputDirectoryName,
-                ),
+                outputDirectoryFullPath,
                 pseudoEnumName,
             });
 
@@ -149,20 +155,99 @@ export default function (
                 packageRelativePath,
                 outputRelativePath,
                 outputDirectoryName,
-                outputDirectoryFullPath: resolve(
-                    dirName,
-                    packageRelativePath,
-                    outputRelativePath,
-                    outputDirectoryName,
-                ),
-                pseudoEnumName,
+                outputDirectoryFullPath,
+                camelPseudoEnumName: camelCase(pseudoEnumName),
+                PascalPseudoEnumName: pascalCase(pseudoEnumName),
             };
         },
         actions: [
             {
                 type: "add",
-                path: "{{outputDirectoryFullPath}}/{{pascalCase pseudoEnumName}}.ts",
-                templateFile: ".prop/template/pseudo-enum.ts.hbs",
+                path: "{{outputDirectoryFullPath}}/{{PascalPseudoEnumName}}.ts",
+                templateFile: ".prop/template/pseudo-enum/pseudo-enum.ts.hbs",
+            },
+        ],
+    });
+    plop.setGenerator("function-component", {
+        description: "フロントエンドのReact Function Componentを作成。",
+        prompts: async (inquirer) => {
+            inquirer.registerPrompt("autocomplete", InquirerAutoCompletePrompt);
+
+            const functionComponentsDirectoryRelativePath = relative(
+                resolve(dirName),
+                resolve(dirName, "app/frontend"),
+            );
+            const childDirectoryPaths = getChildDirectoryPaths(
+                functionComponentsDirectoryRelativePath,
+            ).filter((relativePath) =>
+                ["app", "component"].some((targetPath) =>
+                    relativePath.startsWith(targetPath),
+                ),
+            );
+            const { outputRelativePath } = await inquirer.prompt({
+                type: "autocomplete",
+                name: "outputRelativePath",
+                message: "出力先ディレクトリを選択。",
+                pageSize: AUTOCOMPLETE_PAGE_SIZE,
+                source: (_, input) =>
+                    input ?
+                        childDirectoryPaths.filter((childDirectoryPath) =>
+                            childDirectoryPath.includes(input),
+                        )
+                    :   childDirectoryPaths,
+            });
+
+            const { outputDirectoryName } = await inquirer.prompt({
+                type: "input",
+                name: "outputDirectoryName",
+                message: "作成するディレクトリ名を入力(作らない場合は空)。",
+            });
+
+            const { functionComponentName } = await inquirer.prompt({
+                type: "input",
+                name: "functionComponentName",
+                message: "作成する疑似enum名を入力。",
+            });
+
+            const { isClientComponent } = await inquirer.prompt({
+                type: "confirm",
+                name: "isClientComponent",
+                message: "Client Componentですか？",
+                default: false,
+            });
+
+            const outputDirectoryFullPath = resolve(
+                dirName,
+                functionComponentsDirectoryRelativePath,
+                outputRelativePath,
+                outputDirectoryName,
+            );
+
+            console.log({
+                outputDirectoryFullPath,
+                functionComponentName,
+                isClientComponent,
+            });
+
+            return {
+                outputDirectoryFullPath,
+                camelFunctionComponentName: camelCase(functionComponentName),
+                PascalFunctionComponentName: pascalCase(functionComponentName),
+                isClientComponent,
+            };
+        },
+        actions: () => [
+            {
+                type: "add",
+                path: "{{outputDirectoryFullPath}}/{{PascalFunctionComponentName}}.tsx",
+                templateFile:
+                    ".prop/template/function-component/function-component.tsx.hbs",
+            },
+            {
+                type: "add",
+                path: "{{outputDirectoryFullPath}}/{{PascalFunctionComponentName}}.stories.tsx",
+                templateFile:
+                    ".prop/template/function-component/function-component.stories.tsx.hbs",
             },
         ],
     });
