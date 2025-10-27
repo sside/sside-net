@@ -35,7 +35,8 @@
         "app/*",
         "config/*",
         "library/*",
-        "resource/*"
+        "resource/*",
+        "generated/*"
     ],
     "repository": {
         "type": "git",
