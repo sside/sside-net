@@ -6,7 +6,7 @@ All documents and correspondence must be in Japanese.
 
 ## コードの変更について
 
-ユーザが明示的にコードの変更を指示しない限り、コードの変更を提案しない。
+ユーザが明示的にコードの変更を指示しない限り、決してコードの変更を提案しない。
 ただし、説明にあたってサンプルコードを示すことは問題ない。
 
 ## プロジェクト概要
@@ -21,10 +21,11 @@ Turborepoを用いたmonorepoにしている。
 
 - [app](app): 実際に動作するアプリケーション部分
   - [backend](app/backend): [NestJS](https://docs.nestjs.com/)を用いたREST APIバックエンド
+  - [frontend](app/frontend): [Next.js](https://nextjs.org/docs/)を用いたフロントエンド
 - [library](library): 共有の機能
   - [project-logger](library/project-logger): プロジェクトで一律してこのロガーを使用する
   - [utility](library/utility): 特にパッケージを設けるほどではないが、共通で使用するロジック
 - [resource](resource): 型定義や設定など、共有だがロジックを含まないもの
   - [app-config](resource/app-config): アプリケーションの設定
   - [constant](resource/constant): 定数や型定義
-- [config](config): tsconfigやeslintなど、かくパッケージで使用するツールの設定ファイル
+- [config](config): tsconfigやeslintなど、各パッケージで使用するツールの設定ファイル
