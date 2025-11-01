@@ -141,15 +141,6 @@ export default function (
                 outputDirectoryName,
             );
 
-            console.log({
-                dirName,
-                packageRelativePath,
-                outputRelativePath,
-                outputDirectoryName,
-                outputDirectoryFullPath,
-                pseudoEnumName,
-            });
-
             return {
                 dirName,
                 packageRelativePath,
@@ -168,8 +159,9 @@ export default function (
             },
         ],
     });
+
     plop.setGenerator("function-component", {
-        description: "フロントエンドのReact Function Componentを作成。",
+        description: "React Function Componentを作成。",
         prompts: async (inquirer) => {
             inquirer.registerPrompt("autocomplete", InquirerAutoCompletePrompt);
 
@@ -206,13 +198,13 @@ export default function (
             const { functionComponentName } = await inquirer.prompt({
                 type: "input",
                 name: "functionComponentName",
-                message: "作成する疑似enum名を入力。",
+                message: "作成するコンポーネント名を入力。",
             });
 
             const { isClientComponent } = await inquirer.prompt({
                 type: "confirm",
                 name: "isClientComponent",
-                message: "Client Componentですか？",
+                message: "Client Componentか？",
                 default: false,
             });
 
@@ -222,12 +214,6 @@ export default function (
                 outputRelativePath,
                 outputDirectoryName,
             );
-
-            console.log({
-                outputDirectoryFullPath,
-                functionComponentName,
-                isClientComponent,
-            });
 
             return {
                 outputDirectoryFullPath,
@@ -243,11 +229,67 @@ export default function (
                 templateFile:
                     ".prop/template/function-component/function-component.tsx.hbs",
             },
+        ],
+    });
+
+    plop.setGenerator("page", {
+        description: "Next.jsのpage.tsxを作成。",
+        prompts: async (inquirer) => {
+            inquirer.registerPrompt("autocomplete", InquirerAutoCompletePrompt);
+
+            const pageDirectoryRelativePath = relative(
+                resolve(dirName),
+                resolve(dirName, "app/frontend"),
+            );
+            const childDirectoryPaths = getChildDirectoryPaths(
+                pageDirectoryRelativePath,
+            ).filter((relativePath) =>
+                ["app", "component"].some((targetPath) =>
+                    relativePath.startsWith(targetPath),
+                ),
+            );
+            const { outputRelativePath } = await inquirer.prompt({
+                type: "autocomplete",
+                name: "outputRelativePath",
+                message: "出力先ディレクトリを選択。",
+                pageSize: AUTOCOMPLETE_PAGE_SIZE,
+                source: (_, input) =>
+                    input ?
+                        childDirectoryPaths.filter((childDirectoryPath) =>
+                            childDirectoryPath.includes(input),
+                        )
+                    :   childDirectoryPaths,
+            });
+
+            const { outputDirectoryName } = await inquirer.prompt({
+                type: "input",
+                name: "outputDirectoryName",
+                message: "作成するディレクトリ名を入力(作らない場合は空)。",
+            });
+
+            const { pageName } = await inquirer.prompt({
+                type: "input",
+                name: "pageName",
+                message: "作成するページ名を入力。",
+            });
+
+            const outputDirectoryFullPath = resolve(
+                dirName,
+                pageDirectoryRelativePath,
+                outputRelativePath,
+                outputDirectoryName,
+            );
+
+            return {
+                outputDirectoryFullPath,
+                pageName,
+            };
+        },
+        actions: () => [
             {
                 type: "add",
-                path: "{{outputDirectoryFullPath}}/{{PascalFunctionComponentName}}.stories.tsx",
-                templateFile:
-                    ".prop/template/function-component/function-component.stories.tsx.hbs",
+                path: "{{outputDirectoryFullPath}}/page.tsx",
+                templateFile: ".prop/template/nextjs-page/nextjs-page.tsx.hbs",
             },
         ],
     });
