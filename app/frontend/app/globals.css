@@ -19,4 +19,23 @@
     --color-blue: oklch(63.1% 0.141 244.8);
     --color-cyan: oklch(63.1% 0.102 187.2);
     --color-green: oklch(63.1% 0.148 118.8);
+
+    --color-background-body: var(--color-base03);
+    --color-background-menu: var(--color-base2);
+
+    --grid-areas-layout-desktop: "header main" "menu main" "footer main";
+    --grid-areas-layout-mobile: "header" "main" "menu" "footer";
+
+    --grid-area-main: main;
+    --grid-area-menu: menu;
+    --grid-area-header: header;
+    --grid-area-footer: footer;
+}
+
+@utility layout-* {
+    grid-template-areas: --value(--grid-areas-layout-\*);
+}
+
+@utility layout-area-* {
+    grid-area: --value(--grid-area-\*);
 }
