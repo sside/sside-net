@@ -8,7 +8,6 @@ export class JsonLogger implements LoggerService {
         this.projectLogger = new ProjectLogger(context ?? "not defined");
     }
 
-    /* eslint-disable @typescript-eslint/no-unsafe-argument */
     log(...args: Parameters<LoggerService["log"]>): void {
         this.projectLogger.log(...args);
     }
