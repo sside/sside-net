@@ -1,5 +1,4 @@
 import { EnvironmentType } from "@sside-net/constant";
-import * as process from "node:process";
 import { Nullish } from "utility-types";
 
 export const parseDecimalFloat = (input: string | number | Nullish): number =>

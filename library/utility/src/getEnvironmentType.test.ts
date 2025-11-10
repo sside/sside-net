@@ -1,7 +1,6 @@
 // 環境変数の書き換えを行うので別のファイルにしている
 import { beforeEach, describe, expect, test } from "@jest/globals";
 import { EnvironmentType } from "@sside-net/constant";
-import * as process from "node:process";
 import { getEnvironmentType } from "./index";
 
 describe("getEnvironmentType", () => {
