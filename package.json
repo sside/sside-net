@@ -1,7 +1,8 @@
 {
     "name": "sside-net",
     "scripts": {
-        "build": "turbo run build",
+        "build": "turbo run build:shared && turbo run build:app",
+        "build:app": "turbo run build:app",
         "build:shared": "turbo run build:shared",
         "dev": "turbo run dev",
         "dev:shared": "npm run build:shared && turbo run dev:shared",

@@ -2,15 +2,16 @@
     "name": "@sside-net/open-api",
     "version": "0.0.0",
     "description": "sside.net OpenAPI documents",
-    "main": "dist/index.js",
+    "main": "ts-schema/backend-schema.d.ts",
     "files": [
-        "dist"
+        "dist",
+        "ts-schema"
     ],
     "private": true,
     "scripts": {
         "build": "rimraf dist && tsc --build",
         "build:shared": "npm run build",
-        "generate:client": "docker run --rm --volume \"../..:/local\" openapitools/openapi-generator-cli:v7.14.0 generate -i /local/resource/open-api/open-api.json -g typescript-fetch -o /local/generated/api-client/src --additional-properties=allowUnicodeIdentifiers=true",
+        "generate:client": "openapi-typescript ./open-api.json --output ./ts-schema/backend-schema.d.ts --make-paths-enum",
         "lint": "eslint --fix",
         "update:check": "ncu",
         "update:execute": "ncu -u"
@@ -21,6 +22,7 @@
     "devDependencies": {
         "@sside-net/eslint": "*",
         "@sside-net/tsconfig": "*",
+        "openapi-typescript": "^7.10.1",
         "rimraf": "^6.0.1",
         "typescript": "^5.9.3"
     }
