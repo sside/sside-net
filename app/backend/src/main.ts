@@ -3,7 +3,7 @@ import { NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { getAppConfig } from "@sside-net/app-config";
 import { EnvironmentType } from "@sside-net/constant";
-import { updateOpenApiDocument } from "@sside-net/open-api";
+import { updateOpenApiDocument } from "@sside-net/open-api/dist";
 import { ProjectLogger } from "@sside-net/project-logger";
 import { getEnvironmentType, parseDecimalInt } from "@sside-net/utility";
 import helmet from "helmet";

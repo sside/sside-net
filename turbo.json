@@ -10,8 +10,8 @@
             "cache": false,
             "persistent": true
         },
-        "build": {
-            "dependsOn": ["^build"],
+        "build:app": {
+            "dependsOn": ["^build:app"],
             "cache": false
         },
         "build:shared": {
