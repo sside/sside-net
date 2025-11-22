@@ -15,7 +15,7 @@
     },
     "dependencies": {
         "@sside-net/app-config": "*",
-        "pino": "^10.0.0",
+        "pino": "^10.1.0",
         "utility-types": "^3.11.0"
     },
     "devDependencies": {
