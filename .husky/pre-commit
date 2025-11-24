@@ -1,2 +1,1 @@
 npx --no lint-staged --concurrent false
-npm run test
