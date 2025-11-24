@@ -1,26 +1,41 @@
 import { faker } from "@faker-js/faker";
-import { describe, test, expect, beforeEach } from "@jest/globals";
+import { beforeEach, describe, expect, test } from "@jest/globals";
 import { Test, TestingModule } from "@nestjs/testing";
 import { createIntegerRange } from "@sside-net/utility";
-import { DatabaseModule } from "../database/database.module";
 import { prepareTestDatabase } from "../library/test/database/prepareTestDatabase";
 import { BlogEntryMetaTagService } from "./blog-entry-meta-tag.service";
-import { BlogEntryMetaTagQuery } from "./query/blog-entry-meta-tag.query";
+import { BlogEntryModule } from "./blog-entry.module";
+import { BlogEntryService } from "./blog-entry.service";
 
 describe("BlogEntryMetaTagService", () => {
+    let blogEntryService: BlogEntryService;
     let blogEntryMetaTagService: BlogEntryMetaTagService;
 
     beforeEach(async () => {
+        expect.hasAssertions();
         prepareTestDatabase();
 
         const module: TestingModule = await Test.createTestingModule({
-            imports: [DatabaseModule],
-            providers: [BlogEntryMetaTagService, BlogEntryMetaTagQuery],
+            imports: [BlogEntryModule],
         }).compile();
 
-        blogEntryMetaTagService = module.get<BlogEntryMetaTagService>(
-            BlogEntryMetaTagService,
-        );
+        blogEntryService = module.get(BlogEntryService);
+        blogEntryMetaTagService = module.get(BlogEntryMetaTagService);
+    });
+
+    describe("getAllPublishedBlogEntryMetaTags", () => {
+        test("全ての公開済みBlogEntryに紐づいているBlogEntryMetaTagが取得できること。", async () => {
+            const [blogEntries] = await blogEntryService.seed(10, 2, 5);
+            const publishedBlogEntryMetaTags =
+                await blogEntryMetaTagService.getAllPublishedBlogEntryMetaTags();
+
+            const createdMetaTagIds = blogEntries
+                .flatMap(({ blogEntryMetaTags }) => blogEntryMetaTags)
+                .map(({ id }) => id);
+            for (const { id } of publishedBlogEntryMetaTags) {
+                expect(createdMetaTagIds.includes(id)).toBe(true);
+            }
+        });
     });
 
     const sampleMetaTagName = "sample meta tag name";

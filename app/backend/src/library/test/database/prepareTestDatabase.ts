@@ -30,7 +30,7 @@ export const prepareTestDatabase = (isLogCommandResult = false): void => {
             process.env.JEST_WORKER_ID.padStart(3, "0") + `.test.sqlite`,
         );
 
-    const command = `npx --no-install prisma migrate reset --force --skip-generate --skip-seed`;
+    const command = `npx --no-install prisma migrate reset --force`;
     const result = execSync(command, {
         env: process.env,
     });

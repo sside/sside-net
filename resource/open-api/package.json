@@ -5,7 +5,8 @@
     "main": "ts-schema/backend-schema.d.ts",
     "files": [
         "dist",
-        "ts-schema"
+        "ts-schema",
+        "open-api.json"
     ],
     "private": true,
     "scripts": {

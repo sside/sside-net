@@ -31,6 +31,7 @@ describe("BlogEntryService", () => {
         ).map(() => faker.lorem.slug(2));
 
     beforeEach(async () => {
+        expect.hasAssertions();
         prepareTestDatabase();
 
         const module: TestingModule = await Test.createTestingModule({
@@ -43,8 +44,8 @@ describe("BlogEntryService", () => {
 
     describe("getByBlogEntryId", () => {
         test("存在するidでBlogEntryを取得できること。", async () => {
-            const [published] = await blogEntryService.seed(1, 0, 0);
-            const seeded = published.at(0)!;
+            const [publishedBlogEntries] = await blogEntryService.seed(1, 0, 0);
+            const seeded = publishedBlogEntries.at(0)!;
 
             expect(
                 (await blogEntryService.getByBlogEntryId(seeded.id)).slug,
@@ -55,6 +56,45 @@ describe("BlogEntryService", () => {
             await expect(
                 blogEntryService.getByBlogEntryId(Number.MAX_SAFE_INTEGER),
             ).rejects.toThrow(/BlogEntryが見つかりませんでした/);
+        });
+    });
+
+    describe("getByBlogEntryIds", () => {
+        test("複数指定した全てのBlogEntryが取得できること。", async () => {
+            const [publishedBlogEntries, draftBlogEntries] =
+                await blogEntryService.seed(5, 2, 5);
+
+            const createdIds = [
+                ...publishedBlogEntries,
+                ...draftBlogEntries,
+            ].map(({ id }) => id);
+            const foundedBlogEntries =
+                await blogEntryService.getByBlogEntryIds(createdIds);
+
+            for (const createdId of createdIds) {
+                expect(
+                    foundedBlogEntries.find(({ id }) => id === createdId),
+                ).toBeTruthy();
+            }
+        });
+
+        test("isCheckContainsAllBlogEntryオプションを指定した場合に、存在しないIDを取得しようとするとエラーになること。", async () => {
+            await blogEntryService.seed(1, 1, 1);
+
+            await expect(
+                blogEntryService.getByBlogEntryIds([1, 2]),
+            ).resolves.toBeTruthy();
+            await expect(
+                blogEntryService.getByBlogEntryIds([1, 2, 100]),
+            ).rejects.toThrow(/見つからなかった/);
+        });
+
+        test("空配列を指定した場合空の配列が返ること。", async () => {
+            await blogEntryService.seed(1, 1, 1);
+
+            expect((await blogEntryService.getByBlogEntryIds([])).length).toBe(
+                0,
+            );
         });
     });
 
@@ -192,11 +232,8 @@ describe("BlogEntryService", () => {
 
     describe("setRelatedBlogEntryMetaTagsByName", () => {
         test("BlogEntryMetaTagの紐づけが行えること。", async () => {
-            const { id, blogEntryMetaTags: firstBlogEntryMetaTags } = (
-                await blogEntryService.seed(1, 0, 0)
-            )
-                .at(0)!
-                .at(0)!;
+            const { id, blogEntryMetaTags: firstBlogEntryMetaTags } =
+                await blogEntryService.createPublished(createBlogEntryInput());
 
             expect(firstBlogEntryMetaTags.length).toBe(0);
 
@@ -217,11 +254,8 @@ describe("BlogEntryService", () => {
         });
 
         test("引数に渡したBlogEntryMetaTagのみが紐づけされること。", async () => {
-            const { id, blogEntryMetaTags: firstMetaTags } = (
-                await blogEntryService.seed(1, 0, 0)
-            )
-                .at(0)!
-                .at(0)!;
+            const { id, blogEntryMetaTags: firstMetaTags } =
+                await blogEntryService.createPublished(createBlogEntryInput());
 
             expect(firstMetaTags.length).toBe(0);
 

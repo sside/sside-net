@@ -1,9 +1,9 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { BaseIdentifiableItemResponse } from "../../type/response/BaseIdentifiableItemResponse";
-import { BlogEntryMetaTagResponse } from "../../type/response/BlogEntryMetaTagResponse";
+import { BaseIdentifiableResponse } from "../../type/response/BaseIdentifiable.response";
 import { BlogEntryWithRelations } from "../query/blog-entry.query";
+import { BlogEntryMetaTagResponse } from "./BlogEntryMetaTag.response";
 
-export class BlogEntryResponse extends BaseIdentifiableItemResponse {
+export class BlogEntryResponse extends BaseIdentifiableResponse {
     @ApiProperty()
     slug: string;
 
@@ -29,7 +29,7 @@ export class BlogEntryResponse extends BaseIdentifiableItemResponse {
                 .at(0)!;
 
         return {
-            ...BaseIdentifiableItemResponse.fromEntity(blogEntry),
+            ...BaseIdentifiableResponse.fromEntity(blogEntry),
             slug,
             title,
             bodyMarkdown,

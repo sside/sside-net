@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
-import { BlogEntry, Prisma } from "@prisma/client";
 import { DatabaseService } from "../../database/database.service";
+import { BlogEntry, Prisma } from "../../generated/prisma/client";
 import { BlogEntryInput } from "../type/BlogEntryInput";
 
 export type BlogEntryWithRelations = NonNullable<
@@ -25,6 +25,22 @@ export class BlogEntryQuery {
             {
                 where: {
                     id: blogEntryId,
+                },
+            },
+            transaction,
+        );
+    }
+
+    async findManyWithRelationsByBlogEntryIds(
+        blogEntryIds: number[],
+        transaction?: Prisma.TransactionClient,
+    ): Promise<BlogEntryWithRelations[]> {
+        return await this.findManyWithRelation(
+            {
+                where: {
+                    id: {
+                        in: blogEntryIds,
+                    },
                 },
             },
             transaction,
@@ -144,11 +160,22 @@ export class BlogEntryQuery {
             include: this.RELATED_TABLES_PRISMA_JOIN,
         });
     }
+
     private async findFirstWithRelation(
         args: Prisma.BlogEntryFindFirstArgs,
         transaction?: Prisma.TransactionClient,
     ) {
         return await this.blogEntry(transaction).findFirst({
+            ...args,
+            include: this.RELATED_TABLES_PRISMA_JOIN,
+        });
+    }
+
+    private async findManyWithRelation(
+        args: Prisma.BlogEntryFindManyArgs,
+        transaction?: Prisma.TransactionClient,
+    ): Promise<BlogEntryWithRelations[]> {
+        return await this.blogEntry(transaction).findMany({
             ...args,
             include: this.RELATED_TABLES_PRISMA_JOIN,
         });

@@ -14,7 +14,7 @@
         "nest:generate": "nest generate",
         "update:check": "ncu",
         "update:execute": "ncu -u",
-        "postinstall": "prisma generate"
+        "postinstall": "dotenvx run --env-file ../../.env -- prisma generate"
     },
     "dependencies": {
         "@dotenvx/dotenvx": "^1.51.1",
@@ -23,9 +23,10 @@
         "@nestjs/core": "^11.1.6",
         "@nestjs/platform-express": "^11.1.6",
         "@nestjs/swagger": "^11.2.0",
-        "@prisma/client": "^6.17.1",
-        "@sside-net/open-api": "*",
+        "@prisma/adapter-better-sqlite3": "^7.0.0",
+        "@prisma/client": "^7.0.0",
         "@sside-net/constant": "*",
+        "@sside-net/open-api": "*",
         "@sside-net/utility": "*",
         "class-transformer": "^0.5.1",
         "class-validator": "^0.14.2",
@@ -47,7 +48,7 @@
         "@types/node": "^22",
         "@types/supertest": "^6.0.3",
         "globals": "^16.5.0",
-        "prisma": "^6.17.1",
+        "prisma": "^7.0.0",
         "source-map-support": "^0.5.21",
         "supertest": "^7.1.4",
         "ts-loader": "^9.5.4",

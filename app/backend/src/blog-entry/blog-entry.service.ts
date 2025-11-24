@@ -5,8 +5,8 @@ import {
     Logger,
     NotFoundException,
 } from "@nestjs/common";
-import { Prisma } from "@prisma/client";
 import { createIntegerArray } from "@sside-net/utility";
+import { Prisma } from "../generated/prisma/client";
 import { BlogEntryMetaTagService } from "./blog-entry-meta-tag.service";
 import {
     BlogEntryQuery,
@@ -45,6 +45,39 @@ export class BlogEntryService {
         }
 
         return blogEntry;
+    }
+
+    async getByBlogEntryIds(
+        blogEntryIds: number[],
+        isCheckContainsAllBlogEntry = true,
+        ongoingTransaction?: Prisma.TransactionClient,
+    ): Promise<BlogEntryWithRelations[]> {
+        this.logger.log("複数のIDを指定して対応するBlogEntryを取得します。", {
+            blogEntryIds,
+            ongoingTransaction: !!ongoingTransaction,
+        });
+
+        const blogEntries =
+            await this.blogEntryQuery.findManyWithRelationsByBlogEntryIds(
+                blogEntryIds,
+                ongoingTransaction,
+            );
+
+        if (
+            isCheckContainsAllBlogEntry &&
+            !blogEntryIds.every(
+                (blogEntryId) =>
+                    blogEntries.findIndex(
+                        ({ id: foundId }) => foundId === blogEntryId,
+                    ) >= 0,
+            )
+        ) {
+            throw new ForbiddenException(
+                `指定されたBlogEntryIdsのうち、見つからなかったBlogEntryがありました。`,
+            );
+        }
+
+        return blogEntries;
     }
 
     async createDraft(
@@ -241,40 +274,41 @@ export class BlogEntryService {
     }
 
     async seed(
-        publishedCount: number,
+        publishCount: number,
         historyCount: number,
         draftCount: number,
     ): Promise<[BlogEntryWithRelations[], BlogEntryWithRelations[]]> {
         this.logger.log("BlogEntryのseedを作成します。", {
-            publishedCount,
+            publishedCount: publishCount,
             historyCount,
             draftCount,
         });
 
-        faker.seed(0);
-        fakerJA.seed(0);
+        const uniqueSlugs = faker.helpers.uniqueArray(
+            faker.lorem.slug,
+            publishCount + draftCount,
+        );
 
         const createBlogEntryInput = (
+            uniqueSlugIndex: number,
             overWrite?: Partial<BlogEntryInput>,
         ): BlogEntryInput => ({
-            ...{
-                slug: faker.lorem.slug(),
-                bodyMarkdown: fakerJA.lorem.text(),
-                title: fakerJA.book.title(),
-            },
+            slug: uniqueSlugs.at(uniqueSlugIndex)!,
+            bodyMarkdown: fakerJA.lorem.text(),
+            title: fakerJA.book.title(),
             ...overWrite,
         });
 
         const publishes: BlogEntryWithRelations[] = [];
-        for (let i = 0; i < publishedCount; i++) {
+        for (let i = 0; i < publishCount; i++) {
             const { id, slug } = await this.createPublished(
-                createBlogEntryInput(),
+                createBlogEntryInput(i, {}),
             );
 
             for (let j = 0; j < historyCount; j++) {
                 await this.addBlogEntryHistory(
                     id,
-                    createBlogEntryInput({ slug }),
+                    createBlogEntryInput(i, { slug }),
                 );
             }
 
@@ -282,11 +316,28 @@ export class BlogEntryService {
         }
 
         const drafts = await Promise.all(
-            createIntegerArray(draftCount).map(() =>
-                this.createDraft(createBlogEntryInput()),
+            createIntegerArray(draftCount).map((_, index) =>
+                this.createDraft(createBlogEntryInput(publishCount + index)),
             ),
         );
 
-        return [publishes, drafts];
+        const blogEntryMetaTags = await this.blogEntryMetaTagService.seed(
+            (publishCount + draftCount) * 3,
+        );
+        let count = 1;
+        for (const { id: blogEntryId } of [...publishes, ...drafts]) {
+            await this.setRelatedBlogEntryMetaTagsByName(
+                blogEntryId,
+                [count, count * 2, count * 3].map(
+                    (index) => blogEntryMetaTags.at(index - 1)!.name,
+                ),
+            );
+            count += 1;
+        }
+
+        return [
+            await this.getByBlogEntryIds(publishes.map(({ id }) => id)),
+            await this.getByBlogEntryIds(drafts.map(({ id }) => id)),
+        ];
     }
 }

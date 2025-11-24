@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 
-export class BaseIdentifiableItemResponse {
+export class BaseIdentifiableResponse {
     @ApiProperty()
     id: number;
 
@@ -18,7 +18,7 @@ export class BaseIdentifiableItemResponse {
         id: number;
         createdAt: Date;
         updatedAt: Date;
-    }): BaseIdentifiableItemResponse {
+    }): BaseIdentifiableResponse {
         return {
             id,
             createdAt,

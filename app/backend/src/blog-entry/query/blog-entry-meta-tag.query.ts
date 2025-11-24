@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
-import { BlogEntryMetaTag, Prisma } from "@prisma/client";
 import { DatabaseService } from "../../database/database.service";
+import { BlogEntryMetaTag, Prisma } from "../../generated/prisma/client";
 
 @Injectable()
 export class BlogEntryMetaTagQuery {
@@ -21,6 +21,22 @@ export class BlogEntryMetaTagQuery {
         transaction?: Prisma.TransactionClient,
     ): Promise<BlogEntryMetaTag[]> {
         return await this.blogEntryMetaTag(transaction).findMany();
+    }
+
+    async findAllRelatedPublishedBlogEntry(
+        transaction?: Prisma.TransactionClient,
+    ): Promise<BlogEntryMetaTag[]> {
+        return await this.blogEntryMetaTag(transaction).findMany({
+            where: {
+                blogEntries: {
+                    some: {
+                        blogEntryHistories: {
+                            some: {},
+                        },
+                    },
+                },
+            },
+        });
     }
 
     async insertOne(

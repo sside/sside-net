@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { BlogEntryMetaTag } from "@prisma/client";
+import { BlogEntryMetaTag } from "../../generated/prisma/client";
 
 export class BlogEntryMetaTagResponse {
     @ApiProperty()

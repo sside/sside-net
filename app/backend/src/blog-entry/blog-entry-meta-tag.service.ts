@@ -1,7 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { Injectable, Logger } from "@nestjs/common";
-import { BlogEntryMetaTag, Prisma } from "@prisma/client";
-import { createIntegerRange } from "@sside-net/utility";
+import { BlogEntryMetaTag, Prisma } from "../generated/prisma/client";
 import { BlogEntryMetaTagQuery } from "./query/blog-entry-meta-tag.query";
 
 @Injectable()
@@ -20,6 +19,21 @@ export class BlogEntryMetaTagService {
         });
 
         return await this.blogEntryMetaTagQuery.findAll(ongoingTransaction);
+    }
+
+    async getAllPublishedBlogEntryMetaTags(
+        ongoingTransaction?: Prisma.TransactionClient,
+    ): Promise<BlogEntryMetaTag[]> {
+        this.logger.log(
+            "公開済みBlogEntryに紐づくすべてのBlogEntryMetaTagを取得します。",
+            {
+                ongoingTransaction: !!ongoingTransaction,
+            },
+        );
+
+        return await this.blogEntryMetaTagQuery.findAllRelatedPublishedBlogEntry(
+            ongoingTransaction,
+        );
     }
 
     async getOrCreateByName(
@@ -96,10 +110,8 @@ export class BlogEntryMetaTagService {
             count,
         });
 
-        faker.seed(0);
-
         return await this.getOrCreateByNames(
-            createIntegerRange(1, count).map(() => faker.lorem.slug(1)),
+            faker.helpers.uniqueArray(() => faker.lorem.slug(1), count),
         );
     }
 }
