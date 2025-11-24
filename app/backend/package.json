@@ -11,6 +11,8 @@
         "lint": "eslint --fix",
         "test": "dotenvx run --env-file ../../.env.test -- jest",
         "test:e2e": "jest --config ./test/jest-e2e.json",
+        "seed": "node ./dist/src/seed/seed.ts",
+        "seed:dev": "dotenvx run --env-file ../../.env -- prisma migrate reset --force && dotenvx run --env-file ../../.env -- ts-node ./src/seed/seed.ts",
         "nest:generate": "nest generate",
         "update:check": "ncu",
         "update:execute": "ncu -u",
