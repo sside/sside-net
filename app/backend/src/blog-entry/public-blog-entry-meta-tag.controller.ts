@@ -1,7 +1,7 @@
 import { Controller, Get } from "@nestjs/common";
 import { ApiOkResponse } from "@nestjs/swagger";
 import { BlogEntryMetaTagService } from "./blog-entry-meta-tag.service";
-import { BlogEntryMetaTagResponse } from "./response/BlogEntryMetaTag.response";
+import { BlogEntryMetaTagCountResponse } from "./response/BlogEntryMetaTagCount.response";
 
 @Controller("public-blog-entry-meta-tag")
 export class PublicBlogEntryMetaTagController {
@@ -11,13 +11,22 @@ export class PublicBlogEntryMetaTagController {
 
     @Get()
     @ApiOkResponse({
-        type: [BlogEntryMetaTagResponse],
+        type: [BlogEntryMetaTagCountResponse],
     })
     async getAllPublishedBlogEntryMetaTag(): Promise<
-        BlogEntryMetaTagResponse[]
+        BlogEntryMetaTagCountResponse[]
     > {
         return (
-            await this.blogEntryMetaTagService.getAllPublishedBlogEntryMetaTags()
-        ).map(BlogEntryMetaTagResponse.fromEntity);
+            await this.blogEntryMetaTagService.getAndCountAllPublishedBlogEntryMetaTags()
+        ).map(
+            ({
+                _count: { blogEntries: blogEntryCount },
+                ...blogEntryMetaTag
+            }) =>
+                BlogEntryMetaTagCountResponse.fromEntityAndCount(
+                    blogEntryMetaTag,
+                    blogEntryCount,
+                ),
+        );
     }
 }

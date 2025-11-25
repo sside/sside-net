@@ -71,6 +71,11 @@ export interface components {
             bodyMarkdown: string;
             metaTags: components["schemas"]["BlogEntryMetaTagResponse"][];
         };
+        BlogEntryMetaTagCountResponse: {
+            id: number;
+            name: string;
+            count: number;
+        };
     };
     responses: never;
     parameters: never;
@@ -132,7 +137,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["BlogEntryMetaTagResponse"][];
+                    "application/json": components["schemas"]["BlogEntryMetaTagCountResponse"][];
                 };
             };
         };
@@ -141,5 +146,5 @@ export interface operations {
 export enum ApiPaths {
     AppController_getHello = "/health-check",
     BlogEntryController_getByBlogEntryId = "/blog-entry/{blogEntryId}",
-    PublicBlogEntryMetaTagController_getAllPublishedBlogEntryMetaTag = "/public-blog-entry-meta-tag"
+    PublicBlogEntryMetaTagController_getAllPublishedBlogEntryMetaTag = "/public-blog-entry-meta-tag",
 }

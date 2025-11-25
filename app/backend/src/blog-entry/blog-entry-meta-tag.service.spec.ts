@@ -23,11 +23,29 @@ describe("BlogEntryMetaTagService", () => {
         blogEntryMetaTagService = module.get(BlogEntryMetaTagService);
     });
 
+    describe("getAllBlogEntryMetaTags", () => {
+        test("全てのBlogEntryMetaTagが取得できること。", async () => {
+            const CREATE_COUNT = 10;
+            await blogEntryMetaTagService.seed(CREATE_COUNT);
+
+            expect(
+                (await blogEntryMetaTagService.getAllBlogEntryMetaTags())
+                    .length,
+            ).toBe(CREATE_COUNT);
+        });
+
+        test("BlogEntryMetaTagの登録がない場合は空配列を返すこと。", async () => {
+            expect(
+                await blogEntryMetaTagService.getAllBlogEntryMetaTags(),
+            ).toEqual([]);
+        });
+    });
+
     describe("getAllPublishedBlogEntryMetaTags", () => {
         test("全ての公開済みBlogEntryに紐づいているBlogEntryMetaTagが取得できること。", async () => {
             const [blogEntries] = await blogEntryService.seed(10, 2, 5);
             const publishedBlogEntryMetaTags =
-                await blogEntryMetaTagService.getAllPublishedBlogEntryMetaTags();
+                await blogEntryMetaTagService.getAndCountAllPublishedBlogEntryMetaTags();
 
             const createdMetaTagIds = blogEntries
                 .flatMap(({ blogEntryMetaTags }) => blogEntryMetaTags)
@@ -35,6 +53,39 @@ describe("BlogEntryMetaTagService", () => {
             for (const { id } of publishedBlogEntryMetaTags) {
                 expect(createdMetaTagIds.includes(id)).toBe(true);
             }
+        });
+
+        test("紐づいているBlogEntry数が取得できること。", async () => {
+            const BLOG_ENTRY_COUNT = 10;
+            const [publishedBlogEntries] = await blogEntryService.seed(
+                BLOG_ENTRY_COUNT,
+                1,
+                0,
+            );
+
+            for (const { id } of publishedBlogEntries) {
+                const withoutMetaTag =
+                    await blogEntryService.setRelatedBlogEntryMetaTagsByName(
+                        id,
+                        [],
+                    );
+
+                expect(withoutMetaTag.blogEntryMetaTags.length).toBe(0);
+            }
+
+            const createdMetaTag = (await blogEntryMetaTagService.seed(1)).at(
+                0,
+            )!;
+
+            for (const { id } of publishedBlogEntries) {
+                await blogEntryService.setRelatedBlogEntryMetaTagsByName(id, [
+                    createdMetaTag.name,
+                ]);
+            }
+
+            const metaTags =
+                await blogEntryMetaTagService.getAndCountAllPublishedBlogEntryMetaTags();
+            expect(metaTags.at(0)?._count.blogEntries).toBe(BLOG_ENTRY_COUNT);
         });
     });
 

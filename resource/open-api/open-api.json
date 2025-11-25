@@ -1,1 +1,116 @@
-{"openapi":"3.0.0","paths":{"/health-check":{"get":{"operationId":"AppController_getHello","parameters":[],"responses":{"200":{"description":""}},"tags":["App"]}},"/blog-entry/{blogEntryId}":{"get":{"operationId":"BlogEntryController_getByBlogEntryId","parameters":[{"name":"blogEntryId","required":true,"in":"path","schema":{"type":"number"}}],"responses":{"200":{"description":"","content":{"application/json":{"schema":{"$ref":"#/components/schemas/BlogEntryResponse"}}}}},"tags":["BlogEntry"]}},"/public-blog-entry-meta-tag":{"get":{"operationId":"PublicBlogEntryMetaTagController_getAllPublishedBlogEntryMetaTag","parameters":[],"responses":{"200":{"description":"","content":{"application/json":{"schema":{"type":"array","items":{"$ref":"#/components/schemas/BlogEntryMetaTagResponse"}}}}}},"tags":["PublicBlogEntryMetaTag"]}}},"info":{"title":"sside.net","description":"","version":"1.0.0","contact":{}},"tags":[],"servers":[],"components":{"schemas":{"BlogEntryMetaTagResponse":{"type":"object","properties":{"id":{"type":"number"},"name":{"type":"string"}},"required":["id","name"]},"BlogEntryResponse":{"type":"object","properties":{"id":{"type":"number"},"createdAt":{"format":"date-time","type":"string"},"updatedAt":{"format":"date-time","type":"string"},"slug":{"type":"string"},"title":{"type":"string"},"bodyMarkdown":{"type":"string"},"metaTags":{"type":"array","items":{"$ref":"#/components/schemas/BlogEntryMetaTagResponse"}}},"required":["id","createdAt","updatedAt","slug","title","bodyMarkdown","metaTags"]}}}}
+{
+    "openapi": "3.0.0",
+    "paths": {
+        "/health-check": {
+            "get": {
+                "operationId": "AppController_getHello",
+                "parameters": [],
+                "responses": { "200": { "description": "" } },
+                "tags": ["App"]
+            }
+        },
+        "/blog-entry/{blogEntryId}": {
+            "get": {
+                "operationId": "BlogEntryController_getByBlogEntryId",
+                "parameters": [
+                    {
+                        "name": "blogEntryId",
+                        "required": true,
+                        "in": "path",
+                        "schema": { "type": "number" }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BlogEntryResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": ["BlogEntry"]
+            }
+        },
+        "/public-blog-entry-meta-tag": {
+            "get": {
+                "operationId": "PublicBlogEntryMetaTagController_getAllPublishedBlogEntryMetaTag",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/BlogEntryMetaTagCountResponse"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": ["PublicBlogEntryMetaTag"]
+            }
+        }
+    },
+    "info": {
+        "title": "sside.net",
+        "description": "",
+        "version": "1.0.0",
+        "contact": {}
+    },
+    "tags": [],
+    "servers": [],
+    "components": {
+        "schemas": {
+            "BlogEntryMetaTagResponse": {
+                "type": "object",
+                "properties": {
+                    "id": { "type": "number" },
+                    "name": { "type": "string" }
+                },
+                "required": ["id", "name"]
+            },
+            "BlogEntryResponse": {
+                "type": "object",
+                "properties": {
+                    "id": { "type": "number" },
+                    "createdAt": { "format": "date-time", "type": "string" },
+                    "updatedAt": { "format": "date-time", "type": "string" },
+                    "slug": { "type": "string" },
+                    "title": { "type": "string" },
+                    "bodyMarkdown": { "type": "string" },
+                    "metaTags": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/BlogEntryMetaTagResponse"
+                        }
+                    }
+                },
+                "required": [
+                    "id",
+                    "createdAt",
+                    "updatedAt",
+                    "slug",
+                    "title",
+                    "bodyMarkdown",
+                    "metaTags"
+                ]
+            },
+            "BlogEntryMetaTagCountResponse": {
+                "type": "object",
+                "properties": {
+                    "id": { "type": "number" },
+                    "name": { "type": "string" },
+                    "count": { "type": "number" }
+                },
+                "required": ["id", "name", "count"]
+            }
+        }
+    }
+}

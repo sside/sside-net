@@ -3,13 +3,13 @@ import { DatabaseService } from "../../database/database.service";
 import { BlogEntry, Prisma } from "../../generated/prisma/client";
 import { BlogEntryInput } from "../type/BlogEntryInput";
 
-export type BlogEntryWithRelations = NonNullable<
-    Awaited<ReturnType<BlogEntryQuery["findFirstWithRelation"]>>
->;
+export type BlogEntryWithRelations = Prisma.BlogEntryGetPayload<{
+    include: (typeof BlogEntryQuery)["INCLUDE_RELATED_TABLES"];
+}>;
 
 @Injectable()
 export class BlogEntryQuery {
-    private readonly RELATED_TABLES_PRISMA_JOIN = {
+    private static readonly INCLUDE_RELATED_TABLES = {
         blogEntryDraft: true,
         blogEntryHistories: true,
         blogEntryMetaTags: true,
@@ -157,7 +157,7 @@ export class BlogEntryQuery {
     ) {
         return await this.blogEntry(transaction).findUnique({
             ...args,
-            include: this.RELATED_TABLES_PRISMA_JOIN,
+            include: BlogEntryQuery.INCLUDE_RELATED_TABLES,
         });
     }
 
@@ -167,7 +167,7 @@ export class BlogEntryQuery {
     ) {
         return await this.blogEntry(transaction).findFirst({
             ...args,
-            include: this.RELATED_TABLES_PRISMA_JOIN,
+            include: BlogEntryQuery.INCLUDE_RELATED_TABLES,
         });
     }
 
@@ -177,7 +177,7 @@ export class BlogEntryQuery {
     ): Promise<BlogEntryWithRelations[]> {
         return await this.blogEntry(transaction).findMany({
             ...args,
-            include: this.RELATED_TABLES_PRISMA_JOIN,
+            include: BlogEntryQuery.INCLUDE_RELATED_TABLES,
         });
     }
 

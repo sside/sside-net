@@ -1,7 +1,10 @@
 import { faker } from "@faker-js/faker";
 import { Injectable, Logger } from "@nestjs/common";
 import { BlogEntryMetaTag, Prisma } from "../generated/prisma/client";
-import { BlogEntryMetaTagQuery } from "./query/blog-entry-meta-tag.query";
+import {
+    BlogEntryMetaTagCountBlogEntry,
+    BlogEntryMetaTagQuery,
+} from "./query/blog-entry-meta-tag.query";
 
 @Injectable()
 export class BlogEntryMetaTagService {
@@ -21,9 +24,9 @@ export class BlogEntryMetaTagService {
         return await this.blogEntryMetaTagQuery.findAll(ongoingTransaction);
     }
 
-    async getAllPublishedBlogEntryMetaTags(
+    async getAndCountAllPublishedBlogEntryMetaTags(
         ongoingTransaction?: Prisma.TransactionClient,
-    ): Promise<BlogEntryMetaTag[]> {
+    ): Promise<BlogEntryMetaTagCountBlogEntry[]> {
         this.logger.log(
             "公開済みBlogEntryに紐づくすべてのBlogEntryMetaTagを取得します。",
             {
@@ -31,7 +34,7 @@ export class BlogEntryMetaTagService {
             },
         );
 
-        return await this.blogEntryMetaTagQuery.findAllRelatedPublishedBlogEntry(
+        return await this.blogEntryMetaTagQuery.findAllAndCountRelatedPublishedBlogEntry(
             ongoingTransaction,
         );
     }
