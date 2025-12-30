@@ -15,7 +15,7 @@ export class AppController {
     @Get("health-check")
     @HttpCode(HttpStatus.OK)
     @ApiOkResponse()
-    async getHello(): Promise<void> {
+    async getHealthCheck(): Promise<void> {
         if (!(await this.databaseService.hasConnection())) {
             throw new InternalServerErrorException(
                 "DB接続が確認できませんでした。",
