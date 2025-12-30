@@ -15,14 +15,15 @@
     },
     "dependencies": {
         "@sside-net/constant": "*",
-        "@sside-net/utility": "*"
+        "@sside-net/utility": "*",
+        "defu": "6.1.4"
     },
     "devDependencies": {
         "@sside-net/eslint": "*",
-        "@sside-net/tsconfig": "*",
         "@sside-net/jest": "*",
-        "rimraf": "^6.0.1",
-        "typescript": "^5.9.3"
+        "@sside-net/tsconfig": "*",
+        "rimraf": "6.1.2",
+        "typescript": "5.9.3"
     },
     "private": true
 }

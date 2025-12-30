@@ -5,14 +5,13 @@
     "main": "ts-schema/backend-schema.d.ts",
     "files": [
         "dist",
-        "ts-schema",
         "open-api.json"
     ],
     "private": true,
     "scripts": {
         "build": "rimraf dist && tsc --build",
         "build:shared": "npm run build",
-        "generate:client": "openapi-typescript ./open-api.json --output ./ts-schema/backend-schema.d.ts --make-paths-enum",
+        "generate:client": "openapi-typescript ./open-api.json --output ../../app/frontend/generated/backend-schema.d.ts --make-paths-enum",
         "lint": "eslint --fix",
         "update:check": "ncu",
         "update:execute": "ncu -u"
@@ -23,8 +22,8 @@
     "devDependencies": {
         "@sside-net/eslint": "*",
         "@sside-net/tsconfig": "*",
-        "openapi-typescript": "^7.10.1",
-        "rimraf": "^6.0.1",
-        "typescript": "^5.9.3"
+        "openapi-typescript": "7.10.1",
+        "rimraf": "6.1.2",
+        "typescript": "5.9.3"
     }
 }

@@ -9,27 +9,32 @@
         "build": "next build",
         "test": "cross-env PORT=42979 playwright test",
         "test:ui": "cross-env PORT=42979 playwright test --ui",
+        "test:ts": "tsc --noEmit",
         "lint": "eslint --fix",
         "update:check": "ncu",
         "update:execute": "ncu -u"
     },
     "dependencies": {
+        "@sentry/nextjs": "10.27.0",
         "cross-env": "10.1.0",
-        "next": "16.0.3",
-        "react": "19.2.0",
-        "react-dom": "19.2.0"
+        "http-status-codes": "2.3.0",
+        "next": "16.1.1",
+        "openapi-fetch": "0.15.0",
+        "react": "19.2.3",
+        "react-dom": "19.2.3"
     },
     "devDependencies": {
         "@dotenvx/dotenvx": "1.51.1",
-        "@next/eslint-plugin-next": "^15.5.6",
-        "@playwright/test": "1.56.1",
+        "@next/eslint-plugin-next": "16.1.1",
+        "@playwright/test": "1.57.0",
         "@sside-net/eslint": "*",
-        "@tailwindcss/postcss": "4.1.17",
-        "@types/node": "^22",
-        "@types/react": "^19",
-        "@types/react-dom": "^19",
-        "postcss": "^8.5.6",
-        "tailwindcss": "^4.1.17",
-        "typescript": "^5.9.3"
+        "@sside-net/open-api": "*",
+        "@tailwindcss/postcss": "4.1.18",
+        "@types/node": "22",
+        "@types/react": "19",
+        "@types/react-dom": "19",
+        "postcss": "8.5.6",
+        "tailwindcss": "4.1.18",
+        "typescript": "5.9.3"
     }
 }

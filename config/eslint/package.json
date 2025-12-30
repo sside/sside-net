@@ -8,12 +8,12 @@
         "update:execute": "ncu -u"
     },
     "devDependencies": {
-        "@eslint/js": "^9.39.1",
-        "eslint": "^9.39.1",
-        "eslint-config-prettier": "^10.1.8",
-        "npm-check-updates": "^19.1.2",
-        "typescript": "^5.9.3",
-        "typescript-eslint": "^8.46.2"
+        "@eslint/js": "9.39.2",
+        "eslint": "9.39.2",
+        "eslint-config-prettier": "10.1.8",
+        "npm-check-updates": "19.2.0",
+        "typescript": "5.9.3",
+        "typescript-eslint": "8.46.2"
     },
     "private": true
 }

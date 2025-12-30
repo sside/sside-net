@@ -15,15 +15,15 @@
     },
     "dependencies": {
         "@sside-net/app-config": "*",
-        "pino": "^10.1.0",
-        "utility-types": "^3.11.0"
+        "pino": "10.1.0",
+        "utility-types": "3.11.0"
     },
     "devDependencies": {
         "@sside-net/eslint": "*",
         "@sside-net/jest": "*",
         "@sside-net/tsconfig": "*",
-        "rimraf": "^6.0.1",
-        "typescript": "^5.9.3"
+        "rimraf": "6.1.2",
+        "typescript": "5.9.3"
     },
     "private": true
 }
