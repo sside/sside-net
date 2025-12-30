@@ -1,3 +1,4 @@
+import { DeepPartial } from "utility-types";
 import { AppConfig } from "./AppConfig";
 
 export const baseAppConfig = {
@@ -6,5 +7,18 @@ export const baseAppConfig = {
         log: {
             level: "info",
         },
+        sentry: {
+            organizationName: "ssidenet",
+        },
     },
-} satisfies AppConfig;
+    frontend: {
+        sentry: {
+            projectName: "sside-net-frontend",
+        },
+    },
+    backend: {
+        sentry: {
+            projectName: "sside-net-backend",
+        },
+    },
+} satisfies DeepPartial<AppConfig>;

@@ -1,12 +1,20 @@
+import defu from "defu";
 import { AppConfig } from "./AppConfig";
 import { baseAppConfig } from "./baseAppConfig";
 
-export const localAppConfig = {
-    ...baseAppConfig,
-    global: {
-        ...baseAppConfig.global,
-        log: {
-            level: "debug",
+export const localAppConfig = defu(
+    {
+        global: {
+            log: {
+                level: "debug",
+            },
+        },
+        frontend: {
+            baseUrl: "http://localhost:42979",
+            backend: {
+                baseUrl: "http://localhost:27250",
+            },
         },
     },
-} satisfies AppConfig;
+    baseAppConfig,
+) satisfies AppConfig;
