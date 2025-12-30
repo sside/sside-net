@@ -146,5 +146,5 @@ export interface operations {
 export enum ApiPaths {
     AppController_getHealthCheck = "/health-check",
     BlogEntryController_getByBlogEntryId = "/blog-entry/{blogEntryId}",
-    PublicBlogEntryMetaTagController_getAllPublishedBlogEntryMetaTag = "/public-blog-entry-meta-tag",
+    PublicBlogEntryMetaTagController_getAllPublishedBlogEntryMetaTag = "/public-blog-entry-meta-tag"
 }
