@@ -2,6 +2,7 @@ import { describe, expect, test } from "@jest/globals";
 import {
     createIntegerArray,
     createIntegerRange,
+    notImplementedStab,
     parseDecimalFloat,
     parseDecimalInt,
 } from "./index";
@@ -80,5 +81,21 @@ describe("createIntegerRange", () => {
         expect(() => createIntegerRange(3, -2)).toThrow(/負/);
         expect(() => createIntegerRange(-1, -2)).toThrow(/負/);
         expect(() => createIntegerRange(-1, 2)).toThrow(/負/);
+    });
+});
+
+describe("notImplementedStab", () => {
+    test("入力した値がそのまま返ること。", () => {
+        const str = "string";
+        expect(notImplementedStab(str)).toBe(str);
+
+        const num = 123;
+        expect(notImplementedStab(num)).toBe(num);
+
+        const obj = {
+            str,
+            num,
+        };
+        expect(notImplementedStab(obj)).toBe(obj);
     });
 });
