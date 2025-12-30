@@ -7,8 +7,8 @@
         "start": "next start",
         "dev": "dotenvx run --env-file ../../.env -- cross-env PORT=42979 next dev --turbopack",
         "build": "next build",
-        "test": "cross-env PORT=42979 playwright test",
-        "test:ui": "cross-env PORT=42979 playwright test --ui",
+        "test:cli": "playwright test",
+        "test:ui": "playwright test --ui",
         "test:ts": "tsc --noEmit",
         "lint": "eslint --fix",
         "update:check": "ncu",
@@ -33,6 +33,7 @@
         "@types/node": "22",
         "@types/react": "19",
         "@types/react-dom": "19",
+        "msw": "2.12.7",
         "postcss": "8.5.6",
         "tailwindcss": "4.1.18",
         "typescript": "5.9.3"

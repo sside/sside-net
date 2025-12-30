@@ -3,7 +3,7 @@
     "paths": {
         "/health-check": {
             "get": {
-                "operationId": "AppController_getHello",
+                "operationId": "AppController_getHealthCheck",
                 "parameters": [],
                 "responses": { "200": { "description": "" } },
                 "tags": ["App"]
