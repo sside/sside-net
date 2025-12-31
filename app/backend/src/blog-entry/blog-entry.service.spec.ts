@@ -44,7 +44,7 @@ describe("BlogEntryService", () => {
 
     describe("getByBlogEntryId", () => {
         test("存在するidでBlogEntryを取得できること。", async () => {
-            const [publishedBlogEntries] = await blogEntryService.seed(1, 0, 0);
+            const [publishedBlogEntries] = await blogEntryService.seed(1, 1, 0);
             const seeded = publishedBlogEntries.at(0)!;
 
             expect(
@@ -95,6 +95,54 @@ describe("BlogEntryService", () => {
             expect((await blogEntryService.getByBlogEntryIds([])).length).toBe(
                 0,
             );
+        });
+    });
+
+    describe("getAllPublishedBlogEntriesCreatedAt", () => {
+        test("公開されたBlogEntryのpublishAtを全て取得できること。", async () => {
+            const [publishedBlogEntries] = await blogEntryService.seed(
+                10,
+                2,
+                10,
+            );
+
+            const publishAts =
+                await blogEntryService.getAllBlogEntriesPublishAt();
+
+            for (const { publishAt } of publishedBlogEntries) {
+                if (!publishAt) {
+                    continue;
+                }
+
+                expect(
+                    publishAts.some(
+                        (gotPublishAt) =>
+                            gotPublishAt.getTime() === publishAt.getTime(),
+                    ),
+                ).toBe(true);
+            }
+        });
+        test("公開日が将来のものは取得していないこと。", async () => {
+            const CREATE_COUNT = 5;
+            const FUTURE_ENTRY_COUNT = 3;
+            const [publishedBlogEntries] = await blogEntryService.seed(
+                CREATE_COUNT,
+                3,
+                0,
+            );
+
+            for (let i = 0; i < FUTURE_ENTRY_COUNT; i++) {
+                await blogEntryService.setPublishAt(
+                    publishedBlogEntries.at(i)!.id,
+                    faker.date.future({
+                        years: 10,
+                    }),
+                );
+            }
+
+            expect(
+                (await blogEntryService.getAllBlogEntriesPublishAt()).length,
+            ).toBe(CREATE_COUNT - FUTURE_ENTRY_COUNT);
         });
     });
 
@@ -187,15 +235,13 @@ describe("BlogEntryService", () => {
 
     describe("addBlogEntryHistory", () => {
         test("既存の公開済みBlogEntryに公開履歴を追加できること。", async () => {
-            const HISTORY_COUNT = 5;
             const { id, blogEntryHistories: createdBlogEntryHistories } = (
-                await blogEntryService.seed(1, HISTORY_COUNT, 0)
+                await blogEntryService.seed(1, 1, 0)
             )
                 .at(0)!
                 .at(0)!;
 
             const historyCount = createdBlogEntryHistories.length;
-            expect(historyCount).toBe(HISTORY_COUNT + 1);
 
             const inputItem = createBlogEntryInput();
             const { blogEntryHistories: addedBlogEntryHistories } =
@@ -216,17 +262,19 @@ describe("BlogEntryService", () => {
 
     describe("setPublishAt", () => {
         test("既存のBlogEntryに公開日を設定できること。", async () => {
-            const { id, publishAt } = (await blogEntryService.seed(1, 0, 0))
-                .at(0)!
-                .at(0)!;
+            const { id } = (await blogEntryService.seed(1, 1, 0)).at(0)!.at(0)!;
 
             const updateValue = new Date("2025-06-01T00:00:00+09:00");
-            expect(publishAt?.getTime()).not.toBe(updateValue.getTime());
-
             const { publishAt: updatedPublishAt } =
                 await blogEntryService.setPublishAt(id, updateValue);
 
             expect(updatedPublishAt?.getTime()).toBe(updateValue.getTime());
+        });
+        test("nullを渡した場合、公開日を削除できること。", async () => {
+            const { id } = (await blogEntryService.seed(1, 1, 0)).at(0)!.at(0)!;
+
+            const { publishAt } = await blogEntryService.setPublishAt(id, null);
+            expect(publishAt).toBeNull();
         });
     });
 

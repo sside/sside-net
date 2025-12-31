@@ -17,6 +17,17 @@ export class BlogEntryQuery {
 
     constructor(private readonly databaseService: DatabaseService) {}
 
+    private static WHERE_PUBLISHED(): Prisma.BlogEntryWhereInput {
+        return {
+            blogEntryHistories: {
+                some: {},
+            },
+            publishAt: {
+                lte: new Date(),
+            },
+        };
+    }
+
     async findOneWithRelationsByBlogEntryId(
         blogEntryId: number,
         transaction?: Prisma.TransactionClient,
@@ -24,6 +35,21 @@ export class BlogEntryQuery {
         return await this.findUniqueWithRelation(
             {
                 where: {
+                    id: blogEntryId,
+                },
+            },
+            transaction,
+        );
+    }
+
+    async findOnePublishedWithRelationsByBlogEntryId(
+        blogEntryId: number,
+        transaction?: Prisma.TransactionClient,
+    ): Promise<BlogEntryWithRelations | null> {
+        return await this.findFirstWithRelation(
+            {
+                where: {
+                    ...BlogEntryQuery.WHERE_PUBLISHED(),
                     id: blogEntryId,
                 },
             },
@@ -45,6 +71,36 @@ export class BlogEntryQuery {
             },
             transaction,
         );
+    }
+
+    async findManyLatestPublishedWithRelations(
+        count: number,
+        pointerPublishAtLte?: Date,
+    ): Promise<BlogEntryWithRelations[]> {
+        return await this.blogEntry().findMany({
+            where: {
+                ...BlogEntryQuery.WHERE_PUBLISHED(),
+                publishAt: {
+                    lte: pointerPublishAtLte,
+                },
+            },
+            orderBy: {
+                publishAt: "desc",
+            },
+            include: BlogEntryQuery.INCLUDE_RELATED_TABLES,
+            take: count,
+        });
+    }
+
+    async findManyPublishedOnlyPublishAt(): Promise<Date[]> {
+        return (
+            await this.blogEntry().findMany({
+                where: BlogEntryQuery.WHERE_PUBLISHED(),
+                select: {
+                    publishAt: true,
+                },
+            })
+        ).map(({ publishAt }) => publishAt!);
     }
 
     async insertDraft(

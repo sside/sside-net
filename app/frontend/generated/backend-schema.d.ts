@@ -36,6 +36,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/public-blog-entry/publish-dates": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["PublicBlogEntryController_getBlogEntryPublishedDates"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/public-blog-entry-meta-tag": {
         parameters: {
             query?: never;
@@ -71,6 +87,7 @@ export interface components {
             bodyMarkdown: string;
             metaTags: components["schemas"]["BlogEntryMetaTagResponse"][];
         };
+        Date: Record<string, never>;
         BlogEntryMetaTagCountResponse: {
             id: number;
             name: string;
@@ -123,6 +140,25 @@ export interface operations {
             };
         };
     };
+    PublicBlogEntryController_getBlogEntryPublishedDates: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Date"][];
+                };
+            };
+        };
+    };
     PublicBlogEntryMetaTagController_getAllPublishedBlogEntryMetaTag: {
         parameters: {
             query?: never;
@@ -146,5 +182,6 @@ export interface operations {
 export enum ApiPaths {
     AppController_getHealthCheck = "/health-check",
     BlogEntryController_getByBlogEntryId = "/blog-entry/{blogEntryId}",
+    PublicBlogEntryController_getBlogEntryPublishedDates = "/public-blog-entry/publish-dates",
     PublicBlogEntryMetaTagController_getAllPublishedBlogEntryMetaTag = "/public-blog-entry-meta-tag"
 }

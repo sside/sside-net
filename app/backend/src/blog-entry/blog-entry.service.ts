@@ -80,6 +80,12 @@ export class BlogEntryService {
         return blogEntries;
     }
 
+    async getAllBlogEntriesPublishAt(): Promise<Date[]> {
+        this.logger.log("全ての公開済みBlogEntryの公開日を取得します。");
+
+        return await this.blogEntryQuery.findManyPublishedOnlyPublishAt();
+    }
+
     async createDraft(
         blogEntryInput: BlogEntryInput,
         ongoingTransaction?: Prisma.TransactionClient,
@@ -170,10 +176,11 @@ export class BlogEntryService {
             ongoingTransaction: !!ongoingTransaction,
         });
 
-        const { slug, blogEntryDraft } = await this.getByBlogEntryId(
-            blogEntryId,
-            ongoingTransaction,
-        );
+        const {
+            slug,
+            blogEntryDraft,
+            publishAt: existsPublishAt,
+        } = await this.getByBlogEntryId(blogEntryId, ongoingTransaction);
         if (blogEntryDraft === null) {
             throw new ForbiddenException(
                 `DraftのないBlogEntryを公開しようとしています。blogEntryId: ${blogEntryId}`,
@@ -187,7 +194,7 @@ export class BlogEntryService {
                 await this.blogEntryQuery.insertPublishedHistory(
                     blogEntryId,
                     { slug, title, bodyMarkdown },
-                    publishAt,
+                    existsPublishAt ?? publishAt ?? new Date(),
                     ongoingTransaction,
                 )
             ).id,
@@ -275,12 +282,12 @@ export class BlogEntryService {
 
     async seed(
         publishCount: number,
-        historyCount: number,
+        maximumHistoryCount: number,
         draftCount: number,
     ): Promise<[BlogEntryWithRelations[], BlogEntryWithRelations[]]> {
         this.logger.log("BlogEntryのseedを作成します。", {
             publishedCount: publishCount,
-            historyCount,
+            maximumHistoryCount,
             draftCount,
         });
 
@@ -303,8 +310,15 @@ export class BlogEntryService {
         for (let i = 0; i < publishCount; i++) {
             const { id, slug } = await this.createPublished(
                 createBlogEntryInput(i, {}),
+                fakerJA.date.past({
+                    years: 5,
+                }),
             );
 
+            const historyCount = fakerJA.number.int({
+                min: 1,
+                max: maximumHistoryCount,
+            });
             for (let j = 0; j < historyCount; j++) {
                 await this.addBlogEntryHistory(
                     id,

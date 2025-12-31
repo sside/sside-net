@@ -16,7 +16,7 @@ const logger = new ProjectLogger("Seed");
 
     try {
         faker.seed(0);
-        await blogEntryService.seed(10, 3, 5);
+        await blogEntryService.seed(50, 3, 10);
 
         return;
     } catch (e) {
