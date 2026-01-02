@@ -87,7 +87,11 @@ export interface components {
             bodyMarkdown: string;
             metaTags: components["schemas"]["BlogEntryMetaTagResponse"][];
         };
-        Date: Record<string, never>;
+        BlogEntryArchivePublishDatesResponse: {
+            year: number;
+            month: number;
+            count: number;
+        };
         BlogEntryMetaTagCountResponse: {
             id: number;
             name: string;
@@ -154,7 +158,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Date"][];
+                    "application/json": components["schemas"]["BlogEntryArchivePublishDatesResponse"][];
                 };
             };
         };

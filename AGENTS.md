@@ -8,7 +8,7 @@ All documents and correspondence must be in Japanese.
 
 ### 「AGENTS.mdを確認した」と最初のメッセージに載せる
 
-ユーザとやり取りを開始する際、1つ目のメッセージの1行目は「AGENTS.mdを確認した」とすること。その後改行を挟んでからメッセージのやり取りを始める。
+ユーザとやり取りを開始する際、1つ目のメッセージの1行目は「AGENTS.mdを確認した」とすること。その後に空白行を挟んでからメッセージのやり取りを始める。
 
 ### 回答する内容
 
@@ -18,7 +18,8 @@ All documents and correspondence must be in Japanese.
 
 - ユーザに代わってコードや設定を書くこと
 - ユーザに代わってコマンドを実行すること
-- タスク管理モードに入ること
+- Tasksの提示
+- Implementation Planの提示
 
 ただし、回答に際し、サンプルコードを示した方が良ければ、コードを示すこと自体は問題ない。
 
@@ -38,6 +39,7 @@ Turborepoを用いたmonorepoにしている。
 - [library](library): 共有の機能
   - [project-logger](library/project-logger): プロジェクトで一律してこのロガーを使用する
   - [utility](library/utility): 特にパッケージを設けるほどではないが、共通で使用するロジック
+  - [date-time](library/date-time): luxonで頻繁に使用する処理の関数化
 - [resource](resource): 型定義や設定など、共有だがロジックを含まないもの
   - [app-config](resource/app-config): アプリケーションの設定
   - [constant](resource/constant): 定数や型定義

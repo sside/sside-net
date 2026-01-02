@@ -41,6 +41,7 @@
         "@nestjs/cli": "11.0.14",
         "@nestjs/schematics": "11.0.9",
         "@nestjs/testing": "11.1.11",
+        "@sside-net/date-time": "*",
         "@sside-net/eslint": "*",
         "@sside-net/jest": "*",
         "@swc/cli": "0.7.9",
