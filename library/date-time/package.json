@@ -1,0 +1,28 @@
+{
+    "name": "@sside-net/date-time",
+    "version": "0.0.0",
+    "description": "sside.net shared datetime utility",
+    "main": "dist/index.js",
+    "scripts": {
+        "dev": "tsc --watch",
+        "dev:shared": "npm run dev",
+        "build": "rimraf dist && tsc --build",
+        "build:shared": "npm run build",
+        "lint": "eslint --fix",
+        "test": "dotenvx run --env-file ../../.env.test -- jest",
+        "update:check": "ncu",
+        "update:execute": "ncu -u"
+    },
+    "dependencies": {
+        "luxon": "^3.7.2"
+    },
+    "devDependencies": {
+        "@sside-net/eslint": "*",
+        "@sside-net/jest": "*",
+        "@sside-net/tsconfig": "*",
+        "@types/luxon": "^3.7.1",
+        "rimraf": "6.1.2",
+        "typescript": "5.9.3"
+    },
+    "private": true
+}
