@@ -1,7 +1,8 @@
 import { resolve } from "node:path";
 
 /**
- * テスト用DBのファイル置き場を取得
+ * テスト用DBのファイル置き場を取得します。
+ * _dirnameからの相対パスにするため、この関数だけ別ファイルにしています。
  */
 export const getDatabaseFileDirectoryPath = () =>
-    resolve(__dirname, "../../../..", ".database"); //_dirnameからの相対パスにするため、この関数だけ別ファイルにしている。
+    resolve(__dirname, "../../../..", ".database");
