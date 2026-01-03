@@ -11,14 +11,26 @@ export class BlogEntryResponse extends BaseIdentifiableResponse {
     title: string;
 
     @ApiProperty()
+    publishAt: Date;
+
+    @ApiProperty()
     bodyMarkdown: string;
 
     @ApiProperty({ type: [BlogEntryMetaTagResponse] })
     metaTags: BlogEntryMetaTagResponse[];
 
+    /**
+     * BlogEntryWithRelationsからレスポンスを作成します。
+     * publishAtはノーチェックなので、呼び出し側が確認すること。
+     */
     static fromEntity(blogEntry: BlogEntryWithRelations): BlogEntryResponse {
-        const { slug, blogEntryMetaTags, blogEntryDraft, blogEntryHistories } =
-            blogEntry;
+        const {
+            slug,
+            publishAt,
+            blogEntryMetaTags,
+            blogEntryDraft,
+            blogEntryHistories,
+        } = blogEntry;
         const { title, bodyMarkdown } =
             blogEntryDraft ??
             blogEntryHistories
@@ -32,6 +44,7 @@ export class BlogEntryResponse extends BaseIdentifiableResponse {
             ...BaseIdentifiableResponse.fromEntity(blogEntry),
             slug,
             title,
+            publishAt: publishAt!,
             bodyMarkdown,
             metaTags: blogEntryMetaTags.map(
                 BlogEntryMetaTagResponse.fromEntity,

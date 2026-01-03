@@ -98,6 +98,68 @@ describe("BlogEntryService", () => {
         });
     });
 
+    describe("getLatestPublishedBlogEntries", () => {
+        test("指定した件数の公開済みBlogEntryが取得できること。", async () => {
+            await blogEntryService.seed(5, 2, 0);
+
+            const SEARCH_COUNT = 3;
+            expect(
+                (
+                    await blogEntryService.getLatestPublishedBlogEntries(
+                        SEARCH_COUNT,
+                    )
+                )[0].length,
+            ).toBe(SEARCH_COUNT);
+        });
+
+        test("指定した件数以下のBlogEntryしかない場合、取得できた分のみ返すこと。", async () => {
+            await blogEntryService.seed(5, 2, 0);
+
+            expect(
+                (await blogEntryService.getLatestPublishedBlogEntries(10))[0]
+                    .length,
+            ).toBe(5);
+        });
+
+        test("ポインターのBlogEntryIdを指定した場合、ポインターで指定したものとそれ以前のBlogEntryを取得できること。", async () => {
+            const [createdBlogEntries] = await blogEntryService.seed(10, 2, 0);
+            const pointerBlogEntry = createdBlogEntries.at(4)!;
+
+            const [foundBlogEntries] =
+                await blogEntryService.getLatestPublishedBlogEntries(
+                    5,
+                    pointerBlogEntry.id,
+                );
+
+            expect(
+                foundBlogEntries.find(({ id }) => id === pointerBlogEntry.id),
+            ).toBeDefined();
+            for (const { publishAt } of foundBlogEntries) {
+                expect(publishAt!.getTime()).toBeLessThanOrEqual(
+                    pointerBlogEntry.publishAt!.getTime(),
+                );
+            }
+        });
+
+        test("後続のBlogEntryがある場合、後続1つ目のBlogEntryを取得できること。", async () => {
+            await blogEntryService.seed(10, 2, 0);
+
+            const [_, pointerBlogEntry] =
+                await blogEntryService.getLatestPublishedBlogEntries(4);
+
+            expect(pointerBlogEntry).not.toBeNull();
+        });
+
+        test("後続のBlogEntryがない場合、後続のBlogEntryはnullになること。", async () => {
+            await blogEntryService.seed(10, 2, 0);
+
+            const [_, pointerBlogEntry] =
+                await blogEntryService.getLatestPublishedBlogEntries(10);
+
+            expect(pointerBlogEntry).toBeNull();
+        });
+    });
+
     describe("getAllPublishedBlogEntriesCreatedAt", () => {
         test("公開されたBlogEntryのpublishAtを全て取得できること。", async () => {
             const [publishedBlogEntries] = await blogEntryService.seed(

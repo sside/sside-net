@@ -27,8 +27,9 @@ export const BlogMenuArchives: FC<{}> = async ({}) => {
     const archiveYearMonths = (
         await (async () => {
             try {
-                return (await apiClient.GET(`/public-blog-entry/publish-dates`))
-                    .data!;
+                return (
+                    await apiClient.GET(`/public-blog-entry/archive-year-month`)
+                ).data!;
             } catch (e) {
                 captureApiCallError(e, BlogMenuArchives);
 

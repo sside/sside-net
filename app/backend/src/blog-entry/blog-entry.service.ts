@@ -23,6 +23,9 @@ export class BlogEntryService {
         private readonly blogEntryQuery: BlogEntryQuery,
     ) {}
 
+    /**
+     * IDを指定してBlogEntryを取得します。
+     */
     async getByBlogEntryId(
         blogEntryId: number,
         ongoingTransaction?: Prisma.TransactionClient,
@@ -47,6 +50,9 @@ export class BlogEntryService {
         return blogEntry;
     }
 
+    /**
+     * 複数のIDを指定してBlogEntryを取得します。
+     */
     async getByBlogEntryIds(
         blogEntryIds: number[],
         isCheckContainsAllBlogEntry = true,
@@ -78,6 +84,48 @@ export class BlogEntryService {
         }
 
         return blogEntries;
+    }
+
+    /**
+     * 直近に公開されたBlogEntryを取得します。
+     * ページングのため、ポインターになるBlogEntryがある場合はTupleの2つ目に入ります。
+     */
+    async getLatestPublishedBlogEntries(
+        count: number,
+        pointerBlogEntryId?: number,
+    ): Promise<[BlogEntryWithRelations[], BlogEntryWithRelations | null]> {
+        this.logger.log("直近に公開されたBlogEntryを取得します。", {
+            count,
+            pointerBlogEntryId,
+        });
+
+        const pointerPublishAt: Date | undefined = await (async () => {
+            if (!pointerBlogEntryId) {
+                return undefined;
+            }
+
+            try {
+                return (
+                    (await this.getByBlogEntryId(pointerBlogEntryId))
+                        .publishAt ?? undefined
+                );
+            } catch (_) {
+                return undefined;
+            }
+        })();
+
+        const searchCount = count + 1;
+        const blogEntries =
+            await this.blogEntryQuery.findManyLatestPublishedWithRelations(
+                count + 1,
+                pointerPublishAt,
+            );
+
+        if (blogEntries.length < searchCount) {
+            return [blogEntries, null];
+        }
+
+        return [blogEntries.slice(0, count), blogEntries.at(-1)!];
     }
 
     async getAllBlogEntriesPublishAt(): Promise<Date[]> {

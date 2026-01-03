@@ -46,6 +46,8 @@ export default defineConfig([
                 {
                     caughtErrors: "none",
                     argsIgnorePattern: "^_",
+                    varsIgnorePattern: "^_",
+                    caughtErrorsIgnorePattern: "^_",
                 },
             ],
         },
