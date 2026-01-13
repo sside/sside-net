@@ -1,7 +1,6 @@
 import { Controller, Get, ParseIntPipe, Query } from "@nestjs/common";
 import { ApiOkResponse, ApiQuery } from "@nestjs/swagger";
 import { BlogEntryService } from "./blog-entry.service";
-import { BlogEntryResponse } from "./response/BlogEntry.response";
 import { BlogEntryArchivePublishDatesResponse } from "./response/BlogEntryArchivePublishDates.response";
 import { PublishedBlogEntriesResponse } from "./response/PublishedBlogEntries.response";
 
@@ -11,7 +10,7 @@ export class PublicBlogEntryController {
 
     @Get("latest")
     @ApiOkResponse({
-        type: [BlogEntryResponse],
+        type: PublishedBlogEntriesResponse,
     })
     @ApiQuery({
         name: "pointer-blog-entry-id",
