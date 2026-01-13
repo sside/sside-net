@@ -86,10 +86,12 @@ const trimStackTraceLines = (stack?: string): string =>
     stack
         ?.split("\n")
         .map((line) => line.trim())
+        .slice(2, 5)
         .join("\n") ?? "";
 
 /**
- * 値の取得が未実装の場合に、後から見つけられるようにするためのスタブ関数。
+ * 値の取得が未実装の場合に、後から見つけられるようにするため値をstabします。
+ * 実行時、呼び出し個所を確認できるようにスタックトレースの一部をログに残します。
  */
 export const notImplementedStab = <T>(arg: T): T => {
     const logger = new ProjectLogger("notImplementedStab");
@@ -103,7 +105,8 @@ export const notImplementedStab = <T>(arg: T): T => {
 };
 
 /**
- * 関数が未実装の場合に、後から見つけられるようにするための仮実装関数。
+ * 関数が未実装の場合に、後から見つけられるようにするための仮実装関数です。
+ * 実行時、呼び出し個所を確認できるようにスタックトレースの一部をログに残します。
  */
 export const notImplementedVoid = (...args: unknown[]): void => {
     const logger = new ProjectLogger("notImplementedVoid");
@@ -117,7 +120,8 @@ export const notImplementedVoid = (...args: unknown[]): void => {
 };
 
 /**
- * 非同期関数が未実装の場合に、後から見つけられるようにするための仮実装関数。
+ * 非同期関数が未実装の場合に、後から見つけられるようにするための仮実装関数です。
+ * 実行時、呼び出し個所を確認できるようにスタックトレースの一部をログに残します。
  */
 export const notImplementedPromisedVoid = async (
     ...args: Parameters<typeof notImplementedStab>
