@@ -1,6 +1,6 @@
 import { describe, expect, test } from "@jest/globals";
 import { DateTime } from "luxon";
-import { setJst } from "./index";
+import { DateTimeFormat, formatDateByJst, setJst } from "./index";
 
 describe("date-time", () => {
     describe("setJst", () => {
@@ -13,6 +13,17 @@ describe("date-time", () => {
             expect(jst.offset).toBe(540);
             expect(jst.year).toBe(2026);
             expect(jst.month).toBe(1);
+        });
+    });
+    describe("formatDateByJst", () => {
+        test("JSTのタイムゾーンでフォーマットに則った文字列が返ること。", () => {
+            const date = new Date("2026-02-10T12:00:00Z");
+            expect(
+                formatDateByJst(
+                    date,
+                    DateTimeFormat.Iso8601WithoutMilliseconds,
+                ),
+            ).toBe("2026-02-10T21:00:00+09:00");
         });
     });
 });
