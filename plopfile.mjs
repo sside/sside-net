@@ -50,7 +50,6 @@ function getChildDirectoryPaths(
     packagePath = "",
     ignoreFileNames = [".gitignore"],
 ) {
-    console.log("packagePath", packagePath);
     let childDirectoryRelativePaths = Array.from(
         new Set(
             readdirSync(dirName, {
