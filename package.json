@@ -17,14 +17,14 @@
     "devDependencies": {
         "@commitlint/cli": "20.2.0",
         "@commitlint/config-conventional": "20.2.0",
-        "@inquirer/search": "4.0.3",
-        "@trivago/prettier-plugin-sort-imports": "6.0.0",
+        "@inquirer/search": "4.1.0",
+        "@trivago/prettier-plugin-sort-imports": "6.0.2",
         "husky": "9.1.7",
         "inquirer-autocomplete-prompt": "3.0.1",
         "lint-staged": "16.2.7",
         "npm-check-updates": "19.2.0",
-        "plop": "4.0.4",
-        "prettier": "3.7.4",
+        "plop": "4.0.5",
+        "prettier": "3.8.1",
         "prettier-plugin-tailwindcss": "0.7.2",
         "turbo": "2.5.8"
     },
