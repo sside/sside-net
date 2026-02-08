@@ -231,9 +231,9 @@ export default function (
             },
             {
                 type: "add",
-                path: "{{outputDirectoryFullPath}}/{{PascalFunctionComponentName}}.test.tsx",
+                path: "{{outputDirectoryFullPath}}/{{PascalFunctionComponentName}}.test.ts",
                 templateFile:
-                    ".prop/template/function-component/function-component.test.tsx.hbs",
+                    ".prop/template/function-component/function-component.test.ts.hbs",
             },
         ],
     });
