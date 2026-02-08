@@ -105,6 +105,10 @@ export interface components {
             bodyMarkdown: string;
             metaTags: components["schemas"]["BlogEntryMetaTagResponse"][];
         };
+        PublishedBlogEntriesResponse: {
+            blogEntries: components["schemas"]["BlogEntryResponse"][];
+            nextPointerBlogEntryId?: number;
+        };
         BlogEntryArchivePublishDatesResponse: {
             year: number;
             month: number;
@@ -179,7 +183,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["BlogEntryResponse"][];
+                    "application/json": components["schemas"]["PublishedBlogEntriesResponse"];
                 };
             };
         };
