@@ -1,6 +1,5 @@
-import { expect, http, test } from "next/experimental/testmode/playwright/msw";
-import { getAppConfig } from "@sside-net/app-config";
-import { paths } from "../../../generated/backend-schema";
+import { expect, test } from "next/experimental/testmode/playwright/msw";
+import { mockGetBackendRequest } from "../../../library/test/mockGetBackendRequest";
 
 test.describe("BlogMenuMetaTags", () => {
     const mockMetaTags = [
@@ -22,20 +21,30 @@ test.describe("BlogMenuMetaTags", () => {
     ];
 
     test.beforeEach(async ({ page, msw }) => {
-        msw.use(
-            http.get(
-                getAppConfig().frontend.backend.baseUrl +
-                    (`/public-blog-entry-meta-tag` satisfies keyof paths),
-                () => Response.json(mockMetaTags),
-            ),
-        );
+        mockGetBackendRequest("/public-blog-entry-meta-tag", mockMetaTags, msw);
 
         await page.goto("/blog");
     });
 
     test("取得したメタタグ一覧を表示出来ていること。", async ({ page }) => {
         for (const { name } of mockMetaTags) {
-            await expect(page.getByText(name)).toBeVisible();
+            await expect(
+                page
+                    .locator(".blog-menu-meta-tags")
+                    .locator(`a[href="/blog/meta-tag/${name}"]`),
+            ).toBeVisible();
+        }
+    });
+    test("取得したメタタグ数を表示出来ていること。", async ({ page }) => {
+        for (const { count } of mockMetaTags) {
+            await expect(
+                page
+                    .locator(".blog-menu-meta-tags")
+                    .getByRole("link")
+                    .getByText(count.toString(10), {
+                        exact: true,
+                    }),
+            ).toBeVisible();
         }
     });
 });

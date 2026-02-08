@@ -1,6 +1,5 @@
 import { FC, Fragment } from "react";
 import Link from "next/link";
-import { notImplementedStab } from "@sside-net/utility";
 import { apiClient } from "../../../library/api-client/api-client";
 import { captureApiCallError } from "../../../library/sentry/captureApiCallError";
 import { BlogMenuSection } from "./BlogMenuSection";
@@ -8,16 +7,16 @@ import { BlogMenuSection } from "./BlogMenuSection";
 const ArchiveYear: FC<{ year: number }> = ({ year }) => (
     <Link
         className="border-base01 rounded-md border p-2"
-        href={notImplementedStab("/blog")}
+        href={`/blog/archive/${year}`}
     >
         {year}
     </Link>
 );
 
-const ArchiveMonth: FC<{ month: number }> = ({ month }) => (
+const ArchiveMonth: FC<{ year: number; month: number }> = ({ year, month }) => (
     <Link
         className="border-base01 rounded-md border p-2"
-        href={notImplementedStab(`/blog`)}
+        href={`/blog/archive/${year}/${month}`}
     >
         {month}
     </Link>
@@ -43,7 +42,7 @@ export const BlogMenuArchives: FC<{}> = async ({}) => {
 
     return (
         <BlogMenuSection headerLabel="Archives">
-            <div className="flex flex-wrap gap-2">
+            <div className="blog-menu-archives flex flex-wrap gap-2">
                 {archiveYearMonths.map(({ year, month }, index) => (
                     <Fragment key={`${year}-${month}`}>
                         {archiveYearMonths.at(index - 1)?.year !== year && (
@@ -51,7 +50,10 @@ export const BlogMenuArchives: FC<{}> = async ({}) => {
                                 <ArchiveYear year={year} />
                             </div>
                         )}
-                        <ArchiveMonth month={month} />
+                        <ArchiveMonth
+                            year={year}
+                            month={month}
+                        />
                     </Fragment>
                 ))}
             </div>
