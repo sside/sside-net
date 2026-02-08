@@ -13,3 +13,4 @@ export * from "./random";
 export * from "./spanish";
 export * from "./veggie";
 export * from "./walken";
+export * from "./all";
