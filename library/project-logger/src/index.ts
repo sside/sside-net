@@ -48,7 +48,7 @@ export class ProjectLogger {
                         message: "null",
                     };
                 }
-                if (typeof inputItem === "undefined") {
+                if (inputItem === undefined) {
                     return {
                         message: "undefined",
                     };

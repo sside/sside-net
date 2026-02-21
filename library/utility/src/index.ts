@@ -6,7 +6,7 @@ import { Nullish } from "utility-types";
  * 10進数浮動小数点をパースします。
  */
 export const parseDecimalFloat = (input: string | number | Nullish): number =>
-    input === null ? NaN : Number(input);
+    input === null ? Number.NaN : Number(input);
 
 /**
  * 10進数整数をパースします。parseIntよりrobustです。
@@ -19,16 +19,14 @@ export const parseDecimalInt = (input: string | number | Nullish): number =>
  */
 export const createIntegerArray = (length: number, start = 0): number[] => {
     if (!Number.isInteger(start)) {
-        throw new Error(`整数以外が入力されています。`);
+        throw new TypeError(`整数以外が入力されています。`);
     }
 
     if (start < 0) {
         throw new Error(`負数が入力されています。`);
     }
 
-    return Array(length)
-        .fill(undefined)
-        .map((_, index) => index + start);
+    return Array.from({ length }).map((_, index) => index + start);
 };
 
 /**
@@ -50,9 +48,9 @@ export const createIntegerRange = (start: number, end: number): number[] => {
 
     const isIncrease = start < end;
     const [small, large] = isIncrease ? [start, end] : [end, start];
-    const range = Array(large - small + 1)
-        .fill(0)
-        .map((_, index) => index + small);
+    const range = Array.from({
+        length: large - small + 1,
+    }).map((_, index) => index + small);
 
     return isIncrease ? range : range.toReversed();
 };
@@ -93,15 +91,15 @@ const trimStackTraceLines = (stack?: string): string =>
  * 値の取得が未実装の場合に、後から見つけられるようにするため値をstabします。
  * 実行時、呼び出し個所を確認できるようにスタックトレースの一部をログに残します。
  */
-export const notImplementedStab = <T>(arg: T): T => {
+export const notImplementedStab = <T>(argument: T): T => {
     const logger = new ProjectLogger("notImplementedStab");
-    const { stack } = new Error();
+    const { stack } = new Error("スタック取得");
     logger.warn("未実装の値をstabしています。", {
-        arg,
+        arg: argument,
         stackTrace: trimStackTraceLines(stack),
     });
 
-    return arg;
+    return argument;
 };
 
 /**
@@ -110,7 +108,7 @@ export const notImplementedStab = <T>(arg: T): T => {
  */
 export const notImplementedVoid = (...args: unknown[]): void => {
     const logger = new ProjectLogger("notImplementedVoid");
-    const { stack } = new Error();
+    const { stack } = new Error("スタック取得");
     logger.warn("未実装の関数をstabしています。", {
         args,
         stackTrace: trimStackTraceLines(stack),
@@ -130,6 +128,7 @@ export const notImplementedPromisedVoid = async (
         () =>
             new Promise((resolve) => {
                 notImplementedVoid(...args);
+                 
                 resolve(undefined);
             }),
         10,

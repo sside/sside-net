@@ -3,6 +3,7 @@ import { defineConfig } from "eslint/config";
 
 export default defineConfig([
     SharedConfig,
+    { ignores: ["coverage/", "src/generated/"] },
     // {
     //     rules: {
     //         // NestJSのデフォルト設定。念のためコメントで残しておく。

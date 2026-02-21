@@ -15,7 +15,7 @@ const getIntegerPagePathParameter = async (
 ): Promise<number> => {
     const pickedPathParameter = parseDecimalInt((await params)[parameterName]);
 
-    return isNaN(pickedPathParameter) ? notFound() : pickedPathParameter;
+    return Number.isNaN(pickedPathParameter) ? notFound() : pickedPathParameter;
 };
 
 const getStringPagePathParameter = async (

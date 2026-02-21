@@ -1,7 +1,6 @@
 // __dirnameからの相対パス指定を使っているため、このファイルは別のディレクトリに動かさないこと
 import { ProjectLogger } from "@sside-net/project-logger";
 import { execSync } from "node:child_process";
-import * as console from "node:console";
 import { readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
@@ -58,10 +57,10 @@ async function isDocumentUpdated(
             (await readFile(fileFullPath)).toString().trim() !==
             openApiDocument.trim()
         );
-    } catch (e) {
+    } catch (error) {
         logger.warn(
             "既存のOpenAPIドキュメント取得時にエラー発生。",
-            e as Error,
+            error as Error,
         );
 
         return false;

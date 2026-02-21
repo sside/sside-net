@@ -9,14 +9,15 @@ import {
 
 describe("parseDecimalFloat", () => {
     test("浮動小数点の文字列を数値に変換できること。", () => {
-        const a = 123456;
-        const b = 123.456789;
-        expect(parseDecimalFloat("123456.789")).toBe(123456.789);
+        const a = 123_456;
+        const b = 123.456_789;
+        expect(parseDecimalFloat("123456.789")).toBe(123_456.789);
         expect(parseDecimalFloat(a)).toBe(a);
         expect(parseDecimalFloat(b)).toBe(b);
     });
     test("数値以外はNaNを返すこと。", () => {
         expect(parseDecimalFloat(null)).toBeNaN();
+         
         expect(parseDecimalFloat(undefined)).toBeNaN();
         expect(parseDecimalFloat("not number")).toBeNaN();
         expect(parseDecimalFloat("includes number 123")).toBeNaN();
@@ -25,11 +26,11 @@ describe("parseDecimalFloat", () => {
 
 describe("parseDecimalInt", () => {
     test("入力値を整数にして返していること。", () => {
-        expect(parseDecimalInt("123456.789")).toBe(123456);
-        expect(parseDecimalInt(123456)).toBe(123456);
-        expect(parseDecimalInt("123456")).toBe(123456);
+        expect(parseDecimalInt("123456.789")).toBe(123_456);
+        expect(parseDecimalInt(123_456)).toBe(123_456);
+        expect(parseDecimalInt("123456")).toBe(123_456);
         expect(parseDecimalInt("0.123456")).toBe(0);
-        expect(parseDecimalInt("-123456")).toBe(-123456);
+        expect(parseDecimalInt("-123456")).toBe(-123_456);
     });
 });
 
@@ -86,16 +87,16 @@ describe("createIntegerRange", () => {
 
 describe("notImplementedStab", () => {
     test("入力した値がそのまま返ること。", () => {
-        const str = "string";
-        expect(notImplementedStab(str)).toBe(str);
+        const string_ = "string";
+        expect(notImplementedStab(string_)).toBe(string_);
 
-        const num = 123;
-        expect(notImplementedStab(num)).toBe(num);
+        const number_ = 123;
+        expect(notImplementedStab(number_)).toBe(number_);
 
-        const obj = {
-            str,
-            num,
+        const object = {
+            str: string_,
+            num: number_,
         };
-        expect(notImplementedStab(obj)).toBe(obj);
+        expect(notImplementedStab(object)).toBe(object);
     });
 });

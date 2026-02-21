@@ -1,9 +1,17 @@
 import EslintPluginNext from "@next/eslint-plugin-next";
 import SharedConfig from "@sside-net/eslint";
-import { defineConfig } from "eslint/config";
+import { defineConfig, globalIgnores } from "eslint/config";
 
 export default defineConfig([
     SharedConfig,
+    globalIgnores([
+        "playwright-report/",
+        "test-results/",
+        ".next/**",
+        "out/**",
+        "build/**",
+        "next-env.d.ts",
+    ]),
     {
         plugins: {
             "@next/next": EslintPluginNext,
@@ -11,18 +19,10 @@ export default defineConfig([
         rules: {
             ...EslintPluginNext.configs["core-web-vitals"].rules,
             ...EslintPluginNext.configs.recommended.rules,
+
             "no-empty-pattern": "off",
             "@next/next/no-img-element": "off",
             "@typescript-eslint/no-empty-object-type": "off",
         },
-    },
-    {
-        ignores: [
-            "node_modules/**",
-            ".next/**",
-            "out/**",
-            "build/**",
-            "next-env.d.ts",
-        ],
     },
 ]);
