@@ -48,6 +48,7 @@ export default defineConfig([
             "unicorn/prefer-set-has": "off",
             "unicorn/switch-case-braces": "off",
             "unicorn/no-useless-undefined": "off",
+            "unicorn/catch-error-name": "off",
 
             "@typescript-eslint/member-ordering": "warn",
             "unicorn/prevent-abbreviations": [

@@ -57,10 +57,10 @@ async function isDocumentUpdated(
             (await readFile(fileFullPath)).toString().trim() !==
             openApiDocument.trim()
         );
-    } catch (error) {
+    } catch (e) {
         logger.warn(
             "既存のOpenAPIドキュメント取得時にエラー発生。",
-            error as Error,
+            e as Error,
         );
 
         return false;

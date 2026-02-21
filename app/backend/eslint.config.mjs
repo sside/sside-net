@@ -1,9 +1,9 @@
 import SharedConfig from "@sside-net/eslint";
-import { defineConfig } from "eslint/config";
+import { defineConfig, globalIgnores } from "eslint/config";
 
 export default defineConfig([
     SharedConfig,
-    { ignores: ["coverage/", "src/generated/"] },
+    globalIgnores(["coverage/", "src/generated/"]),
     // {
     //     rules: {
     //         // NestJSのデフォルト設定。念のためコメントで残しておく。
