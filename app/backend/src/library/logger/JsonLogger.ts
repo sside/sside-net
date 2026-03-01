@@ -8,27 +8,27 @@ export class JsonLogger implements LoggerService {
         this.projectLogger = new ProjectLogger(context ?? "not defined");
     }
 
-    log(...args: Parameters<LoggerService["log"]>): void {
-        this.projectLogger.log(...args);
+    log(...arguments_: Parameters<LoggerService["log"]>): void {
+        this.projectLogger.log(...arguments_);
     }
 
-    warn(...args: Parameters<LoggerService["warn"]>) {
-        this.projectLogger.warn(...args);
+    warn(...arguments_: Parameters<LoggerService["warn"]>) {
+        this.projectLogger.warn(...arguments_);
     }
 
-    error(...args: Parameters<LoggerService["error"]>) {
-        this.projectLogger.error(...args);
+    error(...arguments_: Parameters<LoggerService["error"]>) {
+        this.projectLogger.error(...arguments_);
     }
 
-    debug(...args: Parameters<LoggerService["log"]>) {
-        this.projectLogger.debug(...args);
+    debug(...arguments_: Parameters<LoggerService["log"]>) {
+        this.projectLogger.debug(...arguments_);
     }
 
-    fatal(...args: Parameters<LoggerService["log"]>) {
-        this.projectLogger.debug(...args);
+    fatal(...arguments_: Parameters<LoggerService["log"]>) {
+        this.projectLogger.debug(...arguments_);
     }
 
-    verbose(...args: Parameters<LoggerService["log"]>) {
-        this.projectLogger.debug(...args);
+    verbose(...arguments_: Parameters<LoggerService["log"]>) {
+        this.projectLogger.debug(...arguments_);
     }
 }

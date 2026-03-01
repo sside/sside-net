@@ -80,9 +80,9 @@ describe("DatabaseService", () => {
                         },
                     });
 
-                    throw new Error();
+                    throw new Error("DO ROLLBACK");
                 });
-            } catch (e) {
+            } catch {
                 // ROLLBACKのためのエラーなので握り潰す
             }
 

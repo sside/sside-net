@@ -1,10 +1,16 @@
-import { faker, fakerJA } from "@faker-js/faker";
+import { fakerEN, fakerJA } from "@faker-js/faker";
 import {
     ForbiddenException,
     Injectable,
     Logger,
     NotFoundException,
 } from "@nestjs/common";
+import {
+    MARKDOWN_SAMPLE_ALLYSONSILVA,
+    MARKDOWN_SAMPLE_GITHUB_FLAVORED_GIELLALT,
+    MARKDOWN_SAMPLE_OLD_BLOG_1,
+    MARKDOWN_SAMPLE_OLD_BLOG_2,
+} from "@sside-net/constant";
 import { createIntegerArray } from "@sside-net/utility";
 import { Prisma } from "../generated/prisma/client";
 import { BlogEntryMetaTagService } from "./blog-entry-meta-tag.service";
@@ -71,11 +77,8 @@ export class BlogEntryService {
 
         if (
             isCheckContainsAllBlogEntry &&
-            !blogEntryIds.every(
-                (blogEntryId) =>
-                    blogEntries.findIndex(
-                        ({ id: foundId }) => foundId === blogEntryId,
-                    ) >= 0,
+            !blogEntryIds.every((blogEntryId) =>
+                blogEntries.some(({ id: foundId }) => foundId === blogEntryId),
             )
         ) {
             throw new ForbiddenException(
@@ -84,6 +87,26 @@ export class BlogEntryService {
         }
 
         return blogEntries;
+    }
+
+    /**
+     * slugで公開されたBlogEntryを取得します。
+     */
+    async getPublishedBySlug(slug: string): Promise<BlogEntryWithRelations> {
+        this.logger.log("slugでBlogEntryを取得します。", {
+            slug,
+        });
+
+        const found =
+            await this.blogEntryQuery.findOnePublishedWithRelationsBySlug(slug);
+
+        if (!found) {
+            throw new NotFoundException(
+                `BlogEntryが見つかりませんでした。slug:${slug}`,
+            );
+        }
+
+        return found;
     }
 
     /**
@@ -101,7 +124,7 @@ export class BlogEntryService {
 
         const pointerPublishAt: Date | undefined = await (async () => {
             if (!pointerBlogEntryId) {
-                return undefined;
+                return;
             }
 
             try {
@@ -109,8 +132,8 @@ export class BlogEntryService {
                     (await this.getByBlogEntryId(pointerBlogEntryId))
                         .publishAt ?? undefined
                 );
-            } catch (_) {
-                return undefined;
+            } catch {
+                return;
             }
         })();
 
@@ -339,25 +362,33 @@ export class BlogEntryService {
             draftCount,
         });
 
-        const uniqueSlugs = faker.helpers.uniqueArray(
-            faker.lorem.slug,
+        const uniqueSlugs = fakerEN.helpers.uniqueArray(
+            fakerEN.lorem.slug,
             publishCount + draftCount,
         );
 
+        const blogEntryBodySamples = [
+            MARKDOWN_SAMPLE_GITHUB_FLAVORED_GIELLALT,
+            MARKDOWN_SAMPLE_ALLYSONSILVA,
+            MARKDOWN_SAMPLE_OLD_BLOG_1,
+            MARKDOWN_SAMPLE_OLD_BLOG_2,
+        ];
         const createBlogEntryInput = (
             uniqueSlugIndex: number,
             overWrite?: Partial<BlogEntryInput>,
         ): BlogEntryInput => ({
             slug: uniqueSlugs.at(uniqueSlugIndex)!,
-            bodyMarkdown: fakerJA.lorem.text(),
+            bodyMarkdown: blogEntryBodySamples.at(
+                uniqueSlugIndex % blogEntryBodySamples.length,
+            )!,
             title: fakerJA.book.title(),
             ...overWrite,
         });
 
         const publishes: BlogEntryWithRelations[] = [];
-        for (let i = 0; i < publishCount; i++) {
+        for (let index = 0; index < publishCount; index++) {
             const { id, slug } = await this.createPublished(
-                createBlogEntryInput(i, {}),
+                createBlogEntryInput(index, {}),
                 fakerJA.date.past({
                     years: 5,
                 }),
@@ -367,10 +398,10 @@ export class BlogEntryService {
                 min: 1,
                 max: maximumHistoryCount,
             });
-            for (let j = 0; j < historyCount; j++) {
+            for (let index_ = 0; index_ < historyCount; index_++) {
                 await this.addBlogEntryHistory(
                     id,
-                    createBlogEntryInput(i, { slug }),
+                    createBlogEntryInput(index, { slug }),
                 );
             }
 

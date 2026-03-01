@@ -73,7 +73,7 @@ export class DatabaseService
             await this.$queryRaw`SELECT 1;`;
 
             return true;
-        } catch (e) {
+        } catch {
             return false;
         }
     }

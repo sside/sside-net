@@ -1,4 +1,4 @@
-import { faker } from "@faker-js/faker";
+import { fakerEN } from "@faker-js/faker";
 import { Injectable, Logger } from "@nestjs/common";
 import { BlogEntryMetaTag, Prisma } from "../generated/prisma/client";
 import {
@@ -114,7 +114,7 @@ export class BlogEntryMetaTagService {
         });
 
         return await this.getOrCreateByNames(
-            faker.helpers.uniqueArray(() => faker.lorem.slug(1), count),
+            fakerEN.helpers.uniqueArray(() => fakerEN.lorem.slug(1), count),
         );
     }
 }

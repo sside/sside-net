@@ -57,6 +57,21 @@ export class BlogEntryQuery {
         );
     }
 
+    async findOnePublishedWithRelationsBySlug(
+        slug: string,
+        transaction?: Prisma.TransactionClient,
+    ): Promise<BlogEntryWithRelations | null> {
+        return await this.findFirstWithRelation(
+            {
+                where: {
+                    ...BlogEntryQuery.WHERE_PUBLISHED(),
+                    slug,
+                },
+            },
+            transaction,
+        );
+    }
+
     async findManyWithRelationsByBlogEntryIds(
         blogEntryIds: number[],
         transaction?: Prisma.TransactionClient,

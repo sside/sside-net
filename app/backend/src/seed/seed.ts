@@ -1,4 +1,4 @@
-import { faker } from "@faker-js/faker";
+import { fakerEN } from "@faker-js/faker";
 import { NestFactory } from "@nestjs/core";
 import { ProjectLogger } from "@sside-net/project-logger";
 import { BlogEntryService } from "../blog-entry/blog-entry.service";
@@ -15,7 +15,7 @@ const logger = new ProjectLogger("Seed");
     const blogEntryService = app.get(BlogEntryService);
 
     try {
-        faker.seed(0);
+        fakerEN.seed(0);
         await blogEntryService.seed(50, 3, 10);
 
         return;

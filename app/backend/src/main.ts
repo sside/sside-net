@@ -13,7 +13,7 @@ import { JsonLogger } from "./library/logger/JsonLogger";
 const logger = new ProjectLogger("NestJS bootstrap");
 
 async function bootstrap() {
-    const DEFAULT_LISTEN_PORT = 27250;
+    const DEFAULT_LISTEN_PORT = 27_250;
     const listenPort = parseDecimalInt(process.env.PORT) || DEFAULT_LISTEN_PORT;
 
     const app = await NestFactory.create(AppModule, {

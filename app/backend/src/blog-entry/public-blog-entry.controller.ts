@@ -1,6 +1,7 @@
-import { Controller, Get, ParseIntPipe, Query } from "@nestjs/common";
+import { Controller, Get, Param, ParseIntPipe, Query } from "@nestjs/common";
 import { ApiOkResponse, ApiQuery } from "@nestjs/swagger";
 import { BlogEntryService } from "./blog-entry.service";
+import { BlogEntryResponse } from "./response/BlogEntry.response";
 import { BlogEntryArchivePublishDatesResponse } from "./response/BlogEntryArchivePublishDates.response";
 import { PublishedBlogEntriesResponse } from "./response/PublishedBlogEntries.response";
 
@@ -36,6 +37,16 @@ export class PublicBlogEntryController {
         return PublishedBlogEntriesResponse.fromEntities(
             blogEntries,
             nextPointerBlogEntry?.id,
+        );
+    }
+
+    @Get("slug/:slug")
+    @ApiOkResponse({ type: BlogEntryResponse })
+    async getBlogEntryBySlug(
+        @Param("slug") slug: string,
+    ): Promise<BlogEntryResponse> {
+        return BlogEntryResponse.fromEntity(
+            await this.blogEntryService.getPublishedBySlug(slug),
         );
     }
 

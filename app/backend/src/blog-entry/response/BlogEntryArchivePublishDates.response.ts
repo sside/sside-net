@@ -16,16 +16,16 @@ export class BlogEntryArchivePublishDatesResponse {
         dates: Date[],
     ): BlogEntryArchivePublishDatesResponse[] {
         return dates.reduce(
-            (prev, curr): BlogEntryArchivePublishDatesResponse[] => {
-                const { year, month } = setJst(DateTime.fromJSDate(curr));
+            (previous, current): BlogEntryArchivePublishDatesResponse[] => {
+                const { year, month } = setJst(DateTime.fromJSDate(current));
 
-                const exist = prev.find(
+                const exist = previous.find(
                     ({ year: existYear, month: existMonth }) =>
                         year === existYear && month === existMonth,
                 );
                 if (!exist) {
                     return [
-                        ...prev,
+                        ...previous,
                         {
                             year,
                             month,
@@ -36,7 +36,7 @@ export class BlogEntryArchivePublishDatesResponse {
 
                 exist.count += 1;
 
-                return prev;
+                return previous;
             },
             [],
         );

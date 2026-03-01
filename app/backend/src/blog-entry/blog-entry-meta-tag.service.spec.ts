@@ -1,4 +1,4 @@
-import { faker } from "@faker-js/faker";
+import { fakerEN } from "@faker-js/faker";
 import { beforeEach, describe, expect, test } from "@jest/globals";
 import { Test, TestingModule } from "@nestjs/testing";
 import { createIntegerRange } from "@sside-net/utility";
@@ -132,10 +132,10 @@ describe("BlogEntryMetaTagService", () => {
     describe("getOrCreateByNames", () => {
         test("複数のBlogEntryMetaTagを挿入出来ていること。", async () => {
             const first = createIntegerRange(1, 5).map(() =>
-                faker.lorem.slug(1),
+                fakerEN.lorem.slug(1),
             );
             const second = createIntegerRange(1, 5).map(() =>
-                faker.lorem.slug(1),
+                fakerEN.lorem.slug(1),
             );
 
             await blogEntryMetaTagService.getOrCreateByNames(first);
@@ -167,7 +167,7 @@ describe("BlogEntryMetaTagService", () => {
                     sampleMetaTagName,
                 );
 
-            const updateValue = faker.lorem.slug(1);
+            const updateValue = fakerEN.lorem.slug(1);
             await blogEntryMetaTagService.updateName(createdId, updateValue);
 
             const { id: updatedId, name: updatedName } =

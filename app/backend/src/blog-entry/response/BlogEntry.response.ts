@@ -1,9 +1,15 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { BaseIdentifiableResponse } from "../../type/response/BaseIdentifiable.response";
 import { BlogEntryWithRelations } from "../query/blog-entry.query";
 import { BlogEntryMetaTagResponse } from "./BlogEntryMetaTag.response";
 
-export class BlogEntryResponse extends BaseIdentifiableResponse {
+export class BlogEntryResponse {
+    @ApiProperty()
+    id: number;
+
+    @ApiProperty()
+    createdAt: Date;
+
     @ApiProperty()
     slug: string;
 
@@ -18,6 +24,9 @@ export class BlogEntryResponse extends BaseIdentifiableResponse {
 
     @ApiProperty({ type: [BlogEntryMetaTagResponse] })
     metaTags: BlogEntryMetaTagResponse[];
+
+    @ApiPropertyOptional()
+    updatedAt?: Date;
 
     /**
      * BlogEntryWithRelationsからレスポンスを作成します。

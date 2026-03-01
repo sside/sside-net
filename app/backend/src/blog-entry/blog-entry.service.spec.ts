@@ -1,4 +1,4 @@
-import { faker, fakerJA } from "@faker-js/faker";
+import { fakerEN, fakerJA } from "@faker-js/faker";
 import { beforeEach, describe, expect, test } from "@jest/globals";
 import { Test, TestingModule } from "@nestjs/testing";
 import { createIntegerArray } from "@sside-net/utility";
@@ -14,21 +14,19 @@ describe("BlogEntryService", () => {
     const createBlogEntryInput = (
         overWrite?: Partial<BlogEntryInput>,
     ): BlogEntryInput => ({
-        ...{
-            slug: faker.lorem.slug(),
-            title: fakerJA.book.title(),
-            bodyMarkdown: fakerJA.lorem.text(),
-        },
+        slug: fakerEN.lorem.slug(),
+        title: fakerJA.book.title(),
+        bodyMarkdown: fakerJA.lorem.text(),
         ...overWrite,
     });
 
     const createMetaTagNames = (min = 1, max = 6) =>
         createIntegerArray(
-            faker.number.int({
+            fakerEN.number.int({
                 min,
                 max,
             }),
-        ).map(() => faker.lorem.slug(2));
+        ).map(() => fakerEN.lorem.slug(2));
 
     beforeEach(async () => {
         expect.hasAssertions();
@@ -193,10 +191,10 @@ describe("BlogEntryService", () => {
                 0,
             );
 
-            for (let i = 0; i < FUTURE_ENTRY_COUNT; i++) {
+            for (let index = 0; index < FUTURE_ENTRY_COUNT; index++) {
                 await blogEntryService.setPublishAt(
-                    publishedBlogEntries.at(i)!.id,
-                    faker.date.future({
+                    publishedBlogEntries.at(index)!.id,
+                    fakerEN.date.future({
                         years: 10,
                     }),
                 );
