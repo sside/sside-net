@@ -7,12 +7,12 @@ import { BlogMenuRecentEntries } from "./BlogMenuRecentEntries";
 
 export const BlogMenu: FC<{}> = ({}) => {
     return (
-        <nav className="bg-background-menu text-base01 layout-area-menu blog-menu w-full">
+        <aside className="blog-title text-text-menu layout-area-menu blog-menu bg-background-menu w-full">
             <BlogMenuAbout />
             <BlogMenuOnlineAccounts />
             <BlogMenuRecentEntries />
             <BlogMenuArchives />
             <BlogMenuMetaTags />
-        </nav>
+        </aside>
     );
 };

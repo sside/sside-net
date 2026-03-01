@@ -1,7 +1,10 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "next/experimental/testmode/playwright/msw";
+import { mockBlogRootPage } from "../_test/mockBlogRootPage";
 
 test.describe("BlogMenu", () => {
-    test.beforeEach(async ({ page }) => {
+    test.beforeEach(async ({ page, msw }) => {
+        mockBlogRootPage(msw);
+
         await page.goto("/blog");
     });
 

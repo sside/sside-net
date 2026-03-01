@@ -52,6 +52,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/public-blog-entry/slug/{slug}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["PublicBlogEntryController_getBlogEntryBySlug"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/public-blog-entry/archive-year-month": {
         parameters: {
             query?: never;
@@ -96,14 +112,14 @@ export interface components {
             id: number;
             /** Format: date-time */
             createdAt: string;
-            /** Format: date-time */
-            updatedAt: string;
             slug: string;
             title: string;
             /** Format: date-time */
             publishAt: string;
             bodyMarkdown: string;
             metaTags: components["schemas"]["BlogEntryMetaTagResponse"][];
+            /** Format: date-time */
+            updatedAt?: string;
         };
         PublishedBlogEntriesResponse: {
             blogEntries: components["schemas"]["BlogEntryResponse"][];
@@ -188,6 +204,27 @@ export interface operations {
             };
         };
     };
+    PublicBlogEntryController_getBlogEntryBySlug: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BlogEntryResponse"];
+                };
+            };
+        };
+    };
     PublicBlogEntryController_getBlogEntryArchiveYearMonths: {
         parameters: {
             query?: never;
@@ -231,6 +268,7 @@ export enum ApiPaths {
     AppController_getHealthCheck = "/health-check",
     BlogEntryController_getByBlogEntryId = "/blog-entry/{blogEntryId}",
     PublicBlogEntryController_getLatestBlogEntries = "/public-blog-entry/latest",
+    PublicBlogEntryController_getBlogEntryBySlug = "/public-blog-entry/slug/{slug}",
     PublicBlogEntryController_getBlogEntryArchiveYearMonths = "/public-blog-entry/archive-year-month",
     PublicBlogEntryMetaTagController_getAllPublishedBlogEntryMetaTag = "/public-blog-entry-meta-tag"
 }

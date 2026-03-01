@@ -20,15 +20,15 @@ const MetaTag: FC<{
 );
 
 export const BlogMenuMetaTags: FC<{}> = async ({}) => {
-    const metaTags = await (async () => {
-        try {
-            return (await apiClient.GET("/public-blog-entry-meta-tag")).data!;
-        } catch (e) {
-            captureApiCallError(e, BlogMenuMetaTags);
+    const { data, error, response } = await apiClient.GET(
+        "/public-blog-entry-meta-tag",
+    );
 
-            return [];
-        }
-    })();
+    if (error) {
+        captureApiCallError(response, BlogMenuMetaTags);
+    }
+
+    const metaTags = error ? [] : data;
 
     return (
         <BlogMenuSection headerLabel="Meta tags">

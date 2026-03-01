@@ -12,6 +12,14 @@ export const baseAppConfig = {
         },
     },
     frontend: {
+        blog: {
+            blogEntry: {
+                displayPerPage: 4,
+            },
+            menu: {
+                recentBlogEntryCount: 6,
+            },
+        },
         sentry: {
             projectName: "sside-net-frontend",
         },

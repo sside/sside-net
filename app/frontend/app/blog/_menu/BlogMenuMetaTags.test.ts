@@ -1,33 +1,18 @@
 import { expect, test } from "next/experimental/testmode/playwright/msw";
-import { mockGetBackendRequest } from "../../../library/test/mockGetBackendRequest";
+import { mockValuePublicBlogEntryMetaTagController_getAllPublishedBlogEntryMetaTag } from "../../../test/mock/mockPublicBlogEntryMetaTagController_getAllPublishedBlogEntryMetaTag";
+import { mockBlogRootPage } from "../_test/mockBlogRootPage";
 
 test.describe("BlogMenuMetaTags", () => {
-    const mockMetaTags = [
-        {
-            id: 1,
-            name: "foo",
-            count: 1,
-        },
-        {
-            id: 2,
-            name: "bar",
-            count: 2,
-        },
-        {
-            id: 3,
-            name: "baz",
-            count: 20,
-        },
-    ];
-
     test.beforeEach(async ({ page, msw }) => {
-        mockGetBackendRequest("/public-blog-entry-meta-tag", mockMetaTags, msw);
+        mockBlogRootPage(msw);
 
         await page.goto("/blog");
     });
 
     test("取得したメタタグ一覧を表示出来ていること。", async ({ page }) => {
-        for (const { name } of mockMetaTags) {
+        for (const {
+            name,
+        } of mockValuePublicBlogEntryMetaTagController_getAllPublishedBlogEntryMetaTag) {
             await expect(
                 page
                     .locator(".blog-menu-meta-tags")
@@ -36,7 +21,9 @@ test.describe("BlogMenuMetaTags", () => {
         }
     });
     test("取得したメタタグ数を表示出来ていること。", async ({ page }) => {
-        for (const { count } of mockMetaTags) {
+        for (const {
+            count,
+        } of mockValuePublicBlogEntryMetaTagController_getAllPublishedBlogEntryMetaTag) {
             await expect(
                 page
                     .locator(".blog-menu-meta-tags")

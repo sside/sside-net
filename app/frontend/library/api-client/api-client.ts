@@ -3,11 +3,14 @@ import { StatusCodes } from "http-status-codes";
 import createClient from "openapi-fetch";
 import { paths } from "../../generated/backend-schema";
 
-export const isErrorResponse = (error: unknown): error is ErrorResponse =>
-    error instanceof ErrorResponse;
+export const isErrorResponse = (response: Response): boolean =>
+    response.status >= 400;
 
-export const isNotFoundErrorResponse = (error: unknown): boolean =>
-    isErrorResponse(error) && error.response.status === StatusCodes.NOT_FOUND;
+export const isNotFoundErrorResponse = (response: Response): boolean =>
+    response.status === StatusCodes.NOT_FOUND;
+
+export const is400sErrorResponse = (response: Response): boolean =>
+    400 <= response.status && response.status <= 499;
 
 export class ErrorResponse extends Error {
     constructor(public readonly response: Response) {

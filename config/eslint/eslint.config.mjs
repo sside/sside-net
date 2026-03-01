@@ -49,12 +49,13 @@ export default defineConfig([
             "unicorn/switch-case-braces": "off",
             "unicorn/no-useless-undefined": "off",
             "unicorn/catch-error-name": "off",
+            "unicorn/no-typeof-undefined": "off",
 
             "@typescript-eslint/member-ordering": "warn",
             "unicorn/prevent-abbreviations": [
                 "warn",
                 {
-                    allowList: ["e", "prop", "i", "args"].reduce(
+                    allowList: ["e", "prop", "props", "i", "args"].reduce(
                         (prev, curr) => ({
                             ...prev,
                             [camelCase(curr)]: true,

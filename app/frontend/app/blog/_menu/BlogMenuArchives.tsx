@@ -23,22 +23,23 @@ const ArchiveMonth: FC<{ year: number; month: number }> = ({ year, month }) => (
 );
 
 export const BlogMenuArchives: FC<{}> = async ({}) => {
-    const archiveYearMonths = (
-        await (async () => {
-            try {
-                return (
-                    await apiClient.GET(`/public-blog-entry/archive-year-month`)
-                ).data!;
-            } catch (e) {
-                captureApiCallError(e, BlogMenuArchives);
-
-                return [];
-            }
-        })()
-    ).toSorted(
-        ({ year: aYear, month: aMonth }, { year: bYear, month: bMonth }) =>
-            aYear !== bYear ? bYear - aYear : aMonth - bMonth,
+    const { data, error, response } = await apiClient.GET(
+        "/public-blog-entry/archive-year-month",
     );
+
+    if (error) {
+        captureApiCallError(response, BlogMenuArchives);
+    }
+
+    const archiveYearMonths =
+        error ?
+            []
+        :   data.toSorted(
+                (
+                    { year: aYear, month: aMonth },
+                    { year: bYear, month: bMonth },
+                ) => (aYear === bYear ? aMonth - bMonth : bYear - aYear),
+            );
 
     return (
         <BlogMenuSection headerLabel="Archives">

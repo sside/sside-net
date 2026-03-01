@@ -18,12 +18,16 @@
         "@sentry/nextjs": "10.27.0",
         "@sside-net/date-time": "*",
         "cross-env": "10.1.0",
+        "dedent": "^1.7.1",
         "http-status-codes": "2.3.0",
         "luxon": "^3.7.2",
         "next": "16.1.6",
         "openapi-fetch": "0.15.0",
         "react": "19.2.3",
-        "react-dom": "19.2.3"
+        "react-dom": "19.2.3",
+        "react-markdown": "^10.1.0",
+        "rehype-raw": "^7.0.0",
+        "remark-gfm": "^4.0.1"
     },
     "devDependencies": {
         "@dotenvx/dotenvx": "1.52.0",

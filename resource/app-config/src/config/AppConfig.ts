@@ -13,6 +13,14 @@ export type AppConfig = {
         backend: {
             baseUrl: string;
         };
+        blog: {
+            blogEntry: {
+                displayPerPage: number;
+            };
+            menu: {
+                recentBlogEntryCount: number;
+            };
+        };
         sentry: {
             projectName: "sside-net-frontend";
         };

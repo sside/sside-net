@@ -1,8 +1,11 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "next/experimental/testmode/playwright/msw";
 import { getAppConfig } from "@sside-net/app-config";
+import { mockBlogRootPage } from "./_test/mockBlogRootPage";
 
 test.describe("BlogTitle", () => {
-    test.beforeEach(async ({ page }) => {
+    test.beforeEach(async ({ page, msw }) => {
+        mockBlogRootPage(msw);
+
         await page.goto("/blog");
     });
 

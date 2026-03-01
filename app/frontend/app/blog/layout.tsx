@@ -7,7 +7,7 @@ export default async function BlogLayout({ children }: ChildrenProp) {
     return (
         <div className="layout-mobile sm:layout-desktop grid min-h-dvh grid-cols-[20rem_1fr] grid-rows-[auto_1fr_auto]">
             <BlogTitle />
-            <div className="layout-area-main">{children}</div>
+            <main className="layout-area-main p-8">{children}</main>
             <BlogMenu />
             <BlogFooter />
         </div>

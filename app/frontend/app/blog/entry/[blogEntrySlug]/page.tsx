@@ -1,9 +1,11 @@
-import { notImplementedStab } from "@sside-net/utility";
 import { StringPagePathParameter } from "../../../../constant/path-parameter/StringPagePathParameter";
+import { apiClient } from "../../../../library/api-client/api-client";
 import {
     getPagePathParameters,
     NextPagePathParameter,
 } from "../../../../library/path-parameter/getPagePathParameters";
+import { captureApiCallError } from "../../../../library/sentry/captureApiCallError";
+import { BlogEntryFromBlogEntryResponse } from "../../_blog-entry/BlogEntryFromBlogEntryResponse";
 
 export default async function BlogEntryBySlugPage(
     nextPagePathParameter: NextPagePathParameter,
@@ -12,6 +14,24 @@ export default async function BlogEntryBySlugPage(
         nextPagePathParameter,
         StringPagePathParameter.BlogEntrySlug,
     );
+    const { data, response, error } = await apiClient.GET(
+        `/public-blog-entry/slug/{slug}`,
+        {
+            params: {
+                path: {
+                    slug: blogEntrySlug,
+                },
+            },
+        },
+    );
 
-    return <>{notImplementedStab(blogEntrySlug)}</>;
+    if (error) {
+        captureApiCallError(response, BlogEntryBySlugPage);
+    }
+
+    return (
+        <div className="blog-entry-by-slug-page">
+            <BlogEntryFromBlogEntryResponse blogEntryResponse={data} />
+        </div>
+    );
 }
