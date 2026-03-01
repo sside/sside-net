@@ -6,5 +6,5 @@ module.exports = {
         "npm run test",
     ],
     "*.{ts,tsx,js,jsx,mjs,cjs,json,yml,yaml,md}": ["prettier --write"],
-    "schema.prisma": ["npx prisma format --schema"],
+    "schema.prisma": ["npx --no-install prisma format --schema"],
 };
