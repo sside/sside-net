@@ -5,7 +5,7 @@ import {
     NextPagePathParameter,
 } from "../../../../library/path-parameter/getPagePathParameters";
 import { captureApiCallError } from "../../../../library/sentry/captureApiCallError";
-import { BlogEntryFromBlogEntryResponse } from "../../_blog-entry/BlogEntryFromBlogEntryResponse";
+import { BlogEntryFromPublishedBlogEntryResponse } from "../../_blog-entry/BlogEntryFromPublishedBlogEntryResponse";
 
 export default async function BlogEntryBySlugPage(
     nextPagePathParameter: NextPagePathParameter,
@@ -31,7 +31,9 @@ export default async function BlogEntryBySlugPage(
 
     return (
         <div className="blog-entry-by-slug-page">
-            <BlogEntryFromBlogEntryResponse blogEntryResponse={data} />
+            <BlogEntryFromPublishedBlogEntryResponse
+                publishedBlogEntryResponse={data}
+            />
         </div>
     );
 }

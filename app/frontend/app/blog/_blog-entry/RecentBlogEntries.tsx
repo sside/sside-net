@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { apiClient } from "../../../library/api-client/api-client";
 import { captureApiCallError } from "../../../library/sentry/captureApiCallError";
-import { BlogEntryFromBlogEntryResponse } from "./BlogEntryFromBlogEntryResponse";
+import { BlogEntryFromPublishedBlogEntryResponse } from "./BlogEntryFromPublishedBlogEntryResponse";
 
 export const RecentBlogEntries: FC<{ fetchCount: number }> = async ({
     fetchCount,
@@ -26,9 +26,9 @@ export const RecentBlogEntries: FC<{ fetchCount: number }> = async ({
     return (
         <div className="recent-blog-entries grid gap-8">
             {data.blogEntries.map((blogEntry) => (
-                <BlogEntryFromBlogEntryResponse
+                <BlogEntryFromPublishedBlogEntryResponse
                     key={blogEntry.id}
-                    blogEntryResponse={blogEntry}
+                    publishedBlogEntryResponse={blogEntry}
                 />
             ))}
         </div>

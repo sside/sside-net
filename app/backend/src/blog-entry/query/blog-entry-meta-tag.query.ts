@@ -8,6 +8,23 @@ export type BlogEntryMetaTagCountBlogEntry = Prisma.BlogEntryMetaTagGetPayload<{
 
 @Injectable()
 export class BlogEntryMetaTagQuery {
+    private static readonly WHERE_RELATE_PUBLISHED_BLOG_ENTRY = {
+        some: {
+            AND: [
+                {
+                    publishAt: {
+                        not: null,
+                    },
+                },
+                {
+                    blogEntryHistories: {
+                        some: {},
+                    },
+                },
+            ],
+        },
+    } satisfies Prisma.BlogEntryMetaTagWhereInput["blogEntries"];
+
     private static readonly INCLUDE_COUNT_BLOG_ENTRY = {
         _count: {
             select: {
@@ -40,13 +57,23 @@ export class BlogEntryMetaTagQuery {
     ): Promise<BlogEntryMetaTagCountBlogEntry[]> {
         return await this.blogEntryMetaTag(transaction).findMany({
             where: {
-                blogEntries: {
-                    some: {
-                        blogEntryHistories: {
-                            some: {},
-                        },
-                    },
+                blogEntries:
+                    BlogEntryMetaTagQuery.WHERE_RELATE_PUBLISHED_BLOG_ENTRY,
+            },
+            include: BlogEntryMetaTagQuery.INCLUDE_COUNT_BLOG_ENTRY,
+        });
+    }
+    async findAndCountRelatedPublishedBlogEntryByBlogEntryMetaTagIds(
+        blogEntryMetaTagIds: number[],
+        transaction?: Prisma.TransactionClient,
+    ): Promise<BlogEntryMetaTagCountBlogEntry[]> {
+        return await this.blogEntryMetaTag(transaction).findMany({
+            where: {
+                id: {
+                    in: blogEntryMetaTagIds,
                 },
+                blogEntries:
+                    BlogEntryMetaTagQuery.WHERE_RELATE_PUBLISHED_BLOG_ENTRY,
             },
             include: BlogEntryMetaTagQuery.INCLUDE_COUNT_BLOG_ENTRY,
         });

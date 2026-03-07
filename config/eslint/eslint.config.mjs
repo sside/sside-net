@@ -50,6 +50,7 @@ export default defineConfig([
             "unicorn/no-useless-undefined": "off",
             "unicorn/catch-error-name": "off",
             "unicorn/no-typeof-undefined": "off",
+            "unicorn/explicit-length-check": "off",
 
             "@typescript-eslint/member-ordering": "warn",
             "unicorn/prevent-abbreviations": [

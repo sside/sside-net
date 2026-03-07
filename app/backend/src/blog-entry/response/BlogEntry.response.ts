@@ -3,21 +3,12 @@ import { BaseIdentifiableResponse } from "../../type/response/BaseIdentifiable.r
 import { BlogEntryWithRelations } from "../query/blog-entry.query";
 import { BlogEntryMetaTagResponse } from "./BlogEntryMetaTag.response";
 
-export class BlogEntryResponse {
-    @ApiProperty()
-    id: number;
-
-    @ApiProperty()
-    createdAt: Date;
-
+export class BlogEntryResponse extends BaseIdentifiableResponse {
     @ApiProperty()
     slug: string;
 
     @ApiProperty()
     title: string;
-
-    @ApiProperty()
-    publishAt: Date;
 
     @ApiProperty()
     bodyMarkdown: string;
@@ -26,11 +17,10 @@ export class BlogEntryResponse {
     metaTags: BlogEntryMetaTagResponse[];
 
     @ApiPropertyOptional()
-    updatedAt?: Date;
+    publishAt?: Date;
 
     /**
      * BlogEntryWithRelationsからレスポンスを作成します。
-     * publishAtはノーチェックなので、呼び出し側が確認すること。
      */
     static fromEntity(blogEntry: BlogEntryWithRelations): BlogEntryResponse {
         const {
@@ -53,7 +43,7 @@ export class BlogEntryResponse {
             ...BaseIdentifiableResponse.fromEntity(blogEntry),
             slug,
             title,
-            publishAt: publishAt!,
+            publishAt: publishAt ?? undefined,
             bodyMarkdown,
             metaTags: blogEntryMetaTags.map(
                 BlogEntryMetaTagResponse.fromEntity,

@@ -13,8 +13,8 @@ const {
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-    testDir: "./app",
-    testMatch: "app/**/*.test.ts",
+    testDir: "./",
+    testMatch: "**/*.test.ts",
     expect: {
         timeout: 2000,
     },

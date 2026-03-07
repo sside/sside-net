@@ -107,7 +107,7 @@ export class BlogEntryQuery {
         });
     }
 
-    async findManyPublishedOnlyPublishAt(): Promise<Date[]> {
+    async findManyPublishAt(): Promise<Date[]> {
         return (
             await this.blogEntry().findMany({
                 where: BlogEntryQuery.WHERE_PUBLISHED(),

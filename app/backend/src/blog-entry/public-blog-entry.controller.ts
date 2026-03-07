@@ -1,13 +1,17 @@
 import { Controller, Get, Param, ParseIntPipe, Query } from "@nestjs/common";
 import { ApiOkResponse, ApiQuery } from "@nestjs/swagger";
+import { BlogEntryMetaTagService } from "./blog-entry-meta-tag.service";
 import { BlogEntryService } from "./blog-entry.service";
-import { BlogEntryResponse } from "./response/BlogEntry.response";
 import { BlogEntryArchivePublishDatesResponse } from "./response/BlogEntryArchivePublishDates.response";
 import { PublishedBlogEntriesResponse } from "./response/PublishedBlogEntries.response";
+import { PublishedBlogEntryResponse } from "./response/PublishedBlogEntry.response";
 
 @Controller("public-blog-entry")
 export class PublicBlogEntryController {
-    constructor(private readonly blogEntryService: BlogEntryService) {}
+    constructor(
+        private readonly blogEntryService: BlogEntryService,
+        private readonly blogEntryMetaTagService: BlogEntryMetaTagService,
+    ) {}
 
     @Get("latest")
     @ApiOkResponse({
@@ -35,18 +39,30 @@ export class PublicBlogEntryController {
             );
 
         return PublishedBlogEntriesResponse.fromEntities(
-            blogEntries,
+            await Promise.all(
+                blogEntries.map(async (blogEntry) => [
+                    blogEntry,
+                    await this.blogEntryMetaTagService.getAndCountPublishedBlogEntryMetaTagsByBlogEntryMetaTagIds(
+                        blogEntry.blogEntryMetaTags.map(({ id }) => id),
+                    ),
+                ]),
+            ),
             nextPointerBlogEntry?.id,
         );
     }
 
     @Get("slug/:slug")
-    @ApiOkResponse({ type: BlogEntryResponse })
+    @ApiOkResponse({ type: PublishedBlogEntryResponse })
     async getBlogEntryBySlug(
         @Param("slug") slug: string,
-    ): Promise<BlogEntryResponse> {
-        return BlogEntryResponse.fromEntity(
-            await this.blogEntryService.getPublishedBySlug(slug),
+    ): Promise<PublishedBlogEntryResponse> {
+        const blogEntry = await this.blogEntryService.getPublishedBySlug(slug);
+
+        return PublishedBlogEntryResponse.fromEntities(
+            blogEntry,
+            await this.blogEntryMetaTagService.getAndCountPublishedBlogEntryMetaTagsByBlogEntryMetaTagIds(
+                blogEntry.blogEntryMetaTags.map(({ id }) => id),
+            ),
         );
     }
 

@@ -18,15 +18,11 @@ export class PublicBlogEntryMetaTagController {
     > {
         return (
             await this.blogEntryMetaTagService.getAndCountAllPublishedBlogEntryMetaTags()
-        ).map(
-            ({
-                _count: { blogEntries: blogEntryCount },
-                ...blogEntryMetaTag
-            }) =>
-                BlogEntryMetaTagCountResponse.fromEntityAndCount(
-                    blogEntryMetaTag,
-                    blogEntryCount,
-                ),
+        ).map(({ _count, ...blogEntryMetaTag }) =>
+            BlogEntryMetaTagCountResponse.fromEntityAndCount(
+                blogEntryMetaTag,
+                _count.blogEntries,
+            ),
         );
     }
 }

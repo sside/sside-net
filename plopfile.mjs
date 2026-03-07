@@ -1,4 +1,4 @@
-import { pascalCase, camelCase } from "change-case";
+import { pascalCase, camelCase, kebabCase } from "change-case";
 import Ignore from "ignore";
 import InquirerAutoCompletePrompt from "inquirer-autocomplete-prompt";
 import { readdirSync, existsSync, readFileSync } from "node:fs";
@@ -218,6 +218,7 @@ export default function (
                 outputDirectoryFullPath,
                 camelFunctionComponentName: camelCase(functionComponentName),
                 PascalFunctionComponentName: pascalCase(functionComponentName),
+                kebabFunctionComponentName: kebabCase(functionComponentName),
                 isClientComponent,
             };
         },

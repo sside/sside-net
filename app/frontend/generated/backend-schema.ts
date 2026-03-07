@@ -112,27 +112,40 @@ export interface components {
             id: number;
             /** Format: date-time */
             createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+            slug: string;
+            title: string;
+            bodyMarkdown: string;
+            metaTags: components["schemas"]["BlogEntryMetaTagResponse"][];
+            /** Format: date-time */
+            publishAt?: string;
+        };
+        BlogEntryMetaTagCountResponse: {
+            id: number;
+            name: string;
+            count: number;
+        };
+        PublishedBlogEntryResponse: {
+            id: number;
+            /** Format: date-time */
+            createdAt: string;
             slug: string;
             title: string;
             /** Format: date-time */
             publishAt: string;
             bodyMarkdown: string;
-            metaTags: components["schemas"]["BlogEntryMetaTagResponse"][];
+            metaTags: components["schemas"]["BlogEntryMetaTagCountResponse"][];
             /** Format: date-time */
             updatedAt?: string;
         };
         PublishedBlogEntriesResponse: {
-            blogEntries: components["schemas"]["BlogEntryResponse"][];
+            blogEntries: components["schemas"]["PublishedBlogEntryResponse"][];
             nextPointerBlogEntryId?: number;
         };
         BlogEntryArchivePublishDatesResponse: {
             year: number;
             month: number;
-            count: number;
-        };
-        BlogEntryMetaTagCountResponse: {
-            id: number;
-            name: string;
             count: number;
         };
     };
@@ -220,7 +233,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["BlogEntryResponse"];
+                    "application/json": components["schemas"]["PublishedBlogEntryResponse"];
                 };
             };
         };

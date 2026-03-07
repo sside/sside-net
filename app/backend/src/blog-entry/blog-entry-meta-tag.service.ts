@@ -28,13 +28,31 @@ export class BlogEntryMetaTagService {
         ongoingTransaction?: Prisma.TransactionClient,
     ): Promise<BlogEntryMetaTagCountBlogEntry[]> {
         this.logger.log(
-            "公開済みBlogEntryに紐づくすべてのBlogEntryMetaTagを取得します。",
+            "公開済みBlogEntryに紐づいている全てのBlogEntryMetaTagと紐づきの数を取得します。",
             {
                 ongoingTransaction: !!ongoingTransaction,
             },
         );
 
         return await this.blogEntryMetaTagQuery.findAllAndCountRelatedPublishedBlogEntry(
+            ongoingTransaction,
+        );
+    }
+
+    async getAndCountPublishedBlogEntryMetaTagsByBlogEntryMetaTagIds(
+        blogEntryMetaTagIds: number[],
+        ongoingTransaction?: Prisma.TransactionClient,
+    ): Promise<BlogEntryMetaTagCountBlogEntry[]> {
+        this.logger.log(
+            "公開済みのBlogEntryMetaTagIdsからMetaTagと紐づきの数を取得します。",
+            {
+                blogEntryMetaTagIds,
+                ongoingTransaction: !!ongoingTransaction,
+            },
+        );
+
+        return await this.blogEntryMetaTagQuery.findAndCountRelatedPublishedBlogEntryByBlogEntryMetaTagIds(
+            blogEntryMetaTagIds,
             ongoingTransaction,
         );
     }

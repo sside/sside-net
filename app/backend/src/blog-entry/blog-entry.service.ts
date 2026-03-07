@@ -154,7 +154,7 @@ export class BlogEntryService {
     async getAllBlogEntriesPublishAt(): Promise<Date[]> {
         this.logger.log("全ての公開済みBlogEntryの公開日を取得します。");
 
-        return await this.blogEntryQuery.findManyPublishedOnlyPublishAt();
+        return await this.blogEntryQuery.findManyPublishAt();
     }
 
     async createDraft(

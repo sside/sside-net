@@ -1,6 +1,7 @@
 import { MswFixture } from "next/dist/experimental/testmode/playwright/msw";
 import { fakerEN } from "@faker-js/faker";
 import { MARKDOWN_SAMPLE_GITHUB_FLAVORED_GIELLALT } from "@sside-net/constant";
+import { createIntegerRange } from "@sside-net/utility";
 import { components } from "../../generated/backend-schema";
 import { mockGetBackendRequest } from "../../library/test/mockGetBackendRequest";
 
@@ -10,10 +11,17 @@ export const mockValuePublicBlogEntryController_getBlogEntryBySlug = {
     slug: "sample-slug",
     bodyMarkdown: MARKDOWN_SAMPLE_GITHUB_FLAVORED_GIELLALT,
     publishAt: "2026-02-23T13:55:19.540Z",
-    metaTags: [],
+    metaTags: createIntegerRange(1, 10).map((value) => ({
+        id: value,
+        name: fakerEN.lorem.slug(1),
+        count: fakerEN.number.int({
+            min: 1,
+            max: 100,
+        }),
+    })),
     createdAt: "2026-02-23T13:55:19.540Z",
     updatedAt: "2026-02-25T03:55:19.540Z",
-} satisfies components["schemas"]["BlogEntryResponse"];
+} satisfies components["schemas"]["PublishedBlogEntryResponse"];
 
 export const mockPublicBlogEntryController_getBlogEntryBySlug = (
     mswFixture: MswFixture,
