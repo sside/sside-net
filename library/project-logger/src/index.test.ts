@@ -5,8 +5,8 @@ const createLogObject = ProjectLogger["createLogObject"];
 
 const message = "log object",
     bool = true,
-    arr = [1, 2, 3],
-    err = new Error("error object");
+    array = [1, 2, 3],
+    error = new Error("error object");
 
 let logObject: Record<string, unknown> = {};
 
@@ -18,8 +18,8 @@ beforeEach(() => {
             bool,
         },
         {
-            arr,
-            err,
+            array,
+            error,
         },
     );
 });
@@ -29,7 +29,7 @@ describe("ProjectLogger", () => {
         test("全てのプロパティがマージされていること。", () => {
             expect(logObject.message).toBe(message);
             expect(logObject.bool).toBe(bool);
-            expect(logObject.arr).toBe(arr);
+            expect(logObject.array).toBe(array);
         });
 
         test("プロパティ名が被った場合はインクリメントされた接尾辞付きにリネームされること。", () => {
@@ -37,31 +37,31 @@ describe("ProjectLogger", () => {
                 "merged",
                 logObject,
                 {
-                    arr,
+                    array,
                 },
                 {
-                    arr,
+                    array,
                 },
             );
-            expect(merged.arr_01).toBe(arr);
-            expect(merged.arr_02).toBe(arr);
+            expect(merged.array_01).toBe(array);
+            expect(merged.array_02).toBe(array);
         });
 
         test("エラー内容がパースされていること。", () => {
             expect(
                 (
-                    logObject.err as {
+                    logObject.error as {
                         name: unknown;
                     }
                 ).name,
-            ).toBe(err.name);
+            ).toBe(error.name);
             expect(
                 (
-                    logObject.err as {
+                    logObject.error as {
                         stack: unknown;
                     }
                 ).stack,
-            ).toBe(err.stack);
+            ).toBe(error.stack);
         });
     });
 });
