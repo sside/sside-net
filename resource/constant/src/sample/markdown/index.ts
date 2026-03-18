@@ -2,3 +2,4 @@ export * from "./MARKDOWN_SAMPLE_GITHUB_FLAVORED_GIELLALT";
 export * from "./MARKDOWN_SAMPLE_ALLYSONSILVA";
 export * from "./MARKDOWN_SAMPLE_OLD_BLOG_1";
 export * from "./MARKDOWN_SAMPLE_OLD_BLOG_2";
+export * from './MARKDOWN_SAMPLES'
