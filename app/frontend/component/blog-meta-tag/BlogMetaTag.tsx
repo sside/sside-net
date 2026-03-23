@@ -15,7 +15,7 @@ export const BlogMetaTag: FC<{
     variant: BlogMetaTagColorVariant;
 }> = ({ name, blogEntryCount, variant }) => {
     const outerStyle = tv({
-        base: " flex items-center gap-1 rounded-lg border p-1 pl-2",
+        base: "flex items-center gap-1 rounded-lg border p-1 pl-2",
         variants: {
             color: {
                 [BlogMetaTagColorVariant.BlogMenu]:
