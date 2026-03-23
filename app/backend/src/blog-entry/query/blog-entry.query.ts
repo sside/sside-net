@@ -28,6 +28,12 @@ export class BlogEntryQuery {
         };
     }
 
+    async findAll(
+        transaction?: Prisma.TransactionClient,
+    ): Promise<BlogEntryWithRelations[]> {
+        return await this.findManyWithRelation({}, transaction);
+    }
+
     async findOneWithRelationsByBlogEntryId(
         blogEntryId: number,
         transaction?: Prisma.TransactionClient,

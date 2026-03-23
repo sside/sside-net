@@ -7,12 +7,12 @@ export type AppConfig = {
         sentry: {
             organizationName: "ssidenet";
         };
+        baseUrl: {
+            frontend: string;
+            backend: string;
+        };
     };
     frontend: {
-        baseUrl: string;
-        backend: {
-            baseUrl: string;
-        };
         blog: {
             blogEntry: {
                 displayPerPage: number;

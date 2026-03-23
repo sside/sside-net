@@ -6,7 +6,9 @@ import { resolve } from "node:path";
 // このプロジェクト内では通常.envを参照するときはシェルでdotenvxを実行するが、それだとtestファイルに環境変数が載らないためここで読み込んでいる。
 config({ path: resolve(__dirname, "../../", ".env.test") });
 const {
-    frontend: { baseUrl: frontendBaseUrl },
+    global: {
+        baseUrl: { frontend: frontendBaseUrl },
+    },
 } = getAppConfig();
 
 /**

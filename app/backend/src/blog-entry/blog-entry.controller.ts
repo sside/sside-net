@@ -7,6 +7,16 @@ import { BlogEntryResponse } from "./response/BlogEntry.response";
 export class BlogEntryController {
     constructor(private readonly blogEntryService: BlogEntryService) {}
 
+    @Get("")
+    @ApiOkResponse({
+        type: [BlogEntryResponse],
+    })
+    async getAllBlogEntries(): Promise<BlogEntryResponse[]> {
+        return (await this.blogEntryService.getAll()).map(
+            BlogEntryResponse.fromEntity,
+        );
+    }
+
     @Get(":blogEntryId")
     @ApiOkResponse({
         type: BlogEntryResponse,

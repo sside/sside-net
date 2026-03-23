@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { components } from "../../../generated/backend-schema";
+import { components } from "../../../library/api-client/backend-schema";
 import { BlogEntry } from "./BlogEntry";
 
 type PublishedBlogEntryResponse =

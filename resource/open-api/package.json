@@ -11,7 +11,7 @@
     "scripts": {
         "build": "rimraf dist && tsc --build",
         "build:shared": "npm run build",
-        "generate:client": "openapi-typescript ./open-api.json --output ../../app/frontend/generated/backend-schema.ts --make-paths-enum",
+        "generate:client": "openapi-typescript ./open-api.json --output ../../app/frontend/library/api-client/backend-schema.ts --make-paths-enum",
         "lint": "eslint --fix",
         "update:check": "ncu",
         "update:execute": "ncu -u"

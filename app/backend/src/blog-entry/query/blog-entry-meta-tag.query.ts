@@ -52,6 +52,18 @@ export class BlogEntryMetaTagQuery {
         return await this.blogEntryMetaTag(transaction).findMany();
     }
 
+    async findAllAndCountRelatedBlogEntry(
+        transaction?: Prisma.TransactionClient,
+    ): Promise<BlogEntryMetaTagCountBlogEntry[]> {
+        return await this.blogEntryMetaTag(transaction).findMany({
+            where: {
+                blogEntries:
+                    BlogEntryMetaTagQuery.WHERE_RELATE_PUBLISHED_BLOG_ENTRY,
+            },
+            include: BlogEntryMetaTagQuery.INCLUDE_COUNT_BLOG_ENTRY,
+        });
+    }
+
     async findAllAndCountRelatedPublishedBlogEntry(
         transaction?: Prisma.TransactionClient,
     ): Promise<BlogEntryMetaTagCountBlogEntry[]> {
@@ -63,6 +75,7 @@ export class BlogEntryMetaTagQuery {
             include: BlogEntryMetaTagQuery.INCLUDE_COUNT_BLOG_ENTRY,
         });
     }
+
     async findAndCountRelatedPublishedBlogEntryByBlogEntryMetaTagIds(
         blogEntryMetaTagIds: number[],
         transaction?: Prisma.TransactionClient,

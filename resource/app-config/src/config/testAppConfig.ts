@@ -1,9 +1,8 @@
 import defu from "defu";
 import { AppConfig } from "./AppConfig";
-import { baseAppConfig } from "./baseAppConfig";
 import { localAppConfig } from "./localAppConfig";
 
-export const testAppConfig = defu(localAppConfig, baseAppConfig, {
+export const testAppConfig = defu(localAppConfig, {
     frontend: {
         baseUrl: "http://localhost:42980",
     },

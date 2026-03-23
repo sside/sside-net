@@ -22,6 +22,7 @@ async function bootstrap() {
 
     app.useGlobalPipes(new ValidationPipe());
     app.use(helmet());
+    applyCors(app);
     if (getEnvironmentType() !== EnvironmentType.Production) {
         await serveSwaggerDocument(app, "swagger", listenPort);
     }
@@ -34,7 +35,7 @@ async function bootstrap() {
 }
 
 /**
- * Swaggerドキュメントのサーブとopen-apiパッケージのドキュメント更新
+ * Swagger UIのサーブとOpenAPIドキュメントの更新を行います。
  */
 async function serveSwaggerDocument(
     app: INestApplication,
@@ -53,6 +54,25 @@ async function serveSwaggerDocument(
     await updateOpenApiDocument(JSON.stringify(openApiDocument), true, true);
 
     SwaggerModule.setup(documentPath, app, openApiDocument);
+
+    return;
+}
+
+/**
+ * 環境別にCORS設定を行います。
+ */
+function applyCors(app: INestApplication): void {
+    const allowedOrigin = getAppConfig().global.baseUrl.frontend;
+    logger.log("CORSヘッダを設定します。", {
+        allowedOrigin,
+    });
+
+    app.enableCors({
+        origin: allowedOrigin,
+        credentials: true,
+    });
+
+    return;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises

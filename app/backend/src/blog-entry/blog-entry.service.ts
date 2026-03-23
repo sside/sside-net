@@ -30,6 +30,17 @@ export class BlogEntryService {
     ) {}
 
     /**
+     * すべてのBlogEntryを取得します。
+     */
+    async getAll(
+        ongoingTransaction?: Prisma.TransactionClient,
+    ): Promise<BlogEntryWithRelations[]> {
+        this.logger.log("BlogEntryを全件取得します。");
+
+        return await this.blogEntryQuery.findAll(ongoingTransaction);
+    }
+
+    /**
      * IDを指定してBlogEntryを取得します。
      */
     async getByBlogEntryId(

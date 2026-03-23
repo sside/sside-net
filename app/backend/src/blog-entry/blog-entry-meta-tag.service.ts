@@ -24,6 +24,18 @@ export class BlogEntryMetaTagService {
         return await this.blogEntryMetaTagQuery.findAll(ongoingTransaction);
     }
 
+    async getAndCountAllWithBlogEntryCount(
+        ongoingTransaction?: Prisma.TransactionClient,
+    ): Promise<BlogEntryMetaTagCountBlogEntry[]> {
+        this.logger.log(
+            "すべてのBlogEntryMetaTagと、紐づいているBlogEntryの数を取得します。",
+        );
+
+        return await this.blogEntryMetaTagQuery.findAllAndCountRelatedBlogEntry(
+            ongoingTransaction,
+        );
+    }
+
     async getAndCountAllPublishedBlogEntryMetaTags(
         ongoingTransaction?: Prisma.TransactionClient,
     ): Promise<BlogEntryMetaTagCountBlogEntry[]> {
@@ -44,7 +56,7 @@ export class BlogEntryMetaTagService {
         ongoingTransaction?: Prisma.TransactionClient,
     ): Promise<BlogEntryMetaTagCountBlogEntry[]> {
         this.logger.log(
-            "公開済みのBlogEntryMetaTagIdsからMetaTagと紐づきの数を取得します。",
+            "公開済みのBlogEntryに紐づいているBlogEntryMetaTagIdsからMetaTagと紐づきの数を取得します。",
             {
                 blogEntryMetaTagIds,
                 ongoingTransaction: !!ongoingTransaction,

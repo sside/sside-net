@@ -1,5 +1,5 @@
 import { MswFixture } from "next/dist/experimental/testmode/playwright/msw";
-import { components } from "../../generated/backend-schema";
+import { components } from "../../library/api-client/backend-schema";
 import { mockGetBackendRequest } from "../../library/test/mockGetBackendRequest";
 
 export const mockValuePublicBlogEntryMetaTagController_getAllPublishedBlogEntryMetaTag =

@@ -20,6 +20,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/blog-entry": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["BlogEntryController_getAllBlogEntries"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/blog-entry/{blogEntryId}": {
         parameters: {
             query?: never;
@@ -76,6 +92,22 @@ export interface paths {
             cookie?: never;
         };
         get: operations["PublicBlogEntryController_getBlogEntryArchiveYearMonths"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/blog-entry-meta-tag": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["BlogEntryMetaTagController_getAllWithCount"];
         put?: never;
         post?: never;
         delete?: never;
@@ -174,6 +206,25 @@ export interface operations {
             };
         };
     };
+    BlogEntryController_getAllBlogEntries: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BlogEntryResponse"][];
+                };
+            };
+        };
+    };
     BlogEntryController_getByBlogEntryId: {
         parameters: {
             query?: never;
@@ -257,6 +308,25 @@ export interface operations {
             };
         };
     };
+    BlogEntryMetaTagController_getAllWithCount: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BlogEntryMetaTagCountResponse"][];
+                };
+            };
+        };
+    };
     PublicBlogEntryMetaTagController_getAllPublishedBlogEntryMetaTag: {
         parameters: {
             query?: never;
@@ -279,9 +349,11 @@ export interface operations {
 }
 export enum ApiPaths {
     AppController_getHealthCheck = "/health-check",
+    BlogEntryController_getAllBlogEntries = "/blog-entry",
     BlogEntryController_getByBlogEntryId = "/blog-entry/{blogEntryId}",
     PublicBlogEntryController_getLatestBlogEntries = "/public-blog-entry/latest",
     PublicBlogEntryController_getBlogEntryBySlug = "/public-blog-entry/slug/{slug}",
     PublicBlogEntryController_getBlogEntryArchiveYearMonths = "/public-blog-entry/archive-year-month",
-    PublicBlogEntryMetaTagController_getAllPublishedBlogEntryMetaTag = "/public-blog-entry-meta-tag"
+    BlogEntryMetaTagController_getAllWithCount = "/blog-entry-meta-tag",
+    PublicBlogEntryMetaTagController_getAllPublishedBlogEntryMetaTag = "/public-blog-entry-meta-tag",
 }
