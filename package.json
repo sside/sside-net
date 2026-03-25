@@ -12,6 +12,7 @@
         "update:check": "ncu && turbo run update:check",
         "update:execute": "ncu -u && turbo run update:execute && npm install",
         "template": "plop",
+        "reinstall": "node ./deleteNodeModules.js && npm install",
         "prepare": "husky"
     },
     "devDependencies": {
