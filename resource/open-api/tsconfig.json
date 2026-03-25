@@ -2,7 +2,8 @@
     "extends": "@sside-net/tsconfig",
     "compilerOptions": {
         "rootDir": "src",
-        "outDir": "dist"
+        "outDir": "dist",
+        "types": ["node"]
     },
     "include": ["src", "ts-schema"],
     "exclude": ["node_modules", "dist"]
