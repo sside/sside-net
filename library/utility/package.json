@@ -21,7 +21,7 @@
         "@sside-net/eslint": "*",
         "@sside-net/jest": "*",
         "@sside-net/tsconfig": "*",
-        "@types/node": "24.12.0",
+        "@types/node": "24",
         "rimraf": "6.1.3",
         "typescript": "5.9.3"
     },

@@ -47,7 +47,7 @@
         "@swc/core": "1.15.8",
         "@types/express": "5.0.6",
         "@types/luxon": "3.7.1",
-        "@types/node": "22",
+        "@types/node": "24",
         "@types/supertest": "7.2.0",
         "globals": "17.4.0",
         "prisma": "7.5.0",
@@ -56,6 +56,6 @@
         "ts-loader": "9.5.4",
         "ts-node": "10.9.2",
         "tsconfig-paths": "4.2.0",
-        "typescript": "6.0.2"
+        "typescript": "5.9.3"
     }
 }
