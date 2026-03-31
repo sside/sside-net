@@ -210,8 +210,10 @@ describe("BlogEntryService", () => {
         test("blogEntryDraftを含むBlogEntryを作成できること。", async () => {
             const blogEntryInput = createBlogEntryInput();
 
-            const { blogEntryDraft } =
-                await blogEntryService.createDraft(blogEntryInput);
+            const { blogEntryDraft } = await blogEntryService.createDraft(
+                blogEntryInput,
+                [],
+            );
 
             expect(blogEntryDraft?.title).toBe(blogEntryInput.title);
             expect(blogEntryDraft?.bodyMarkdown).toBe(
@@ -224,6 +226,7 @@ describe("BlogEntryService", () => {
         test("BlogEntryに下書きがある場合、更新できること。", async () => {
             const { id, blogEntryDraft } = await blogEntryService.createDraft(
                 createBlogEntryInput(),
+                [],
             );
             const createdDraftBody = blogEntryDraft?.bodyMarkdown;
             const createdDraftTitle = blogEntryDraft?.title;
@@ -231,6 +234,7 @@ describe("BlogEntryService", () => {
             const updatedDraft = await blogEntryService.updateDraft(
                 id,
                 createBlogEntryInput(),
+                [],
             );
 
             expect(updatedDraft.blogEntryDraft?.title).not.toBe(
@@ -244,12 +248,14 @@ describe("BlogEntryService", () => {
         test("BlogEntryに下書きがない場合、作成して紐づけできること。", async () => {
             const { id } = await blogEntryService.createPublished(
                 createBlogEntryInput(),
+                [],
             );
 
             const draftInput = createBlogEntryInput();
             const { blogEntryDraft } = await blogEntryService.updateDraft(
                 id,
                 draftInput,
+                [],
             );
 
             expect(blogEntryDraft?.bodyMarkdown).toBe(draftInput.bodyMarkdown);
@@ -260,6 +266,7 @@ describe("BlogEntryService", () => {
         test("1つ以上の公開履歴を含むBlogEntryを作成できること。", async () => {
             const { id } = await blogEntryService.createPublished(
                 createBlogEntryInput(),
+                [],
             );
 
             expect(
@@ -273,6 +280,7 @@ describe("BlogEntryService", () => {
         test("BlogEntryの下書きを公開履歴に移行できること。", async () => {
             const { id, blogEntryDraft } = await blogEntryService.createDraft(
                 createBlogEntryInput(),
+                [],
             );
 
             expect(blogEntryDraft).toBeDefined();
@@ -284,7 +292,10 @@ describe("BlogEntryService", () => {
 
         test("下書きの紐づけがない場合エラーを投げること。", async () => {
             const { id, blogEntryDraft } =
-                await blogEntryService.createPublished(createBlogEntryInput());
+                await blogEntryService.createPublished(
+                    createBlogEntryInput(),
+                    [],
+                );
 
             expect(blogEntryDraft).toBeNull();
             await expect(
@@ -305,7 +316,7 @@ describe("BlogEntryService", () => {
 
             const inputItem = createBlogEntryInput();
             const { blogEntryHistories: addedBlogEntryHistories } =
-                await blogEntryService.addBlogEntryHistory(id, inputItem);
+                await blogEntryService.addBlogEntryHistory(id, inputItem, []);
             expect(addedBlogEntryHistories.length).toBe(historyCount + 1);
             expect(
                 addedBlogEntryHistories
@@ -341,7 +352,10 @@ describe("BlogEntryService", () => {
     describe("setRelatedBlogEntryMetaTagsByName", () => {
         test("BlogEntryMetaTagの紐づけが行えること。", async () => {
             const { id, blogEntryMetaTags: firstBlogEntryMetaTags } =
-                await blogEntryService.createPublished(createBlogEntryInput());
+                await blogEntryService.createPublished(
+                    createBlogEntryInput(),
+                    [],
+                );
 
             expect(firstBlogEntryMetaTags.length).toBe(0);
 
@@ -363,7 +377,10 @@ describe("BlogEntryService", () => {
 
         test("引数に渡したBlogEntryMetaTagのみが紐づけされること。", async () => {
             const { id, blogEntryMetaTags: firstMetaTags } =
-                await blogEntryService.createPublished(createBlogEntryInput());
+                await blogEntryService.createPublished(
+                    createBlogEntryInput(),
+                    [],
+                );
 
             expect(firstMetaTags.length).toBe(0);
 

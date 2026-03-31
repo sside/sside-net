@@ -52,6 +52,70 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/blog-entry/draft": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["BlogEntryController_postCreateBlogEntryDraft"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/blog-entry/publish": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["BlogEntryController_postCreatePublishedBlogEntry"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/blog-entry/{blogEntryId}/draft": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["BlogEntryController_putUpdateBlogEntryDraft"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/blog-entry/{blogEntryId}/publish": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["BlogEntryController_putPublishBlogEntry"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/public-blog-entry/latest": {
         parameters: {
             query?: never;
@@ -153,6 +217,20 @@ export interface components {
             /** Format: date-time */
             publishAt?: string;
         };
+        BlogEntryRequest: {
+            slug: string;
+            title: string;
+            bodyMarkdown: string;
+            blogEntryMetaTagNames: string[];
+        };
+        PublishBlogEntryRequest: {
+            slug: string;
+            title: string;
+            bodyMarkdown: string;
+            blogEntryMetaTagNames: string[];
+            /** Format: date-time */
+            publishAt?: string;
+        };
         BlogEntryMetaTagCountResponse: {
             id: number;
             name: string;
@@ -242,6 +320,102 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["BlogEntryResponse"];
+                };
+            };
+        };
+    };
+    BlogEntryController_postCreateBlogEntryDraft: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BlogEntryRequest"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BlogEntryResponse"][];
+                };
+            };
+        };
+    };
+    BlogEntryController_postCreatePublishedBlogEntry: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PublishBlogEntryRequest"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BlogEntryResponse"][];
+                };
+            };
+        };
+    };
+    BlogEntryController_putUpdateBlogEntryDraft: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                blogEntryId: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BlogEntryRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BlogEntryResponse"][];
+                };
+            };
+        };
+    };
+    BlogEntryController_putPublishBlogEntry: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                blogEntryId: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PublishBlogEntryRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BlogEntryResponse"][];
                 };
             };
         };
@@ -351,6 +525,10 @@ export enum ApiPaths {
     AppController_getHealthCheck = "/health-check",
     BlogEntryController_getAllBlogEntries = "/blog-entry",
     BlogEntryController_getByBlogEntryId = "/blog-entry/{blogEntryId}",
+    BlogEntryController_postCreateBlogEntryDraft = "/blog-entry/draft",
+    BlogEntryController_postCreatePublishedBlogEntry = "/blog-entry/publish",
+    BlogEntryController_putUpdateBlogEntryDraft = "/blog-entry/{blogEntryId}/draft",
+    BlogEntryController_putPublishBlogEntry = "/blog-entry/{blogEntryId}/publish",
     PublicBlogEntryController_getLatestBlogEntries = "/public-blog-entry/latest",
     PublicBlogEntryController_getBlogEntryBySlug = "/public-blog-entry/slug/{slug}",
     PublicBlogEntryController_getBlogEntryArchiveYearMonths = "/public-blog-entry/archive-year-month",

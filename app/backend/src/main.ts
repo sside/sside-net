@@ -6,6 +6,8 @@ import { EnvironmentType } from "@sside-net/constant";
 import { updateOpenApiDocument } from "@sside-net/open-api/dist";
 import { ProjectLogger } from "@sside-net/project-logger";
 import { getEnvironmentType, parseDecimalInt } from "@sside-net/utility";
+import * as ClassTransformer from "class-transformer";
+import * as ClassValidator from "class-validator";
 import helmet from "helmet";
 import { AppModule } from "./app.module";
 import { JsonLogger } from "./library/logger/JsonLogger";
@@ -20,7 +22,8 @@ async function bootstrap() {
         logger: new JsonLogger(),
     });
 
-    app.useGlobalPipes(new ValidationPipe());
+    applyGlobalValidation(app);
+
     app.use(helmet());
     applyCors(app);
     if (getEnvironmentType() !== EnvironmentType.Production) {
@@ -73,6 +76,21 @@ function applyCors(app: INestApplication): void {
     });
 
     return;
+}
+
+/**
+ * NestJSのグローバルバリデーションを有効にします。
+ */
+function applyGlobalValidation(app: INestApplication): void {
+    logger.log("グローバルのValidation Pipeを設定します。");
+
+    app.useGlobalPipes(
+        new ValidationPipe({
+            // monorepoでのパッケージ解決に失敗するため、ここで明示的にimportしたパッケージを食わせています。
+            validatorPackage: ClassValidator,
+            transformerPackage: ClassTransformer,
+        }),
+    );
 }
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises

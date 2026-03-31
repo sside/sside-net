@@ -170,6 +170,7 @@ export class BlogEntryService {
 
     async createDraft(
         blogEntryInput: BlogEntryInput,
+        blogEntryMetaTagNames: string[],
         ongoingTransaction?: Prisma.TransactionClient,
     ): Promise<BlogEntryWithRelations> {
         this.logger.log("BlogEntryの下書きを作成します。", {
@@ -180,19 +181,22 @@ export class BlogEntryService {
             ongoingTransaction: !!ongoingTransaction,
         });
 
-        return await this.getByBlogEntryId(
+        return await this.setRelatedBlogEntryMetaTagsByName(
             (
                 await this.blogEntryQuery.insertDraft(
                     blogEntryInput,
                     ongoingTransaction,
                 )
             ).id,
+            blogEntryMetaTagNames,
+            ongoingTransaction,
         );
     }
 
     async updateDraft(
         blogEntryId: number,
         blogEntryInput: BlogEntryInput,
+        blogEntryMetaTagNames: string[],
         ongoingTransaction?: Prisma.TransactionClient,
     ): Promise<BlogEntryWithRelations> {
         this.logger.log("BlogEntryの下書きを更新します。", {
@@ -207,7 +211,7 @@ export class BlogEntryService {
         // 存在チェック
         await this.getByBlogEntryId(blogEntryId, ongoingTransaction);
 
-        return await this.getByBlogEntryId(
+        return await this.setRelatedBlogEntryMetaTagsByName(
             (
                 await this.blogEntryQuery.updateDraft(
                     blogEntryId,
@@ -215,11 +219,14 @@ export class BlogEntryService {
                     ongoingTransaction,
                 )
             ).id,
+            blogEntryMetaTagNames,
+            ongoingTransaction,
         );
     }
 
     async createPublished(
         blogEntryInput: BlogEntryInput,
+        blogEntryMetaTagNames: string[],
         publishAt?: Date,
         ongoingTransaction?: Prisma.TransactionClient,
     ): Promise<BlogEntryWithRelations> {
@@ -233,6 +240,7 @@ export class BlogEntryService {
 
         const { id: createdId } = await this.createDraft(
             blogEntryInput,
+            blogEntryMetaTagNames,
             ongoingTransaction,
         );
 
@@ -286,6 +294,7 @@ export class BlogEntryService {
     async addBlogEntryHistory(
         blogEntryId: number,
         blogEntryInput: BlogEntryInput,
+        blogEntryMetaTagNames: string[],
         ongoingTransaction?: Prisma.TransactionClient,
     ): Promise<BlogEntryWithRelations> {
         this.logger.log("BlogEntryの履歴を追加します。", {
@@ -300,6 +309,7 @@ export class BlogEntryService {
         const { id } = await this.updateDraft(
             blogEntryId,
             blogEntryInput,
+            blogEntryMetaTagNames,
             ongoingTransaction,
         );
 
@@ -396,10 +406,17 @@ export class BlogEntryService {
             ...overWrite,
         });
 
+        const blogEntryMetaTags = await this.blogEntryMetaTagService.seed(
+            (publishCount + draftCount) * 3,
+        );
+
         const publishes: BlogEntryWithRelations[] = [];
         for (let index = 0; index < publishCount; index++) {
             const { id, slug } = await this.createPublished(
                 createBlogEntryInput(index, {}),
+                fakerEN.helpers
+                    .arrayElements(blogEntryMetaTags)
+                    .map(({ name }) => name),
                 fakerJA.date.past({
                     years: 5,
                 }),
@@ -413,6 +430,9 @@ export class BlogEntryService {
                 await this.addBlogEntryHistory(
                     id,
                     createBlogEntryInput(index, { slug }),
+                    fakerEN.helpers
+                        .arrayElements(blogEntryMetaTags)
+                        .map(({ name }) => name),
                 );
             }
 
@@ -421,23 +441,14 @@ export class BlogEntryService {
 
         const drafts = await Promise.all(
             createIntegerArray(draftCount).map((_, index) =>
-                this.createDraft(createBlogEntryInput(publishCount + index)),
+                this.createDraft(
+                    createBlogEntryInput(publishCount + index),
+                    fakerEN.helpers
+                        .arrayElements(blogEntryMetaTags)
+                        .map(({ name }) => name),
+                ),
             ),
         );
-
-        const blogEntryMetaTags = await this.blogEntryMetaTagService.seed(
-            (publishCount + draftCount) * 3,
-        );
-        let count = 1;
-        for (const { id: blogEntryId } of [...publishes, ...drafts]) {
-            await this.setRelatedBlogEntryMetaTagsByName(
-                blogEntryId,
-                [count, count * 2, count * 3].map(
-                    (index) => blogEntryMetaTags.at(index - 1)!.name,
-                ),
-            );
-            count += 1;
-        }
 
         return [
             await this.getByBlogEntryIds(publishes.map(({ id }) => id)),
