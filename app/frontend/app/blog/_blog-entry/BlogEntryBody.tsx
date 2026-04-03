@@ -3,15 +3,13 @@ import Markdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
 import { AllowedInlineMarkdownTags } from "../../../constant/markdown/AllowedInlineMarkdownTags";
-import cssModule from "./BlogEntryBody.module.css";
+import "./BlogEntryBody.css";
 
 export const BlogEntryBody: FC<{ bodyMarkdown: string }> = ({
     bodyMarkdown,
 }) => {
     return (
-        <div
-            className={`${cssModule.blogEntryBody} blog-entry-body text-pretty`}
-        >
+        <div className="blog-entry-body text-pretty">
             <Markdown
                 remarkPlugins={[
                     [
