@@ -80,6 +80,25 @@ export const getEnvironmentType = (
     return solvedEnvironmentType as EnvironmentType;
 };
 
+/**
+ * 実行中の環境が本番環境か判定します。
+ */
+export const isProductionEnvironment = (): boolean =>
+    getEnvironmentType() === EnvironmentType.Production;
+/**
+ * 実行中の環境が開発環境か判定します。
+ */
+export const isDevelopmentEnvironment = (): boolean =>
+    getEnvironmentType() !== EnvironmentType.Production;
+/**
+ * 実行中の環境がテスト環境か判定します。
+ */
+export const isTestEnvironment = (): boolean =>
+    getEnvironmentType() === EnvironmentType.Test;
+
+/**
+ * Error.stackをログするとき、呼び出し元の関数が分かるように必要な行のみトリムします。
+ */
 const trimStackTraceLines = (stack?: string): string =>
     stack
         ?.split("\n")
@@ -122,13 +141,13 @@ export const notImplementedVoid = (...args: unknown[]): void => {
  * 実行時、呼び出し個所を確認できるようにスタックトレースの一部をログに残します。
  */
 export const notImplementedPromisedVoid = async (
-    ...args: Parameters<typeof notImplementedStab>
+    ...args: unknown[]
 ): Promise<void> => {
     setTimeout(
         () =>
             new Promise((resolve) => {
                 notImplementedVoid(...args);
-                 
+
                 resolve(undefined);
             }),
         10,
