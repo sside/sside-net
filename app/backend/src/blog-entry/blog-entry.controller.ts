@@ -44,7 +44,7 @@ export class BlogEntryController {
     @Post("draft")
     @HttpCode(HttpStatus.CREATED)
     @ApiCreatedResponse({
-        type: [BlogEntryResponse],
+        type: BlogEntryResponse,
     })
     async postCreateBlogEntryDraft(
         @Body() { blogEntryMetaTagNames, ...blogEntry }: BlogEntryRequest,
@@ -60,7 +60,7 @@ export class BlogEntryController {
     @Post("publish")
     @HttpCode(HttpStatus.CREATED)
     @ApiCreatedResponse({
-        type: [BlogEntryResponse],
+        type: BlogEntryResponse,
     })
     async postCreatePublishedBlogEntry(
         @Body()
@@ -81,7 +81,7 @@ export class BlogEntryController {
 
     @Put(":blogEntryId/draft")
     @ApiOkResponse({
-        type: [BlogEntryResponse],
+        type: BlogEntryResponse,
     })
     async putUpdateBlogEntryDraft(
         @Param("blogEntryId", ParseIntPipe) blogEntryId: number,
@@ -98,7 +98,7 @@ export class BlogEntryController {
 
     @Put(":blogEntryId/publish")
     @ApiOkResponse({
-        type: [BlogEntryResponse],
+        type: BlogEntryResponse,
     })
     async putPublishBlogEntry(
         @Param("blogEntryId", ParseIntPipe) blogEntryId: number,

@@ -29,7 +29,7 @@ CREATE TABLE "blog_entry_draft" (
 );
 
 -- CreateTable
-CREATE TABLE "BlogEntryMetaTag" (
+CREATE TABLE "blog_entry_meta_tag" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" DATETIME NOT NULL,
@@ -41,7 +41,7 @@ CREATE TABLE "_BlogEntryToBlogEntryMetaTag" (
     "A" INTEGER NOT NULL,
     "B" INTEGER NOT NULL,
     CONSTRAINT "_BlogEntryToBlogEntryMetaTag_A_fkey" FOREIGN KEY ("A") REFERENCES "blog_entry" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT "_BlogEntryToBlogEntryMetaTag_B_fkey" FOREIGN KEY ("B") REFERENCES "BlogEntryMetaTag" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT "_BlogEntryToBlogEntryMetaTag_B_fkey" FOREIGN KEY ("B") REFERENCES "blog_entry_meta_tag" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- CreateIndex
@@ -51,7 +51,7 @@ CREATE UNIQUE INDEX "blog_entry_slug_key" ON "blog_entry"("slug");
 CREATE UNIQUE INDEX "blog_entry_draft_blogEntryId_key" ON "blog_entry_draft"("blogEntryId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "BlogEntryMetaTag_name_key" ON "BlogEntryMetaTag"("name");
+CREATE UNIQUE INDEX "blog_entry_meta_tag_name_key" ON "blog_entry_meta_tag"("name");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "_BlogEntryToBlogEntryMetaTag_AB_unique" ON "_BlogEntryToBlogEntryMetaTag"("A", "B");
