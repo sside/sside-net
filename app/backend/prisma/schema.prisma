@@ -60,4 +60,6 @@ model BlogEntryMetaTag {
   name String @unique
 
   blogEntries BlogEntry[]
+
+  @@map("blog_entry_meta_tag")
 }
