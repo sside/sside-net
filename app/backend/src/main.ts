@@ -93,5 +93,5 @@ function applyGlobalValidation(app: INestApplication): void {
     );
 }
 
-// eslint-disable-next-line @typescript-eslint/no-floating-promises
+// eslint-disable-next-line @typescript-eslint/no-floating-promises -- -- ブートストラップなので無視
 bootstrap();

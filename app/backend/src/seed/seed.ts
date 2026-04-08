@@ -6,7 +6,7 @@ import { SeedModule } from "./seed.module";
 
 const logger = new ProjectLogger("Seed");
 
-// eslint-disable-next-line @typescript-eslint/no-floating-promises
+// eslint-disable-next-line @typescript-eslint/no-floating-promises -- ブートストラップなので無視
 (async () => {
     const app = await NestFactory.createApplicationContext(SeedModule, {
         logger: logger,
