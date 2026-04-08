@@ -410,12 +410,18 @@ export class BlogEntryService {
             (publishCount + draftCount) * 3,
         );
 
+        const metaTagCount: Parameters<
+            typeof fakerEN.helpers.arrayElements
+        >[1] = {
+            min: 0,
+            max: 8,
+        };
         const publishes: BlogEntryWithRelations[] = [];
         for (let index = 0; index < publishCount; index++) {
             const { id, slug } = await this.createPublished(
                 createBlogEntryInput(index, {}),
                 fakerEN.helpers
-                    .arrayElements(blogEntryMetaTags)
+                    .arrayElements(blogEntryMetaTags, metaTagCount)
                     .map(({ name }) => name),
                 fakerJA.date.past({
                     years: 5,
@@ -431,7 +437,7 @@ export class BlogEntryService {
                     id,
                     createBlogEntryInput(index, { slug }),
                     fakerEN.helpers
-                        .arrayElements(blogEntryMetaTags)
+                        .arrayElements(blogEntryMetaTags, metaTagCount)
                         .map(({ name }) => name),
                 );
             }
@@ -444,7 +450,7 @@ export class BlogEntryService {
                 this.createDraft(
                     createBlogEntryInput(publishCount + index),
                     fakerEN.helpers
-                        .arrayElements(blogEntryMetaTags)
+                        .arrayElements(blogEntryMetaTags, metaTagCount)
                         .map(({ name }) => name),
                 ),
             ),
