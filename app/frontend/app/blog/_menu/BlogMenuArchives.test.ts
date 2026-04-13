@@ -1,10 +1,10 @@
 import { expect, test } from "next/experimental/testmode/playwright/msw";
 import { mockValuePublicBlogEntryController_getBlogEntryArchiveYearMonths } from "../../../test/mock/mockPublicBlogEntryController_getBlogEntryArchiveYearMonths";
-import { mockBlogRootPage } from "../_test/mockBlogRootPage";
+import { mockDefaultValues } from "../../../test/mockDefaultValues";
 
 test.describe("BlogMenuArchives", () => {
     test.beforeEach(async ({ page, msw }) => {
-        mockBlogRootPage(msw);
+        mockDefaultValues(msw);
 
         await page.goto("/blog");
     });

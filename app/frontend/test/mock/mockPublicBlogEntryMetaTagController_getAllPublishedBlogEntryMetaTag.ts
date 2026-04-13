@@ -1,6 +1,6 @@
 import { MswFixture } from "next/dist/experimental/testmode/playwright/msw";
 import { components } from "../../library/api-client/backend-schema";
-import { mockGetBackendRequest } from "../../library/test/mockGetBackendRequest";
+import { mockBackendGetResponse } from "../mockBackendGetResponse";
 
 export const mockValuePublicBlogEntryMetaTagController_getAllPublishedBlogEntryMetaTag =
     [
@@ -23,7 +23,7 @@ export const mockValuePublicBlogEntryMetaTagController_getAllPublishedBlogEntryM
 
 export const mockPublicBlogEntryMetaTagController_getAllPublishedBlogEntryMetaTag =
     (msw: MswFixture) => {
-        mockGetBackendRequest(
+        mockBackendGetResponse(
             "/public-blog-entry-meta-tag",
             mockValuePublicBlogEntryMetaTagController_getAllPublishedBlogEntryMetaTag,
             msw,

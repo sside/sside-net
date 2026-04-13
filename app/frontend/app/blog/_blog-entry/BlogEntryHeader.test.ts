@@ -1,12 +1,12 @@
 import { expect, test } from "next/experimental/testmode/playwright/msw";
 import { DateTimeFormat, parseIso8601ToJst } from "@sside-net/date-time";
-import { mockGetBackendRequest } from "../../../library/test/mockGetBackendRequest";
 import { mockValuePublicBlogEntryController_getBlogEntryBySlug } from "../../../test/mock/mockPublicBlogEntryController_getBlogEntryBySlug";
-import { mockSlugBlogEntryPage } from "../entry/[blogEntrySlug]/_test/mockSlugBlogEntryPage";
+import { mockBackendGetResponse } from "../../../test/mockBackendGetResponse";
+import { mockDefaultValues } from "../../../test/mockDefaultValues";
 
 test.describe("BlogEntryHeader", () => {
     test.beforeEach(async ({ page, msw }) => {
-        mockSlugBlogEntryPage(msw);
+        mockDefaultValues(msw);
 
         await page.goto(
             `/blog/entry/${mockValuePublicBlogEntryController_getBlogEntryBySlug.slug}`,
@@ -48,7 +48,7 @@ test.describe("BlogEntryHeader", () => {
         }) => {
             const { updatedAt: _, ...mockValue } =
                 mockValuePublicBlogEntryController_getBlogEntryBySlug;
-            mockGetBackendRequest(
+            mockBackendGetResponse(
                 `/public-blog-entry/slug/${mockValue.slug}` as "/public-blog-entry/slug/{slug}",
                 mockValue,
                 msw,

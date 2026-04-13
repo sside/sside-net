@@ -3,7 +3,7 @@ import { fakerEN, fakerJA } from "@faker-js/faker";
 import { MARKDOWN_SAMPLE_GITHUB_FLAVORED_GIELLALT } from "@sside-net/constant";
 import { createIntegerRange } from "@sside-net/utility";
 import { components } from "../../library/api-client/backend-schema";
-import { mockGetBackendRequest } from "../../library/test/mockGetBackendRequest";
+import { mockBackendGetResponse } from "../mockBackendGetResponse";
 
 export const mockValuePublicBlogEntryController_getLatestBlogEntries = {
     blogEntries: createIntegerRange(1, 3)
@@ -29,7 +29,7 @@ export const mockValuePublicBlogEntryController_getLatestBlogEntries = {
 export const mockPublicBlogEntryController_getLatestBlogEntries = (
     msw: MswFixture,
 ) => {
-    mockGetBackendRequest(
+    mockBackendGetResponse(
         "/public-blog-entry/latest",
         mockValuePublicBlogEntryController_getLatestBlogEntries,
         msw,

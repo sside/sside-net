@@ -2,7 +2,7 @@ import { MswFixture } from "next/dist/experimental/testmode/playwright/msw";
 import { fakerEN } from "@faker-js/faker";
 import { createIntegerArray } from "@sside-net/utility";
 import { components } from "../../library/api-client/backend-schema";
-import { mockGetBackendRequest } from "../../library/test/mockGetBackendRequest";
+import { mockBackendGetResponse } from "../mockBackendGetResponse";
 
 export const mockValueBlogEntryMetaTagController_getAllWithCount =
     createIntegerArray(10, 1).map((count) => ({
@@ -14,7 +14,7 @@ export const mockValueBlogEntryMetaTagController_getAllWithCount =
 export const mockBlogEntryMetaTagController_getAllWithCount = (
     mswFixture: MswFixture,
 ) => {
-    mockGetBackendRequest(
+    mockBackendGetResponse(
         "/blog-entry-meta-tag",
         mockValueBlogEntryMetaTagController_getAllWithCount,
         mswFixture,

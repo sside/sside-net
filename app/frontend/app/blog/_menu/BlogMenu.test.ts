@@ -1,9 +1,9 @@
 import { expect, test } from "next/experimental/testmode/playwright/msw";
-import { mockBlogRootPage } from "../_test/mockBlogRootPage";
+import { mockDefaultValues } from "../../../test/mockDefaultValues";
 
 test.describe("BlogMenu", () => {
     test.beforeEach(async ({ page, msw }) => {
-        mockBlogRootPage(msw);
+        mockDefaultValues(msw);
 
         await page.goto("/blog");
     });

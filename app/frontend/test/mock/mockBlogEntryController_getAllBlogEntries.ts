@@ -3,7 +3,7 @@ import { fakerEN, fakerJA } from "@faker-js/faker";
 import { MARKDOWN_SAMPLES } from "@sside-net/constant";
 import { createIntegerRange } from "@sside-net/utility";
 import { components } from "../../library/api-client/backend-schema";
-import { mockGetBackendRequest } from "../../library/test/mockGetBackendRequest";
+import { mockBackendGetResponse } from "../mockBackendGetResponse";
 
 export const mockValueBlogEntryController_getAllBlogEntries =
     createIntegerRange(0, 9).map(
@@ -24,7 +24,7 @@ export const mockValueBlogEntryController_getAllBlogEntries =
     ) satisfies components["schemas"]["BlogEntryResponse"][];
 
 export const mockBlogEntryController_getAllBlogEntries = (msw: MswFixture) => {
-    mockGetBackendRequest(
+    mockBackendGetResponse(
         "/blog-entry",
         mockValueBlogEntryController_getAllBlogEntries,
         msw,

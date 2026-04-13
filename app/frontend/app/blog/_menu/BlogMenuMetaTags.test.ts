@@ -1,10 +1,10 @@
 import { expect, test } from "next/experimental/testmode/playwright/msw";
 import { mockValuePublicBlogEntryMetaTagController_getAllPublishedBlogEntryMetaTag } from "../../../test/mock/mockPublicBlogEntryMetaTagController_getAllPublishedBlogEntryMetaTag";
-import { mockBlogRootPage } from "../_test/mockBlogRootPage";
+import { mockDefaultValues } from "../../../test/mockDefaultValues";
 
 test.describe("BlogMenuMetaTags", () => {
     test.beforeEach(async ({ page, msw }) => {
-        mockBlogRootPage(msw);
+        mockDefaultValues(msw);
 
         await page.goto("/blog");
     });

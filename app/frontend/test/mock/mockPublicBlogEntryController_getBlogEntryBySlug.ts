@@ -3,7 +3,7 @@ import { fakerEN } from "@faker-js/faker";
 import { MARKDOWN_SAMPLE_GITHUB_FLAVORED_GIELLALT } from "@sside-net/constant";
 import { createIntegerRange } from "@sside-net/utility";
 import { components } from "../../library/api-client/backend-schema";
-import { mockGetBackendRequest } from "../../library/test/mockGetBackendRequest";
+import { mockBackendGetResponse } from "../mockBackendGetResponse";
 
 export const mockValuePublicBlogEntryController_getBlogEntryBySlug = {
     title: fakerEN.book.title(),
@@ -26,7 +26,7 @@ export const mockValuePublicBlogEntryController_getBlogEntryBySlug = {
 export const mockPublicBlogEntryController_getBlogEntryBySlug = (
     mswFixture: MswFixture,
 ) => {
-    mockGetBackendRequest(
+    mockBackendGetResponse(
         `/public-blog-entry/slug/${mockValuePublicBlogEntryController_getBlogEntryBySlug.slug}` as "/public-blog-entry/slug/{slug}",
         mockValuePublicBlogEntryController_getBlogEntryBySlug,
         mswFixture,

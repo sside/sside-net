@@ -1,6 +1,6 @@
 import { MswFixture } from "next/dist/experimental/testmode/playwright/msw";
 import { components } from "../../library/api-client/backend-schema";
-import { mockGetBackendRequest } from "../../library/test/mockGetBackendRequest";
+import { mockBackendGetResponse } from "../mockBackendGetResponse";
 
 export const mockValuePublicBlogEntryController_getBlogEntryArchiveYearMonths =
     [
@@ -44,7 +44,7 @@ export const mockValuePublicBlogEntryController_getBlogEntryArchiveYearMonths =
 export const mockPublicBlogEntryController_getBlogEntryArchiveYearMonths = (
     msw: MswFixture,
 ) => {
-    mockGetBackendRequest(
+    mockBackendGetResponse(
         "/public-blog-entry/archive-year-month",
         mockValuePublicBlogEntryController_getBlogEntryArchiveYearMonths,
         msw,

@@ -1,13 +1,13 @@
 import { expect, test } from "next/experimental/testmode/playwright/msw";
 import { createIntegerRange } from "@sside-net/utility";
 import dedent from "dedent";
-import { mockGetBackendRequest } from "../../../library/test/mockGetBackendRequest";
 import { mockValuePublicBlogEntryController_getBlogEntryBySlug } from "../../../test/mock/mockPublicBlogEntryController_getBlogEntryBySlug";
-import { mockSlugBlogEntryPage } from "../entry/[blogEntrySlug]/_test/mockSlugBlogEntryPage";
+import { mockBackendGetResponse } from "../../../test/mockBackendGetResponse";
+import { mockDefaultValues } from "../../../test/mockDefaultValues";
 
 test.describe("BlogEntryBody", () => {
     test.beforeEach(async ({ page, msw }) => {
-        mockSlugBlogEntryPage(msw);
+        mockDefaultValues(msw);
 
         await page.goto(
             `/blog/entry/${mockValuePublicBlogEntryController_getBlogEntryBySlug.slug}`,
@@ -43,7 +43,7 @@ test.describe("BlogEntryBody", () => {
             <script id="${slug}">console.log("this script tag should be removed")</script>
             ${mockValuePublicBlogEntryController_getBlogEntryBySlug.bodyMarkdown}
         `;
-        mockGetBackendRequest(
+        mockBackendGetResponse(
             `/public-blog-entry/slug/${slug}` as "/public-blog-entry/slug/{slug}",
             {
                 ...mockValuePublicBlogEntryController_getBlogEntryBySlug,

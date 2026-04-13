@@ -1,10 +1,10 @@
 import { expect, test } from "next/experimental/testmode/playwright/msw";
 import { getAppConfig } from "@sside-net/app-config";
-import { mockBlogRootPage } from "./_test/mockBlogRootPage";
+import { mockDefaultValues } from "../../test/mockDefaultValues";
 
 test.describe("BlogTitle", () => {
     test.beforeEach(async ({ page, msw }) => {
-        mockBlogRootPage(msw);
+        mockDefaultValues(msw);
 
         await page.goto("/blog");
     });
