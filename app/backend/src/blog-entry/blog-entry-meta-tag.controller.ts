@@ -16,6 +16,11 @@ export class BlogEntryMetaTagController {
     async getAllWithCount(): Promise<BlogEntryMetaTagCountResponse[]> {
         return (
             await this.blogEntryMetaTagService.getAndCountAllWithBlogEntryCount()
-        ).map(BlogEntryMetaTagCountResponse.fromEntityAndCount);
+        ).map(({ _count: { blogEntries: count }, ...blogEntryMetaTag }) =>
+            BlogEntryMetaTagCountResponse.fromEntityAndCount(
+                blogEntryMetaTag,
+                count,
+            ),
+        );
     }
 }
