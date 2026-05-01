@@ -1,4 +1,4 @@
-import { notFound } from "next/dist/client/components/not-found";
+import { notFound } from "next/navigation";
 import { parseDecimalInt } from "@sside-net/utility";
 import { IntegerPagePathParameter } from "../../constant/path-parameter/IntegerPagePathParameter";
 import { StringPagePathParameter } from "../../constant/path-parameter/StringPagePathParameter";

@@ -1,4 +1,5 @@
 export const IntegerPagePathParameter = {
+    BlogEntryId: "blogEntryId",
     Month: "month",
     Year: "year",
 } as const;

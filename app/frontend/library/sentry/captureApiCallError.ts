@@ -9,7 +9,7 @@ export const captureApiCallError = <T>(
         | FC<T>
         | ((...arguments_: unknown[]) => unknown)
         | string,
-): void => {
+): Response => {
     if (!is400sErrorResponse(response)) {
         new ProjectLogger(
             typeof componentOrContextName === "string" ?
@@ -20,5 +20,5 @@ export const captureApiCallError = <T>(
 
     captureException(response);
 
-    return;
+    return response;
 };

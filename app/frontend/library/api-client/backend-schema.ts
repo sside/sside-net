@@ -342,7 +342,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["BlogEntryResponse"][];
+                    "application/json": components["schemas"]["BlogEntryResponse"];
                 };
             };
         };
@@ -365,7 +365,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["BlogEntryResponse"][];
+                    "application/json": components["schemas"]["BlogEntryResponse"];
                 };
             };
         };
@@ -390,7 +390,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["BlogEntryResponse"][];
+                    "application/json": components["schemas"]["BlogEntryResponse"];
                 };
             };
         };
@@ -415,7 +415,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["BlogEntryResponse"][];
+                    "application/json": components["schemas"]["BlogEntryResponse"];
                 };
             };
         };

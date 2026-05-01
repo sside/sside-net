@@ -1,11 +1,11 @@
 import { expect } from "@playwright/test";
-import { test } from "../../../library/test/clientTest";
+import { test } from "../../../test/clientTest";
 import { mockValueBlogEntryController_getAllBlogEntries } from "../../../test/mock/mockBlogEntryController_getAllBlogEntries";
-import { mockManagementRoot } from "../_test/mockManagementRoot";
+import { mockDefaultValues } from "../../../test/mockDefaultValues";
 
 test.describe("ManagementBlogEntryList", () => {
     test.beforeEach(async ({ page, network }) => {
-        mockManagementRoot(network);
+        mockDefaultValues(network);
 
         await page.goto("/management");
         await page.waitForLoadState("networkidle");
@@ -15,5 +15,19 @@ test.describe("ManagementBlogEntryList", () => {
         expect(
             await page.locator(".blog-entry-table").locator("tbody tr").count(),
         ).toBe(mockValueBlogEntryController_getAllBlogEntries.length);
+    });
+
+    test("それぞれのエントリの編集ページへリンクが張られていること。", async ({
+        page,
+    }) => {
+        for (const { id } of mockValueBlogEntryController_getAllBlogEntries) {
+            await expect(
+                page
+                    .locator(".blog-entry-table")
+                    .locator(
+                        `a[href="/management/blog-entry/${id.toString(10)}/edit"]`,
+                    ),
+            ).toBeVisible();
+        }
     });
 });

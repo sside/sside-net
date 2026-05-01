@@ -106,7 +106,7 @@ const BlogMetaTagTable: FC = () => {
     }
 
     return (
-        <table className="blog-entry-table w-full">
+        <table className="blog-meta-tag-table w-full">
             <thead className="bg-base0 text-base03 border-collapse rounded-full border-s-0">
                 {reactTable
                     .getHeaderGroups()

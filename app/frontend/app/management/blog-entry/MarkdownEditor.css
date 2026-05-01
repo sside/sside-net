@@ -1,0 +1,44 @@
+.milkdown {
+    /* Background Colors */
+    --crepe-color-background: var(
+        --color-background-body
+    ); /* Main background color */
+    --crepe-color-surface: var(
+        --color-base02
+    ); /* Surface color for cards/panels */
+    --crepe-color-surface-low: var(--color-background-menu); /* Lower surface color for depth */
+
+    /* Text Colors */
+    --crepe-color-on-background: var(--color-text-body); /* Text color on background */
+    --crepe-color-on-surface: var(--color-text-body); /* Text color on surface */
+    --crepe-color-on-surface-variant: var(--color-text-body); /* Secondary text color */
+
+    /* Accent Colors */
+    --crepe-color-primary: var(--color-base2); /* Primary brand color */
+    --crepe-color-secondary: var(--color-base2); /* Secondary accent color */
+    --crepe-color-on-secondary: var(--color-base3); /* Text color on secondary */
+
+    /* UI Colors */
+    --crepe-color-outline: var(--color-text-body); /* Border/outline color */
+    --crepe-color-inverse: var(--color-base3); /* Inverse color for contrast */
+    --crepe-color-on-inverse: var(--color-base3); /* Text color on inverse */
+    --crepe-color-inline-code: var(--color-base2); /* Inline code color */
+    --crepe-color-error: var(--color-red); /* Error state color */
+
+    /* Interactive Colors */
+    --crepe-color-hover: var(--color-base3); /* Hover state color */
+    --crepe-color-selected: var(--color-base3); /* Selected state color */
+    --crepe-color-inline-area: var(--color-base01); /* Inline editing area color */
+
+    --crepe-font-title: var(--font-sans);
+    --crepe-font-default: var(--font-sans);
+    --crepe-font-code:
+        var(--font-mono);
+
+    --crepe-shadow-1:
+        0px 1px 2px 0px var(--color-base3),
+        1px 1px 3px 1px var(--color-base03);
+    --crepe-shadow-2:
+        0px 1px 2px 0px var(--color-base3),
+        1px 2px 6px 2px var(--color-base03);
+}

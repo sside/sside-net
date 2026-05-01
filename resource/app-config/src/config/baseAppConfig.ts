@@ -29,4 +29,17 @@ export const baseAppConfig = {
             projectName: "sside-net-backend",
         },
     },
+    blog: {
+        validation: {
+            title: {
+                maxLength: 200,
+            },
+            slug: {
+                maxLength: 100,
+            },
+            metaTag: {
+                maxLength: 40,
+            },
+        },
+    },
 } satisfies DeepPartial<AppConfig>;

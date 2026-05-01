@@ -16,7 +16,21 @@ test.describe("BlogEntryBody", () => {
 
     test("markdownに含まれているh1 - h4がh3 - h6に変更されていること。", async ({
         page,
+        msw,
     }) => {
+        mockBackendGetResponse(
+            `/public-blog-entry/slug/${mockValuePublicBlogEntryController_getBlogEntryBySlug.slug}` as "/public-blog-entry/slug/{slug}",
+            {
+                ...mockValuePublicBlogEntryController_getBlogEntryBySlug,
+                bodyMarkdown: dedent`
+                    # header 1
+                    ## header 2
+                    ### header 3
+                    #### header 4
+                `,
+            },
+            msw,
+        );
         const blogEntryBody = page.locator(".blog-entry-body");
         for (const level of createIntegerRange(3, 6)) {
             await expect(

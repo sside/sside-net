@@ -1,0 +1,41 @@
+/* 値の意味は
+https://github.com/yairEO/tagify?tab=readme-ov-file#css-variables
+を参照。 */
+
+.tagify {
+    /*--tags-disabled-bg: var();*/
+    --tags-border-color: var(--color-base1);
+    --tags-hover-border-color: var(--color-base1);
+    --tags-focus-border-color: var(--color-base1);
+    --tag-border-radius: 4px;
+    --tag-bg: var(--color-base1);
+    /*--tag-hover: var();*/
+    --tag-text-color: var(--color-base02);
+    --tag-text-color--edit: var(--color-base02);
+    /*--tag-pad: var();*/
+    /*--tag--min-width: var();*/
+    /*--tag--max-width: var();*/
+    /*--tag-inset-shadow-size: var();*/
+    /*--tag-invalid-color: var();*/
+    /*--tag-invalid-bg: var();*/
+    /*--tag-remove-bg: var();*/
+    /*--tag-remove-btn-color: var();*/
+    /*--tag-remove-btn-bg: var();*/
+    /*--tag-remove-btn-bg--hover: var();*/
+    /*--input-color: var();*/
+    /*--tag-hide-transition: var();*/
+    /*--placeholder-color: var();*/
+    /*--placeholder-color-focus: var();*/
+    /*--loader-size: var();*/
+    /*--readonly-striped: var();*/
+}
+
+:root {
+    /* Dropdown */
+    --tagify-dd-color-primary: var(--color-base01);
+    --tagify-dd-text-color: var(--color-base2);
+    --tagify-dd-bg-color: var(--color-base02);
+    /*--tagify-dd-item--hidden-duration: var();*/
+    /*--tagify-dd-item-pad: var();*/
+    /*--tagify-dd-max-height: var();*/
+}

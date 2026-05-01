@@ -1,5 +1,6 @@
 import { defineConfig } from "next/experimental/testmode/playwright/msw";
 import { config } from "@dotenvx/dotenvx";
+import { devices } from "@playwright/test";
 import { getAppConfig } from "@sside-net/app-config";
 import { resolve } from "node:path";
 
@@ -41,16 +42,16 @@ export default defineConfig({
 
     /* Configure projects for major browsers */
     // FIXME: next/experimental/testmodeでは機能しないのでコメントアウト。ソリューションを見つけたら戻す。
-    // projects: [
-    //     {
-    //         name: "Google Chrome",
-    //         use: { ...devices["Desktop Chrome"], channel: "chrome" },
-    //     },
-    //     {
-    //         name: "Mobile Safari",
-    //         use: { ...devices["iPhone 15"] },
-    //     },
-    // ],
+    projects: [
+        {
+            name: "Google Chrome",
+            use: { ...devices["Desktop Chrome"], channel: "chrome" },
+        },
+        // {
+        //     name: "Mobile Safari",
+        //     use: { ...devices["iPhone 15"] },
+        // },
+    ],
 
     /* Run your local dev server before starting the tests */
     webServer: {

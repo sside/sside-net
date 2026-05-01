@@ -16,13 +16,13 @@
     "dependencies": {
         "@sside-net/constant": "*",
         "@sside-net/utility": "*",
-        "defu": "6.1.4"
+        "defu": "6.1.7"
     },
     "devDependencies": {
         "@sside-net/eslint": "*",
         "@sside-net/jest": "*",
         "@sside-net/tsconfig": "*",
-        "@types/node": "^24.12.0",
+        "@types/node": "24",
         "rimraf": "6.1.3",
         "typescript": "5.9.3"
     },

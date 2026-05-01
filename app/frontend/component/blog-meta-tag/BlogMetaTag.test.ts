@@ -1,13 +1,13 @@
 import { expect, test } from "next/experimental/testmode/playwright/msw";
-import { mockSlugBlogEntryPage } from "../../app/blog/entry/[blogEntrySlug]/_test/mockSlugBlogEntryPage";
 import { mockValuePublicBlogEntryController_getBlogEntryBySlug } from "../../test/mock/mockPublicBlogEntryController_getBlogEntryBySlug";
+import { mockDefaultValues } from "../../test/mockDefaultValues";
 
 test.describe("BlogMetaTag", () => {
     const { slug, metaTags } =
         mockValuePublicBlogEntryController_getBlogEntryBySlug;
 
     test.beforeEach(async ({ page, msw }) => {
-        mockSlugBlogEntryPage(msw);
+        mockDefaultValues(msw);
 
         await page.goto(`/blog/entry/${slug}`);
     });

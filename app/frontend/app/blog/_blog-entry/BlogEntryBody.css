@@ -22,6 +22,7 @@
     pre {
         width: fit-content;
         max-width: 90%;
+        font-family: var(--font-mono), monospace;
         border: solid 1px var(--color-text-body);
         padding: 1rem;
         background-color: var(--color-base02);
@@ -49,30 +50,35 @@
     h3 {
         font-size: 2.4rem;
     }
+
     h4 {
         font-size: 2rem;
         --offset: 1rem;
         margin-left: var(--offset);
         max-width: calc(100% - var(--offset));
     }
+
     h5 {
         font-size: 1.7rem;
         --offset: 1.5rem;
         margin-left: var(--offset);
         max-width: calc(100% - var(--offset));
     }
+
     h6 {
         font-size: 1.5rem;
         --offset: 2rem;
         margin-left: var(--offset);
         max-width: calc(100% - var(--offset));
     }
+
     h6[aria-level="7"] {
         font-size: 1.3rem;
         --offset: 2.5rem;
         margin-left: var(--offset);
         max-width: calc(100% - var(--offset));
     }
+
     h6[aria-level="8"] {
         font-size: 1.1rem;
         --offset: 3rem;
@@ -88,10 +94,12 @@
         ol {
             text-indent: 1.5rem;
         }
+
         ul {
             list-style-type: circle;
         }
     }
+
     ol {
         text-indent: 0.5rem;
         list-style-type: decimal;
@@ -101,6 +109,7 @@
             text-indent: 1.5rem;
         }
     }
+
     li {
         list-style-position: inside;
     }
@@ -137,6 +146,7 @@
             grid-column: 1;
             font-weight: 700;
         }
+
         > dd {
             grid-column: 3;
         }

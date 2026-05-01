@@ -30,4 +30,17 @@ export type AppConfig = {
             projectName: "sside-net-backend";
         };
     };
+    blog: {
+        validation: {
+            title: {
+                maxLength: number;
+            };
+            slug: {
+                maxLength: number;
+            };
+            metaTag: {
+                maxLength: number;
+            };
+        };
+    };
 };

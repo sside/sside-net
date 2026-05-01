@@ -1,6 +1,11 @@
 @import "tailwindcss";
 
 @theme {
+    --font-sans:
+        "Noto Sans JP", "Yu Gothic UI", "Helvetica Neue",
+        "Hiragino Kaku Gothic ProN", "Hiragino Sans", sans-serif;
+    --font-mono: "Cascadia Code", monospace;
+
     --color-*: initial;
 
     --color-base03: oklch(27.4% 0.05 219.6);

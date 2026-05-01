@@ -9,6 +9,7 @@ export type TimeFormat = (typeof TimeFormat)[keyof typeof TimeFormat];
 export const DateTimeFormat = {
     Iso8601WithoutMilliseconds: `yyyy-MM-dd'T'HH:mm:ssZZ`,
     JapaneseHourAndMinute: "yyyy-MM-dd HH:mm",
+    DateTimeLocal: "yyyy-MM-dd'T'HH:mm",
 } as const;
 export type DateTimeFormat =
     (typeof DateTimeFormat)[keyof typeof DateTimeFormat];

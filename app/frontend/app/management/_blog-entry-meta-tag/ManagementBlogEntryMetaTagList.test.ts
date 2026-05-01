@@ -1,9 +1,9 @@
 import { expect, test } from "next/experimental/testmode/playwright/msw";
-import { mockManagementRoot } from "../_test/mockManagementRoot";
+import { mockDefaultValues } from "../../../test/mockDefaultValues";
 
 test.describe("ManagementBlogEntryMetaTagList", () => {
     test.beforeEach(async ({ page, msw }) => {
-        mockManagementRoot(msw);
+        mockDefaultValues(msw);
 
         await page.goto("/management");
     });

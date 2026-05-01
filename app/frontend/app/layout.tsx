@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default async function RootLayout({ children }: ChildrenProp) {
     return (
         <html lang="ja">
-            <body className="bg-background-body text-text-body min-h-dvh w-full text-base font-normal">
+            <body className="bg-background-body text-text-body min-h-dvh w-full max-w-dvw text-base font-normal">
                 {children}
             </body>
         </html>

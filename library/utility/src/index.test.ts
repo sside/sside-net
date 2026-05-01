@@ -17,7 +17,6 @@ describe("parseDecimalFloat", () => {
     });
     test("数値以外はNaNを返すこと。", () => {
         expect(parseDecimalFloat(null)).toBeNaN();
-         
         expect(parseDecimalFloat(undefined)).toBeNaN();
         expect(parseDecimalFloat("not number")).toBeNaN();
         expect(parseDecimalFloat("includes number 123")).toBeNaN();
@@ -31,6 +30,7 @@ describe("parseDecimalInt", () => {
         expect(parseDecimalInt("123456")).toBe(123_456);
         expect(parseDecimalInt("0.123456")).toBe(0);
         expect(parseDecimalInt("-123456")).toBe(-123_456);
+        expect(parseDecimalInt("0")).toBe(0);
     });
 });
 

@@ -11,6 +11,7 @@ import {
 } from "@tanstack/react-table";
 import { $apiClient } from "../../../library/api-client/api-client";
 import { components } from "../../../library/api-client/backend-schema";
+import { captureApiCallError } from "../../../library/sentry/captureApiCallError";
 import { ManagementSectionHeader } from "../ManagementSectionHeader";
 
 const BlogEntryTable: FC<{}> = ({}) => {
@@ -18,6 +19,7 @@ const BlogEntryTable: FC<{}> = ({}) => {
         "get",
         `/blog-entry`,
     );
+    // dataをundefinedにしないために一度メモ化している
     const blogEntries = useMemo(() => data ?? [], [data]);
 
     const columnHelper =
@@ -25,14 +27,18 @@ const BlogEntryTable: FC<{}> = ({}) => {
     const reactTable = useReactTable({
         data: blogEntries,
         columns: [
+            columnHelper.accessor("id", {
+                header: () => null,
+                cell: () => null,
+            }),
             columnHelper.accessor("title", {
                 header: "title",
                 cell: (props) => (
                     <Link
                         className="underline"
-                        href={`/management/blog-entry/${props.row.getValue("slug")}/edit`}
+                        href={`/management/blog-entry/${props.row.getValue("id")}/edit`}
                     >
-                        {props.row.getValue("slug")}
+                        {props.getValue() || "タイトル未設定"}
                     </Link>
                 ),
             }),
@@ -67,12 +73,12 @@ const BlogEntryTable: FC<{}> = ({}) => {
     }
 
     if (error) {
-        throw error;
+        throw captureApiCallError(error, BlogEntryTable);
     }
 
     return (
         <table className="blog-entry-table w-full">
-            <thead className="bg-base2 border-collapse rounded-full border-s-0">
+            <thead className="bg-base0 text-base03 border-collapse rounded-full border-s-0">
                 {reactTable
                     .getHeaderGroups()
                     .map(({ id: headerGroupId, headers }) => (
@@ -80,7 +86,7 @@ const BlogEntryTable: FC<{}> = ({}) => {
                             {headers.map((header) => (
                                 <th
                                     key={header.id}
-                                    className="p-3 text-start first:rounded-l-2xl last:rounded-r-2xl"
+                                    className="p-3 text-start first:hidden last:rounded-r-2xl nth-[2]:rounded-l-2xl"
                                 >
                                     {header.isPlaceholder ? null : (
                                         flexRender(
@@ -102,7 +108,7 @@ const BlogEntryTable: FC<{}> = ({}) => {
                         {row.getVisibleCells().map((cell) => (
                             <td
                                 key={cell.id}
-                                className="px-3 py-2"
+                                className="px-3 py-2 first:hidden"
                             >
                                 {flexRender(
                                     cell.column.columnDef.cell,
