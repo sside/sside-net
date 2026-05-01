@@ -2,7 +2,7 @@
     "name": "@sside-net/open-api",
     "version": "0.0.0",
     "description": "sside.net OpenAPI documents",
-    "main": "ts-schema/backend-schema.d.ts",
+    "main": "dist/index.js",
     "files": [
         "dist",
         "open-api.json"
