@@ -57,7 +57,16 @@ export default defineConfig([
             "unicorn/prevent-abbreviations": [
                 "warn",
                 {
-                    allowList: ["e", "prop", "props", "i", "args"].reduce(
+                    allowList: [
+                        "e",
+                        "prop",
+                        "props",
+                        "i",
+                        "args",
+                        "ctx",
+                        "curr",
+                        "prev",
+                    ].reduce(
                         (prev, curr) => ({
                             ...prev,
                             [camelCase(curr)]: true,
