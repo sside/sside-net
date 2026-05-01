@@ -207,6 +207,13 @@ export default function (
                 default: false,
             });
 
+            const { isSkipTest } = await inquirer.prompt({
+                type: "confirm",
+                name: "isSkipTest",
+                message: "テストの作成をスキップしますか？",
+                default: false,
+            });
+
             const outputDirectoryFullPath = resolve(
                 dirName,
                 functionComponentsDirectoryRelativePath,
@@ -220,6 +227,7 @@ export default function (
                 PascalFunctionComponentName: pascalCase(functionComponentName),
                 kebabFunctionComponentName: kebabCase(functionComponentName),
                 isClientComponent,
+                isSkipTest,
             };
         },
         actions: () => [
@@ -231,6 +239,8 @@ export default function (
             },
             {
                 type: "add",
+                skip: ({ isSkipTest }) =>
+                    isSkipTest ? "テストの作成をスキップします。" : undefined,
                 path: "{{outputDirectoryFullPath}}/{{PascalFunctionComponentName}}.test.ts",
                 templateFile:
                     ".prop/template/function-component/function-component.test.ts.hbs",
