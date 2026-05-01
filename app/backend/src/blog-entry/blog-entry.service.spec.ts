@@ -274,6 +274,33 @@ describe("BlogEntryService", () => {
                     .length,
             ).toBeGreaterThanOrEqual(1);
         });
+
+        test("新規作成時に公開日時を与えた場合、与えた日時が設定されること。", async () => {
+            const publishAt = new Date("2026-04-01T12:00:00Z");
+
+            expect(
+                (
+                    await blogEntryService.createPublished(
+                        createBlogEntryInput(),
+                        [],
+                        publishAt,
+                    )
+                ).publishAt?.getTime(),
+            ).toBe(publishAt.getTime());
+        });
+
+        test("公開日を与えない場合、現在の日時が設定されること。", async () => {
+            const now = new Date();
+            const { publishAt } = await blogEntryService.createPublished(
+                createBlogEntryInput(),
+                [],
+            );
+
+            expect(publishAt!.getTime()).toBeGreaterThanOrEqual(now.getTime());
+            expect(publishAt!.getTime()).toBeLessThanOrEqual(
+                now.getTime() + 2000,
+            );
+        });
     });
 
     describe("publishBlogEntryDraft", () => {

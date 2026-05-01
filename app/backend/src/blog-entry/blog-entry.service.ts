@@ -284,7 +284,7 @@ export class BlogEntryService {
                 await this.blogEntryQuery.insertPublishedHistory(
                     blogEntryId,
                     { slug, title, bodyMarkdown },
-                    existsPublishAt ?? publishAt ?? new Date(),
+                    publishAt ?? existsPublishAt ?? new Date(),
                     ongoingTransaction,
                 )
             ).id,

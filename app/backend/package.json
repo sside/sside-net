@@ -29,6 +29,7 @@
         "@sside-net/constant": "*",
         "@sside-net/open-api": "*",
         "@sside-net/utility": "*",
+        "@sside-net/validator": "*",
         "class-transformer": "0.5.1",
         "class-validator": "0.15.1",
         "helmet": "8.1.0",
