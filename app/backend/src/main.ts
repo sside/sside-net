@@ -8,12 +8,15 @@ import { ProjectLogger } from "@sside-net/project-logger";
 import { getEnvironmentType, parseDecimalInt } from "@sside-net/utility";
 import * as ClassTransformer from "class-transformer";
 import * as ClassValidator from "class-validator";
-import helmet from "helmet";
+import helmet, { HelmetOptions } from "helmet";
 import { AppModule } from "./app.module";
 import { JsonLogger } from "./library/logger/JsonLogger";
 
 const logger = new ProjectLogger("NestJS bootstrap");
 
+/**
+ * NestJSサーバ起動。main。
+ */
 async function bootstrap() {
     const DEFAULT_LISTEN_PORT = 27_250;
     const listenPort = parseDecimalInt(process.env.PORT) || DEFAULT_LISTEN_PORT;
@@ -24,8 +27,9 @@ async function bootstrap() {
 
     applyGlobalValidation(app);
 
-    app.use(helmet());
+    wearHelmet(app);
     applyCors(app);
+
     if (getEnvironmentType() !== EnvironmentType.Production) {
         await serveSwaggerDocument(app, "swagger", listenPort);
     }
@@ -74,6 +78,18 @@ function applyCors(app: INestApplication): void {
         origin: allowedOrigin,
         credentials: true,
     });
+
+    return;
+}
+
+/**
+ * helmetを適用します。
+ */
+function wearHelmet(app: INestApplication): void {
+    const helmetOptions = {} satisfies HelmetOptions;
+    logger.log("helmetを適用します。");
+
+    app.use(helmet(helmetOptions));
 
     return;
 }
