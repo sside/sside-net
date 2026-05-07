@@ -1,9 +1,8 @@
 import { Module } from "@nestjs/common";
-import { JwtModule } from "@nestjs/jwt";
+import { JwtModule, JwtService } from "@nestjs/jwt";
 import { getAppConfig } from "@sside-net/app-config";
 import { AuthenticationController } from "./authentication.controller";
 import { AuthenticationService } from "./authentication.service";
-import { SignInGuard } from "./sign-in.guard";
 
 @Module({
     imports: [
@@ -15,8 +14,7 @@ import { SignInGuard } from "./sign-in.guard";
             },
         }),
     ],
-    providers: [AuthenticationService, SignInGuard],
+    providers: [AuthenticationService, JwtService],
     controllers: [AuthenticationController],
-    exports: [AuthenticationService],
 })
 export class AuthenticationModule {}

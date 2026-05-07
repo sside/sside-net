@@ -10,12 +10,14 @@ import {
     Put,
 } from "@nestjs/common";
 import { ApiCreatedResponse, ApiOkResponse } from "@nestjs/swagger";
+import { SignedIn } from "../authentication/decorator/signed-in.decorator";
 import { BlogEntryService } from "./blog-entry.service";
 import { BlogEntryRequest } from "./request/BlogEntry.request";
 import { PublishBlogEntryRequest } from "./request/PublishBlogEntry.request";
 import { BlogEntryResponse } from "./response/BlogEntry.response";
 
 @Controller("blog-entry")
+@SignedIn()
 export class BlogEntryController {
     constructor(private readonly blogEntryService: BlogEntryService) {}
 

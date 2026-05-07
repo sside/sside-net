@@ -1,9 +1,11 @@
 import { Controller, Get } from "@nestjs/common";
 import { ApiOkResponse } from "@nestjs/swagger";
+import { SignedIn } from "../authentication/decorator/signed-in.decorator";
 import { BlogEntryMetaTagService } from "./blog-entry-meta-tag.service";
 import { BlogEntryMetaTagCountResponse } from "./response/BlogEntryMetaTagCount.response";
 
 @Controller("blog-entry-meta-tag")
+@SignedIn()
 export class BlogEntryMetaTagController {
     constructor(
         private readonly blogEntryMetaTagService: BlogEntryMetaTagService,

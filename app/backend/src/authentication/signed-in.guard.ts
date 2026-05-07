@@ -9,7 +9,7 @@ import { JwtService } from "@nestjs/jwt";
 import { CookieKey } from "@sside-net/constant";
 
 @Injectable()
-export class SignInGuard implements CanActivate {
+export class SignedInGuard implements CanActivate {
     private readonly logger = new Logger(this.constructor.name);
 
     constructor(private readonly jwtService: JwtService) {}
@@ -17,6 +17,10 @@ export class SignInGuard implements CanActivate {
     async canActivate(executionContext: ExecutionContext): Promise<boolean> {
         const accessToken = executionContext.switchToHttp().getRequest()
             .cookies?.[CookieKey.AuthenticationJwt] as string | undefined;
+
+        this.logger.log("認証チェックを行います。", {
+            hasAccessTokenCookie: !!accessToken,
+        });
 
         if (!accessToken) {
             throw new UnauthorizedException(

@@ -1,4 +1,5 @@
 import { Module } from "@nestjs/common";
+import { AuthenticationModule } from "../authentication/authentication.module";
 import { DatabaseModule } from "../database/database.module";
 import { BlogEntryMetaTagController } from "./blog-entry-meta-tag.controller";
 import { BlogEntryMetaTagService } from "./blog-entry-meta-tag.service";
@@ -10,7 +11,7 @@ import { BlogEntryMetaTagQuery } from "./query/blog-entry-meta-tag.query";
 import { BlogEntryQuery } from "./query/blog-entry.query";
 
 @Module({
-    imports: [DatabaseModule],
+    imports: [DatabaseModule, AuthenticationModule],
     providers: [
         BlogEntryService,
         BlogEntryQuery,
