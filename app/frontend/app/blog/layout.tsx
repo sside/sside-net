@@ -1,7 +1,13 @@
+import type { Metadata } from "next";
+import { getAppConfig } from "@sside-net/app-config";
 import { ChildrenProp } from "../../type/ChildrenProp";
 import { BlogTitle } from "./BlogTitle";
 import { BlogFooter } from "./_footer/BlogFooter";
 import { BlogMenu } from "./_menu/BlogMenu";
+
+export const metadata: Metadata = {
+    description: `${getAppConfig().global.appName} blog`,
+};
 
 export default async function BlogLayout({ children }: ChildrenProp) {
     return (
