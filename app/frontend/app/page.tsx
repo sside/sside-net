@@ -1,3 +1,5 @@
+import { redirect } from "next/navigation";
+
 export default async function Home() {
-    return <div>boiler plate</div>;
+    return redirect("/blog");
 }
