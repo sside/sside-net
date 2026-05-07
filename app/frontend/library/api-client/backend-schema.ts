@@ -196,6 +196,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/authentication/sign-in": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["AuthenticationController_postSignIn"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -257,6 +273,9 @@ export interface components {
             year: number;
             month: number;
             count: number;
+        };
+        SignInRequest: {
+            password: string;
         };
     };
     responses: never;
@@ -520,6 +539,27 @@ export interface operations {
             };
         };
     };
+    AuthenticationController_postSignIn: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SignInRequest"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
 }
 export enum ApiPaths {
     AppController_getHealthCheck = "/health-check",
@@ -534,4 +574,5 @@ export enum ApiPaths {
     PublicBlogEntryController_getBlogEntryArchiveYearMonths = "/public-blog-entry/archive-year-month",
     BlogEntryMetaTagController_getAllWithCount = "/blog-entry-meta-tag",
     PublicBlogEntryMetaTagController_getAllPublishedBlogEntryMetaTag = "/public-blog-entry-meta-tag",
+    AuthenticationController_postSignIn = "/authentication/sign-in",
 }

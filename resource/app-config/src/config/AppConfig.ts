@@ -26,6 +26,13 @@ export type AppConfig = {
         };
     };
     backend: {
+        authentication: {
+            accessTokenExpireSecond: number;
+        };
+        rateLimit: {
+            timeToLiveSecond: number;
+            requestCount: number;
+        };
         sentry: {
             projectName: "sside-net-backend";
         };

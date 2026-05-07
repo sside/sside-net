@@ -66,6 +66,8 @@ export default defineConfig([
                         "ctx",
                         "curr",
                         "prev",
+                        "req",
+                        "res",
                     ].reduce(
                         (prev, curr) => ({
                             ...prev,

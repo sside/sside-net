@@ -8,7 +8,8 @@ import { ProjectLogger } from "@sside-net/project-logger";
 import { getEnvironmentType, parseDecimalInt } from "@sside-net/utility";
 import * as ClassTransformer from "class-transformer";
 import * as ClassValidator from "class-validator";
-import helmet, { HelmetOptions } from "helmet";
+import cookieParser from "cookie-parser";
+import helmet from "helmet";
 import { AppModule } from "./app.module";
 import { JsonLogger } from "./library/logger/JsonLogger";
 
@@ -27,7 +28,11 @@ async function bootstrap() {
 
     applyGlobalValidation(app);
 
-    wearHelmet(app);
+    logger.log("helmetを適用します。");
+    app.use(helmet());
+    logger.log("cookie-parserを適用します。");
+    app.use(cookieParser());
+
     applyCors(app);
 
     if (getEnvironmentType() !== EnvironmentType.Production) {
@@ -78,18 +83,6 @@ function applyCors(app: INestApplication): void {
         origin: allowedOrigin,
         credentials: true,
     });
-
-    return;
-}
-
-/**
- * helmetを適用します。
- */
-function wearHelmet(app: INestApplication): void {
-    const helmetOptions = {} satisfies HelmetOptions;
-    logger.log("helmetを適用します。");
-
-    app.use(helmet(helmetOptions));
 
     return;
 }

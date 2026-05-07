@@ -25,6 +25,13 @@ export const baseAppConfig = {
         },
     },
     backend: {
+        authentication: {
+            accessTokenExpireSecond: 60 * 60 * 24 * 7,
+        },
+        rateLimit: {
+            timeToLiveSecond: 60,
+            requestCount: 30,
+        },
         sentry: {
             projectName: "sside-net-backend",
         },
