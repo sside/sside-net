@@ -19,6 +19,10 @@ export class DatabaseService
             adapter: new PrismaBetterSqlite3({
                 url: process.env.DATABASE_URL,
             }),
+            log:
+                process.env.LOG_DATABASE_QUERY?.toUpperCase() === "TRUE" ?
+                    ["info", "warn", "error", "query"]
+                :   ["info", "warn", "error"],
         });
     }
 

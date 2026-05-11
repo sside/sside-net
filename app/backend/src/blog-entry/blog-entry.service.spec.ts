@@ -1,7 +1,7 @@
 import { fakerEN, fakerJA } from "@faker-js/faker";
-import { beforeEach, describe, expect, test } from "@jest/globals";
+import { beforeEach, describe, expect, test, jest } from "@jest/globals";
 import { Test, TestingModule } from "@nestjs/testing";
-import { createIntegerArray } from "@sside-net/utility";
+import { createIntegerArray, createIntegerRange } from "@sside-net/utility";
 import { AuthenticationModule } from "../authentication/authentication.module";
 import { JsonLogger } from "../library/logger/JsonLogger";
 import { prepareTestDatabase } from "../library/test/database/prepareTestDatabase";
@@ -156,6 +156,239 @@ describe("BlogEntryService", () => {
                 await blogEntryService.getLatestPublishedBlogEntries(10);
 
             expect(pointerBlogEntry).toBeNull();
+        });
+    });
+
+    describe("getPublishedBlogEntriesByPublishYear", () => {
+        test("取得した公開済みBlogEntryが指定した年度のもののみであること。", async () => {
+            const PUBLISH_COUNT = 10;
+            const startOfYear = new Date("2026-01-01T00:00:00+09:00");
+            const endOfYear = new Date("2026-12-31T23:59:59+09:00");
+
+            await Promise.all(
+                createIntegerRange(1, PUBLISH_COUNT)
+                    .map(() => createBlogEntryInput())
+                    .map(
+                        async (blogEntryInput) =>
+                            await blogEntryService.createPublished(
+                                blogEntryInput,
+                                [],
+                                fakerEN.date
+                                    .betweens({
+                                        from: startOfYear,
+                                        to: endOfYear,
+                                        count: 1,
+                                    })
+                                    .at(0),
+                            ),
+                    ),
+            );
+            await Promise.all(
+                createIntegerRange(1, PUBLISH_COUNT)
+                    .map(() => createBlogEntryInput())
+                    .map(
+                        async (blogEntryInput) =>
+                            await blogEntryService.createPublished(
+                                blogEntryInput,
+                                [],
+                                fakerEN.date.future({
+                                    years: 2027,
+                                }),
+                            ),
+                    ),
+            );
+
+            const publishedBlogEntries = (
+                await blogEntryService.getPublishedBlogEntriesByPublishYear(
+                    2026,
+                    PUBLISH_COUNT,
+                )
+            )[0];
+
+            for (const { publishAt } of publishedBlogEntries) {
+                expect(publishAt?.getTime()).toBeGreaterThanOrEqual(
+                    startOfYear.getTime(),
+                );
+                expect(publishAt?.getTime()).toBeLessThanOrEqual(
+                    endOfYear.getTime(),
+                );
+            }
+        });
+
+        test("指定の日付範囲で作成した公開済みBlogEntryの件数が作成件数と一致すること。", async () => {
+            const PUBLISH_COUNT = 10;
+            const startOfYear = new Date("2025-01-01T00:00:00+09:00");
+            const endOfYear = new Date("2025-12-31T23:59:59+09:00");
+
+            await Promise.all(
+                createIntegerRange(1, PUBLISH_COUNT)
+                    .map(() => createBlogEntryInput())
+                    .map(
+                        async (blogEntryInput) =>
+                            await blogEntryService.createPublished(
+                                blogEntryInput,
+                                [],
+                                fakerEN.date
+                                    .betweens({
+                                        from: startOfYear,
+                                        to: endOfYear,
+                                        count: 1,
+                                    })
+                                    .at(0),
+                            ),
+                    ),
+            );
+            await Promise.all(
+                createIntegerRange(1, PUBLISH_COUNT)
+                    .map(() => createBlogEntryInput())
+                    .map(
+                        async (blogEntryInput) =>
+                            await blogEntryService.createPublished(
+                                blogEntryInput,
+                                [],
+                                fakerEN.date.future({
+                                    years: 2027,
+                                }),
+                            ),
+                    ),
+            );
+
+            const publishedBlogEntries = (
+                await blogEntryService.getPublishedBlogEntriesByPublishYear(
+                    2025,
+                    PUBLISH_COUNT * 100,
+                )
+            )[0];
+
+            expect(publishedBlogEntries.length).toBe(PUBLISH_COUNT);
+        });
+
+        test("取得時点で公開日に達していないBlogEntryを取得しないこと。", async () => {
+            const halfOfYear = new Date("2026-07-01T00:00:00+09:00");
+            jest.useFakeTimers({
+                now: halfOfYear,
+                // FIXME: タイムアウト対策のためにdoNotFakeを入れている。
+                // https://zenn.dev/kterui9019/scraps/9dfb7c79919f70
+                doNotFake: [
+                    "nextTick",
+                    "setImmediate",
+                    "clearImmediate",
+                    "setInterval",
+                    "clearInterval",
+                    "setTimeout",
+                    "clearTimeout",
+                ],
+            });
+
+            const PUBLISH_COUNT = 5;
+            const startOfYear = new Date("2026-01-01T00:00:00+09:00");
+            const endOfYear = new Date("2026-12-31T23:59:59+09:00");
+
+            await Promise.all(
+                createIntegerRange(1, PUBLISH_COUNT)
+                    .map(() => createBlogEntryInput())
+                    .map(
+                        async (blogEntryInput) =>
+                            await blogEntryService.createPublished(
+                                blogEntryInput,
+                                [],
+                                fakerEN.date
+                                    .betweens({
+                                        from: startOfYear,
+                                        to: halfOfYear,
+                                        count: 1,
+                                    })
+                                    .at(0),
+                            ),
+                    ),
+            );
+            await Promise.all(
+                createIntegerRange(1, PUBLISH_COUNT)
+                    .map(() => createBlogEntryInput())
+                    .map(
+                        async (blogEntryInput) =>
+                            await blogEntryService.createPublished(
+                                blogEntryInput,
+                                [],
+                                fakerEN.date
+                                    .betweens({
+                                        from: halfOfYear,
+                                        to: endOfYear,
+                                        count: 1,
+                                    })
+                                    .at(0),
+                            ),
+                    ),
+            );
+
+            const publishedBlogEntries = (
+                await blogEntryService.getPublishedBlogEntriesByPublishYear(
+                    2026,
+                    PUBLISH_COUNT * 100,
+                )
+            )[0];
+
+            expect(publishedBlogEntries.length).toBe(PUBLISH_COUNT);
+        });
+    });
+
+    describe("getPublishedBlogEntriesByPublishYearMonth", () => {
+        test("取得した公開済みBlogEntryが指定した年月のもののみであること。", async () => {
+            const PUBLISH_COUNT = 10;
+            const startOfMonth = new Date("2026-01-01T00:00:00+09:00");
+            const endOfMonth = new Date("2026-01-31T23:59:59+09:00");
+
+            await Promise.all(
+                createIntegerRange(1, PUBLISH_COUNT)
+                    .map(() => createBlogEntryInput())
+                    .map(
+                        async (blogEntryInput) =>
+                            await blogEntryService.createPublished(
+                                blogEntryInput,
+                                [],
+                                fakerEN.date
+                                    .betweens({
+                                        from: startOfMonth,
+                                        to: endOfMonth,
+                                        count: 1,
+                                    })
+                                    .at(0),
+                            ),
+                    ),
+            );
+            await Promise.all(
+                createIntegerRange(1, PUBLISH_COUNT)
+                    .map(() => createBlogEntryInput())
+                    .map(
+                        async (blogEntryInput) =>
+                            await blogEntryService.createPublished(
+                                blogEntryInput,
+                                [],
+                                fakerEN.date.future({
+                                    refDate: new Date(
+                                        "2026-02-02T00:00:00+09:00",
+                                    ),
+                                }),
+                            ),
+                    ),
+            );
+
+            const publishedBlogEntries = (
+                await blogEntryService.getPublishedBlogEntriesByPublishYearMonth(
+                    2026,
+                    1,
+                    PUBLISH_COUNT,
+                )
+            )[0];
+
+            for (const { publishAt } of publishedBlogEntries) {
+                expect(publishAt?.getTime()).toBeGreaterThanOrEqual(
+                    startOfMonth.getTime(),
+                );
+                expect(publishAt?.getTime()).toBeLessThanOrEqual(
+                    endOfMonth.getTime(),
+                );
+            }
         });
     });
 

@@ -113,6 +113,38 @@ export class BlogEntryQuery {
         });
     }
 
+    async findManyPublishedByRange(
+        searchStartAtGte: Date,
+        searchEndAtLt: Date,
+        count: number,
+        pointerPublishAtLte?: Date,
+    ): Promise<BlogEntryWithRelations[]> {
+        return await this.blogEntry().findMany({
+            where: {
+                AND: [
+                    BlogEntryQuery.WHERE_PUBLISHED(),
+                    {
+                        publishAt: {
+                            lte: pointerPublishAtLte,
+                        },
+                    },
+                    {
+                        publishAt: {
+                            gte: searchStartAtGte,
+                        },
+                    },
+                    {
+                        publishAt: {
+                            lte: searchEndAtLt,
+                        },
+                    },
+                ],
+            },
+            include: BlogEntryQuery.INCLUDE_RELATED_TABLES,
+            take: count,
+        });
+    }
+
     async findManyPublishAt(): Promise<Date[]> {
         return (
             await this.blogEntry().findMany({
