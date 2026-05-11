@@ -7,6 +7,7 @@ import { BlogEntryController } from "./blog-entry.controller";
 import { BlogEntryService } from "./blog-entry.service";
 import { PublicBlogEntryMetaTagController } from "./public-blog-entry-meta-tag.controller";
 import { PublicBlogEntryController } from "./public-blog-entry.controller";
+import { PublicBlogEntryService } from "./public-blog-entry.service";
 import { BlogEntryMetaTagQuery } from "./query/blog-entry-meta-tag.query";
 import { BlogEntryQuery } from "./query/blog-entry.query";
 
@@ -17,6 +18,7 @@ import { BlogEntryQuery } from "./query/blog-entry.query";
         BlogEntryQuery,
         BlogEntryMetaTagService,
         BlogEntryMetaTagQuery,
+        PublicBlogEntryService,
     ],
     exports: [BlogEntryService],
     controllers: [

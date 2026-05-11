@@ -51,7 +51,7 @@ export class BlogEntryMetaTagService {
         );
     }
 
-    async getAndCountPublishedBlogEntryMetaTagsByBlogEntryMetaTagIds(
+    async getAndCountPublishedByIds(
         blogEntryMetaTagIds: number[],
         ongoingTransaction?: Prisma.TransactionClient,
     ): Promise<BlogEntryMetaTagCountBlogEntry[]> {

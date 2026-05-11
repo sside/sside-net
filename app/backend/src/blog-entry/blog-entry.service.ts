@@ -11,11 +11,8 @@ import {
     MARKDOWN_SAMPLE_OLD_BLOG_1,
     MARKDOWN_SAMPLE_OLD_BLOG_2,
 } from "@sside-net/constant";
-import { setJst } from "@sside-net/date-time";
 import { createIntegerArray } from "@sside-net/utility";
-import { DateTime } from "luxon";
 import { Prisma } from "../generated/prisma/client";
-import { WithPointer } from "../type/pointer/WithPointer";
 import { BlogEntryMetaTagService } from "./blog-entry-meta-tag.service";
 import {
     BlogEntryQuery,
@@ -101,135 +98,6 @@ export class BlogEntryService {
         }
 
         return blogEntries;
-    }
-
-    /**
-     * slugで公開されたBlogEntryを取得します。
-     */
-    async getPublishedBySlug(slug: string): Promise<BlogEntryWithRelations> {
-        this.logger.log("slugでBlogEntryを取得します。", {
-            slug,
-        });
-
-        const found =
-            await this.blogEntryQuery.findOnePublishedWithRelationsBySlug(slug);
-
-        if (!found) {
-            throw new NotFoundException(
-                `BlogEntryが見つかりませんでした。slug:${slug}`,
-            );
-        }
-
-        return found;
-    }
-
-    /**
-     * 年度を指定して公開済みBlogEntryを公開逆順に取得します。
-     * ページングのため
-     */
-    async getPublishedBlogEntriesByPublishYear(
-        year: number,
-        count: number,
-        pointerBlogEntryId?: number,
-    ): Promise<WithPointer<BlogEntryWithRelations>> {
-        this.logger.log("年度を指定して公開されたBlogEntryを取得します。", {
-            year,
-            count,
-            pointerBlogEntryId,
-        });
-
-        const startOfTargetYear = setJst(
-            DateTime.fromObject({
-                year,
-                day: 2,
-            }),
-        ).startOf("year");
-
-        return this.getPublishedBlogEntriesByRange(
-            startOfTargetYear.toJSDate(),
-            startOfTargetYear
-                .plus({
-                    year: 1,
-                })
-                .toJSDate(),
-            count,
-            pointerBlogEntryId,
-        );
-    }
-
-    /**
-     * 年月を指定して公開済みBlogEntryを公開逆順に取得します。
-     * ページングのため
-     */
-    async getPublishedBlogEntriesByPublishYearMonth(
-        year: number,
-        month: number,
-        count: number,
-        pointerBlogEntryId?: number,
-    ): Promise<WithPointer<BlogEntryWithRelations>> {
-        this.logger.log("年度を指定して公開されたBlogEntryを取得します。", {
-            year,
-            month,
-            count,
-            pointerBlogEntryId,
-        });
-
-        const startOfTargetMonth = setJst(
-            DateTime.fromObject({
-                year,
-                month,
-                day: 2,
-            }),
-        ).startOf("month");
-
-        return this.getPublishedBlogEntriesByRange(
-            startOfTargetMonth.toJSDate(),
-            startOfTargetMonth
-                .plus({
-                    month: 1,
-                })
-                .toJSDate(),
-            count,
-            pointerBlogEntryId,
-        );
-    }
-
-    /**
-     * 直近に公開されたBlogEntryを取得します。
-     * ページングのため、ポインターになるBlogEntryがある場合はTupleの2つ目に入ります。
-     */
-    async getLatestPublishedBlogEntries(
-        count: number,
-        pointerBlogEntryId?: number,
-    ): Promise<WithPointer<BlogEntryWithRelations>> {
-        this.logger.log("直近に公開されたBlogEntryを取得します。", {
-            count,
-            pointerBlogEntryId,
-        });
-
-        const pointerPublishAt =
-            pointerBlogEntryId ?
-                await this.getPointerBlogEntryPublishAt(pointerBlogEntryId)
-            :   undefined;
-
-        const searchCount = count + 1;
-        const blogEntries =
-            await this.blogEntryQuery.findManyLatestPublishedWithRelations(
-                searchCount,
-                pointerPublishAt,
-            );
-
-        if (blogEntries.length < searchCount) {
-            return [blogEntries, null];
-        }
-
-        return [blogEntries.slice(0, count), blogEntries.at(-1)!];
-    }
-
-    async getAllBlogEntriesPublishAt(): Promise<Date[]> {
-        this.logger.log("全ての公開済みBlogEntryの公開日を取得します。");
-
-        return await this.blogEntryQuery.findManyPublishAt();
     }
 
     async createDraft(
@@ -524,61 +392,5 @@ export class BlogEntryService {
             await this.getByBlogEntryIds(publishes.map(({ id }) => id)),
             await this.getByBlogEntryIds(drafts.map(({ id }) => id)),
         ];
-    }
-
-    /**
-     * Dateで範囲を指定してページング考慮済み公開済みBlogEntryを取得します。
-     */
-    private async getPublishedBlogEntriesByRange(
-        searchStartAtGte: Date,
-        searchEndAtLt: Date,
-        count: number,
-        pointerBlogEntryId?: number,
-    ): Promise<WithPointer<BlogEntryWithRelations>> {
-        this.logger.log("公開日範囲を指定して公開済みBlogEntryを取得します。", {
-            searchStartAtGte,
-            searchEndAtLt,
-            count,
-            pointerBlogEntryId,
-        });
-
-        const pointerPublishAt =
-            pointerBlogEntryId ?
-                await this.getPointerBlogEntryPublishAt(pointerBlogEntryId)
-            :   undefined;
-        const searchCount = count + 1;
-
-        const blogEntries = await this.blogEntryQuery.findManyPublishedByRange(
-            searchStartAtGte,
-            searchEndAtLt,
-            searchCount,
-            pointerPublishAt,
-        );
-
-        if (blogEntries.length < searchCount) {
-            return [blogEntries, null];
-        }
-
-        return [blogEntries.slice(0, count), blogEntries.at(-1)!];
-    }
-
-    /**
-     * BlogEntryIdからページング用の公開日を取得します。
-     */
-    private async getPointerBlogEntryPublishAt(
-        pointerBlogEntryId: number,
-    ): Promise<Date | undefined> {
-        this.logger.log("ポインターのBlogEntry公開日を取得します。", {
-            pointerBlogEntryId,
-        });
-
-        try {
-            return (
-                (await this.getByBlogEntryId(pointerBlogEntryId)).publishAt ??
-                undefined
-            );
-        } catch {
-            return undefined;
-        }
     }
 }

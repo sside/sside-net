@@ -297,10 +297,6 @@ export interface components {
             /** Format: date-time */
             updatedAt?: string;
         };
-        PublishedBlogEntriesResponse: {
-            blogEntries: components["schemas"]["PublishedBlogEntryResponse"][];
-            nextPointerBlogEntryId?: number;
-        };
         BlogEntryArchivePublishDatesResponse: {
             year: number;
             month: number;
@@ -488,7 +484,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["PublishedBlogEntriesResponse"];
+                    "application/json": components["schemas"]["PublishedBlogEntryResponse"][];
                 };
             };
         };
@@ -533,7 +529,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["PublishedBlogEntriesResponse"];
+                    "application/json": components["schemas"]["PublishedBlogEntryResponse"][];
                 };
             };
         };
@@ -558,7 +554,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["PublishedBlogEntriesResponse"];
+                    "application/json": components["schemas"]["PublishedBlogEntryResponse"][];
                 };
             };
         };
@@ -657,5 +653,5 @@ export enum ApiPaths {
     PublicBlogEntryController_getBlogEntryArchiveYearMonths = "/public-blog-entry/archive-year-month",
     BlogEntryMetaTagController_getAllWithCount = "/blog-entry-meta-tag",
     PublicBlogEntryMetaTagController_getAllPublishedBlogEntryMetaTag = "/public-blog-entry-meta-tag",
-    AuthenticationController_postSignIn = "/authentication/sign-in",
+    AuthenticationController_postSignIn = "/authentication/sign-in"
 }

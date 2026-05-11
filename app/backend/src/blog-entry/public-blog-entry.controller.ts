@@ -5,21 +5,20 @@ import { MonthValidationPipe } from "../library/pipe/month-validation.pipe";
 import { NumberLimitationPipe } from "../library/pipe/number-limitation.pipe";
 import { YearValidationPipe } from "../library/pipe/year-validation.pipe";
 import { BlogEntryMetaTagService } from "./blog-entry-meta-tag.service";
-import { BlogEntryService } from "./blog-entry.service";
+import { PublicBlogEntryService } from "./public-blog-entry.service";
 import { BlogEntryArchivePublishDatesResponse } from "./response/BlogEntryArchivePublishDates.response";
-import { PublishedBlogEntriesResponse } from "./response/PublishedBlogEntries.response";
 import { PublishedBlogEntryResponse } from "./response/PublishedBlogEntry.response";
 
 @Controller("public-blog-entry")
 export class PublicBlogEntryController {
     constructor(
-        private readonly blogEntryService: BlogEntryService,
+        private readonly publicBlogEntryService: PublicBlogEntryService,
         private readonly blogEntryMetaTagService: BlogEntryMetaTagService,
     ) {}
 
     @Get("latest")
     @ApiOkResponse({
-        type: PublishedBlogEntriesResponse,
+        type: [PublishedBlogEntryResponse],
     })
     @ApiQuery({
         name: "pointer-blog-entry-id",
@@ -35,36 +34,37 @@ export class PublicBlogEntryController {
             }),
         )
         pointerBlogEntryId?: number,
-    ): Promise<PublishedBlogEntriesResponse> {
-        const [blogEntries, nextPointerBlogEntry] =
-            await this.blogEntryService.getLatestPublishedBlogEntries(
-                count,
-                pointerBlogEntryId,
-            );
-
-        return PublishedBlogEntriesResponse.fromEntities(
-            await Promise.all(
-                blogEntries.map(async (blogEntry) => [
+    ): Promise<PublishedBlogEntryResponse[]> {
+        return await Promise.all(
+            (
+                await this.publicBlogEntryService.getLatestPublishedBlogEntries(
+                    count,
+                    pointerBlogEntryId,
+                )
+            ).map(async (blogEntry) =>
+                PublishedBlogEntryResponse.fromEntities(
                     blogEntry,
-                    await this.blogEntryMetaTagService.getAndCountPublishedBlogEntryMetaTagsByBlogEntryMetaTagIds(
+                    await this.blogEntryMetaTagService.getAndCountPublishedByIds(
                         blogEntry.blogEntryMetaTags.map(({ id }) => id),
                     ),
-                ]),
+                ),
             ),
-            nextPointerBlogEntry?.id,
         );
     }
 
     @Get("slug/:slug")
-    @ApiOkResponse({ type: PublishedBlogEntryResponse })
+    @ApiOkResponse({
+        type: PublishedBlogEntryResponse,
+    })
     async getBlogEntryBySlug(
         @Param("slug") slug: string,
     ): Promise<PublishedBlogEntryResponse> {
-        const blogEntry = await this.blogEntryService.getPublishedBySlug(slug);
+        const blogEntry =
+            await this.publicBlogEntryService.getPublishedBySlug(slug);
 
         return PublishedBlogEntryResponse.fromEntities(
             blogEntry,
-            await this.blogEntryMetaTagService.getAndCountPublishedBlogEntryMetaTagsByBlogEntryMetaTagIds(
+            await this.blogEntryMetaTagService.getAndCountPublishedByIds(
                 blogEntry.blogEntryMetaTags.map(({ id }) => id),
             ),
         );
@@ -72,7 +72,7 @@ export class PublicBlogEntryController {
 
     @Get("archive/:year")
     @ApiOkResponse({
-        type: PublishedBlogEntriesResponse,
+        type: [PublishedBlogEntryResponse],
     })
     @ApiQuery({
         name: "pointer-blog-entry-id",
@@ -96,30 +96,28 @@ export class PublicBlogEntryController {
             }),
         )
         pointerBlogEntryId?: number,
-    ): Promise<PublishedBlogEntriesResponse> {
-        const [blogEntries, nextPointer] =
-            await this.blogEntryService.getPublishedBlogEntriesByPublishYear(
-                year,
-                count,
-                pointerBlogEntryId,
-            );
-
-        return PublishedBlogEntriesResponse.fromEntities(
-            await Promise.all(
-                blogEntries.map(async (blogEntry) => [
+    ): Promise<PublishedBlogEntryResponse[]> {
+        return Promise.all(
+            (
+                await this.publicBlogEntryService.getPublishedBlogEntriesByPublishYear(
+                    year,
+                    count,
+                    pointerBlogEntryId,
+                )
+            ).map(async (blogEntry) =>
+                PublishedBlogEntryResponse.fromEntities(
                     blogEntry,
-                    await this.blogEntryMetaTagService.getAndCountPublishedBlogEntryMetaTagsByBlogEntryMetaTagIds(
+                    await this.blogEntryMetaTagService.getAndCountPublishedByIds(
                         blogEntry.blogEntryMetaTags.map(({ id }) => id),
                     ),
-                ]),
+                ),
             ),
-            nextPointer?.id,
         );
     }
 
     @Get("archive/:year/:month")
     @ApiOkResponse({
-        type: PublishedBlogEntriesResponse,
+        type: [PublishedBlogEntryResponse],
     })
     @ApiQuery({
         name: "pointer-blog-entry-id",
@@ -144,24 +142,23 @@ export class PublicBlogEntryController {
             }),
         )
         pointerBlogEntryId?: number,
-    ): Promise<PublishedBlogEntriesResponse> {
-        const [blogEntries, nextPointer] =
-            await this.blogEntryService.getPublishedBlogEntriesByPublishYear(
-                year,
-                count,
-                pointerBlogEntryId,
-            );
-
-        return PublishedBlogEntriesResponse.fromEntities(
-            await Promise.all(
-                blogEntries.map(async (blogEntry) => [
+    ): Promise<PublishedBlogEntryResponse[]> {
+        return Promise.all(
+            (
+                await this.publicBlogEntryService.getPublishedBlogEntriesByPublishYearMonth(
+                    year,
+                    month,
+                    count,
+                    pointerBlogEntryId,
+                )
+            ).map(async (blogEntry) =>
+                PublishedBlogEntryResponse.fromEntities(
                     blogEntry,
-                    await this.blogEntryMetaTagService.getAndCountPublishedBlogEntryMetaTagsByBlogEntryMetaTagIds(
+                    await this.blogEntryMetaTagService.getAndCountPublishedByIds(
                         blogEntry.blogEntryMetaTags.map(({ id }) => id),
                     ),
-                ]),
+                ),
             ),
-            nextPointer?.id,
         );
     }
 
@@ -173,7 +170,7 @@ export class PublicBlogEntryController {
         BlogEntryArchivePublishDatesResponse[]
     > {
         return BlogEntryArchivePublishDatesResponse.countFromDates(
-            await this.blogEntryService.getAllBlogEntriesPublishAt(),
+            await this.publicBlogEntryService.getAllBlogEntriesPublishAt(),
         );
     }
 }
