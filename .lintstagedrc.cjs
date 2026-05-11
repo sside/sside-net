@@ -6,10 +6,10 @@ module.exports = {
     // "./app/frontend/**/*.{ts,tsx,js,jsx,cjs}": [
     //     "npx --no-install turbo run test --filter=@sside-net/frontend",
     // ],
-    "./app/backend/**/*.{ts,tsx,js,jsx,cjs}": [
+    "./app/backend/**/*.(test|spec).{ts,tsx,js,jsx,cjs}": () => [
         "npx --no-install turbo run test --filter=@sside-net/backend",
     ],
-    "./(config|library|resource)/**/*.{ts,tsx,js,jsx,cjs}": [
+    "./(config|library|resource)/**/*.{ts,tsx,js,jsx,cjs}": () => [
         "npx --no-install turbo run test --filter=!./app/*",
     ],
     "*.{ts,tsx,js,jsx,mjs,cjs,json,yml,yaml,md}": ["prettier --write"],
