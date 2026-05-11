@@ -7,7 +7,7 @@ export const captureApiCallError = <T>(
     response: Response,
     componentOrContextName:
         | FC<T>
-        | ((...arguments_: unknown[]) => unknown)
+        | ((...arguments_: unknown[]) => never)
         | string,
 ): Response => {
     if (!is400sErrorResponse(response)) {

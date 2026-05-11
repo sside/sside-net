@@ -29,6 +29,11 @@ export type AppConfig = {
         authentication: {
             accessTokenExpireSecond: number;
         };
+        blogEntry: {
+            public: {
+                maximumFetchCountPerOnce: number;
+            };
+        };
         rateLimit: {
             timeToLiveSecond: number;
             requestCount: number;

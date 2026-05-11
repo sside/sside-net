@@ -1,9 +1,12 @@
-import { notImplementedStab } from "@sside-net/utility";
+import { getAppConfig } from "@sside-net/app-config";
 import { IntegerPagePathParameter } from "../../../../constant/path-parameter/IntegerPagePathParameter";
+import { apiClient } from "../../../../library/api-client/api-client";
 import {
     getPagePathParameters,
     NextPagePathParameter,
 } from "../../../../library/path-parameter/getPagePathParameters";
+import { captureApiCallError } from "../../../../library/sentry/captureApiCallError";
+import { BlogEntryFromPublishedBlogEntryResponse } from "../../_blog-entry/BlogEntryFromPublishedBlogEntryResponse";
 
 export default async function YearArchivePage(
     nextPagePathParameter: NextPagePathParameter,
@@ -12,6 +15,39 @@ export default async function YearArchivePage(
         nextPagePathParameter,
         IntegerPagePathParameter.Year,
     );
+    const { data, error, response } = await apiClient.GET(
+        "/public-blog-entry/archive/{year}",
+        {
+            params: {
+                path: {
+                    year,
+                },
+                query: {
+                    count: getAppConfig().frontend.blog.blogEntry
+                        .displayPerPage,
+                },
+            },
+        },
+    );
 
-    return <>{notImplementedStab(year)}</>;
+    if (error) {
+        captureApiCallError(response, YearArchivePage);
+    }
+
+    if (!data) {
+        return null;
+    }
+
+    console.log(data.nextPointerBlogEntryId);
+
+    return (
+        <>
+            {data.blogEntries.map((publishedBlogEntry) => (
+                <BlogEntryFromPublishedBlogEntryResponse
+                    key={publishedBlogEntry.id}
+                    publishedBlogEntryResponse={publishedBlogEntry}
+                />
+            ))}
+        </>
+    );
 }

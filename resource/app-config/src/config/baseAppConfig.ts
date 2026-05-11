@@ -28,6 +28,11 @@ export const baseAppConfig = {
         authentication: {
             accessTokenExpireSecond: 60 * 60 * 24 * 7,
         },
+        blogEntry: {
+            public: {
+                maximumFetchCountPerOnce: 100,
+            },
+        },
         rateLimit: {
             timeToLiveSecond: 60,
             requestCount: 30,
