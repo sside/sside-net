@@ -1,23 +1,19 @@
-const { readdirSync, rmSync, existsSync } = require("fs");
-const { resolve } = require("path");
+const { readdirSync, rmSync, existsSync } = require("node:fs");
+const { resolve } = require("node:path");
 
-function resolveDirectoryPath(file) {
-    return resolve(file.parentPath, file.name);
-}
+function deleteNodeModulesRecursive(targetDirectoryPath) {
+    console.log("search node_modules", targetDirectoryPath);
 
-function deleteNodeModulesRecursive(targetPath) {
-    console.log("search node_modules", targetPath);
-
-    const files = readdirSync(targetPath, {
+    const dirEnts = readdirSync(targetDirectoryPath, {
         withFileTypes: true,
     });
-    if (!files.some((file) => file.isDirectory())) {
+    if (!dirEnts.some((dirEnt) => dirEnt.isDirectory())) {
         return;
     }
 
-    for (const file of files) {
+    for (const file of dirEnts) {
         if (file.isDirectory() && file.name === "node_modules") {
-            const deletePath = resolveDirectoryPath(file);
+            const deletePath = resolve(file.parentPath, file.name);
             console.log("delete node_modules", deletePath);
 
             rmSync(deletePath, {
@@ -29,7 +25,7 @@ function deleteNodeModulesRecursive(targetPath) {
         }
     }
 
-    for (const file of readdirSync(targetPath, {
+    for (const file of readdirSync(targetDirectoryPath, {
         withFileTypes: true,
     })) {
         if (file.isDirectory()) {
