@@ -24,28 +24,31 @@ export const ManagementEditExistBlogEntry: FC<{
                     metaTagNames,
                     publishAtIsoDateTimeLocal,
                 }) => {
-                    await apiClient.PUT("/blog-entry/{blogEntryId}/publish", {
-                        params: {
-                            path: {
-                                blogEntryId,
+                    await apiClient.PUT(
+                        "/private/blog-entry/{blogEntryId}/publish",
+                        {
+                            params: {
+                                path: {
+                                    blogEntryId,
+                                },
+                            },
+                            body: {
+                                title,
+                                slug,
+                                bodyMarkdown,
+                                blogEntryMetaTagNames: metaTagNames,
+                                publishAt: (() => {
+                                    const publishAtDateTime = DateTime.fromISO(
+                                        publishAtIsoDateTimeLocal || "",
+                                    );
+
+                                    return publishAtDateTime.isValid ?
+                                            publishAtDateTime.toISO()
+                                        :   undefined;
+                                })(),
                             },
                         },
-                        body: {
-                            title,
-                            slug,
-                            bodyMarkdown,
-                            blogEntryMetaTagNames: metaTagNames,
-                            publishAt: (() => {
-                                const publishAtDateTime = DateTime.fromISO(
-                                    publishAtIsoDateTimeLocal || "",
-                                );
-
-                                return publishAtDateTime.isValid ?
-                                        publishAtDateTime.toISO()
-                                    :   undefined;
-                            })(),
-                        },
-                    });
+                    );
 
                     return router.push(`/management`);
                 }}
@@ -55,19 +58,22 @@ export const ManagementEditExistBlogEntry: FC<{
                     bodyMarkdown,
                     metaTagNames,
                 }) => {
-                    await apiClient.PUT("/blog-entry/{blogEntryId}/draft", {
-                        params: {
-                            path: {
-                                blogEntryId,
+                    await apiClient.PUT(
+                        "/private/blog-entry/{blogEntryId}/draft",
+                        {
+                            params: {
+                                path: {
+                                    blogEntryId,
+                                },
+                            },
+                            body: {
+                                title,
+                                slug,
+                                bodyMarkdown,
+                                blogEntryMetaTagNames: metaTagNames,
                             },
                         },
-                        body: {
-                            title,
-                            slug,
-                            bodyMarkdown,
-                            blogEntryMetaTagNames: metaTagNames,
-                        },
-                    });
+                    );
 
                     return router.push(`/management`);
                 }}

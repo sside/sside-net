@@ -13,8 +13,7 @@ test.describe("RecentBlogEntries", () => {
         page,
     }) => {
         await expect(page.locator(".blog-entry")).toHaveCount(
-            mockValuePublicBlogEntryController_getLatestBlogEntries.blogEntries
-                .length,
+            mockValuePublicBlogEntryController_getLatestBlogEntries.length,
         );
     });
 });

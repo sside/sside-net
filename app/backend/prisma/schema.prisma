@@ -10,6 +10,16 @@ datasource db {
   provider = "sqlite"
 }
 
+model Authentication {
+  refreshToken String @unique @map("refresh_token")
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  expireAt DateTime @map("expire_at")
+
+  @@map("authentication")
+}
+
 model BlogEntry {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now()) @map("created_at")
@@ -22,6 +32,7 @@ model BlogEntry {
   blogEntryDraft     BlogEntryDraft?
   blogEntryMetaTags  BlogEntryMetaTag[]
 
+  @@index([slug, publishAt])
   @@map("blog_entry")
 }
 
@@ -61,5 +72,6 @@ model BlogEntryMetaTag {
 
   blogEntries BlogEntry[]
 
+  @@index([name])
   @@map("blog_entry_meta_tag")
 }

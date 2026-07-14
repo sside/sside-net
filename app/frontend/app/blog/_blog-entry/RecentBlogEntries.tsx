@@ -7,7 +7,7 @@ export const RecentBlogEntries: FC<{ fetchCount: number }> = async ({
     fetchCount,
 }) => {
     const { data, error, response } = await apiClient.GET(
-        `/public-blog-entry/latest`,
+        `/blog-entry/latest`,
         {
             params: {
                 query: {
@@ -25,7 +25,7 @@ export const RecentBlogEntries: FC<{ fetchCount: number }> = async ({
 
     return (
         <div className="recent-blog-entries grid gap-8">
-            {data.blogEntries.map((blogEntry) => (
+            {data.map((blogEntry) => (
                 <BlogEntryFromPublishedBlogEntryResponse
                     key={blogEntry.id}
                     publishedBlogEntryResponse={blogEntry}

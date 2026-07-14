@@ -10,6 +10,10 @@ export const baseAppConfig = {
         sentry: {
             organizationName: "ssidenet",
         },
+        authentication: {
+            accessTokenExpireSecond: 60 * 60 * 24 * 7,
+            refreshTokenExpireSecond: 60 * 60 * 24 * 31 * 6,
+        },
     },
     frontend: {
         blog: {
@@ -25,9 +29,6 @@ export const baseAppConfig = {
         },
     },
     backend: {
-        authentication: {
-            accessTokenExpireSecond: 60 * 60 * 24 * 7,
-        },
         blogEntry: {
             public: {
                 maximumFetchCountPerOnce: 100,

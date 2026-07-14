@@ -17,7 +17,7 @@ import { ManagementSectionHeader } from "../ManagementSectionHeader";
 const BlogEntryTable: FC<{}> = ({}) => {
     const { data, error, isLoading } = $apiClient.useQuery(
         "get",
-        `/blog-entry`,
+        `/private/blog-entry`,
     );
     // dataをundefinedにしないために一度メモ化している
     const blogEntries = useMemo(() => data ?? [], [data]);

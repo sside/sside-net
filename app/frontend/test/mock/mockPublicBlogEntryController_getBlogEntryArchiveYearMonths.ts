@@ -45,7 +45,7 @@ export const mockPublicBlogEntryController_getBlogEntryArchiveYearMonths = (
     msw: MswFixture,
 ) => {
     mockBackendGetResponse(
-        "/public-blog-entry/archive-year-month",
+        "/blog-entry/archive-year-month",
         mockValuePublicBlogEntryController_getBlogEntryArchiveYearMonths,
         msw,
     );

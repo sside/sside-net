@@ -49,7 +49,7 @@ test.describe("BlogEntryHeader", () => {
             const { updatedAt: _, ...mockValue } =
                 mockValuePublicBlogEntryController_getBlogEntryBySlug;
             mockBackendGetResponse(
-                `/public-blog-entry/slug/${mockValue.slug}` as "/public-blog-entry/slug/{slug}",
+                `/blog-entry/slug/${mockValue.slug}` as "/blog-entry/slug/{slug}",
                 mockValue,
                 msw,
             );

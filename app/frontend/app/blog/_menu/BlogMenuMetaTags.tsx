@@ -6,7 +6,7 @@ import { BlogMenuSection } from "./BlogMenuSection";
 
 export const BlogMenuMetaTags: FC<{}> = async ({}) => {
     const { data, error, response } = await apiClient.GET(
-        "/public-blog-entry-meta-tag",
+        "/blog-entry-meta-tag",
     );
 
     if (error) {

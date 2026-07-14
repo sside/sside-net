@@ -12,7 +12,7 @@ test.describe("BlogMenuRecentEntries", () => {
     test("BlogEntryのタイトルが表示されること。", async ({ page }) => {
         for (const {
             title,
-        } of mockValuePublicBlogEntryController_getLatestBlogEntries.blogEntries) {
+        } of mockValuePublicBlogEntryController_getLatestBlogEntries) {
             await expect(
                 page.locator(".blog-menu-recent-entries").getByText(title),
             ).toBeVisible();
@@ -24,7 +24,7 @@ test.describe("BlogMenuRecentEntries", () => {
     }) => {
         for (const {
             slug,
-        } of mockValuePublicBlogEntryController_getLatestBlogEntries.blogEntries) {
+        } of mockValuePublicBlogEntryController_getLatestBlogEntries) {
             await expect(
                 page.locator(
                     `.blog-menu-recent-entries a[href="/blog/entry/${slug}"]`,

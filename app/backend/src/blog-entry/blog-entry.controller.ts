@@ -16,7 +16,7 @@ import { BlogEntryRequest } from "./request/BlogEntry.request";
 import { PublishBlogEntryRequest } from "./request/PublishBlogEntry.request";
 import { BlogEntryResponse } from "./response/BlogEntry.response";
 
-@Controller("blog-entry")
+@Controller("private/blog-entry")
 @SignedIn()
 export class BlogEntryController {
     constructor(private readonly blogEntryService: BlogEntryService) {}

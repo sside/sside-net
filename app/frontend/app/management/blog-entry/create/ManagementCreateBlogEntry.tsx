@@ -13,7 +13,7 @@ export const ManagementCreateBlogEntry: FC<{}> = ({}) => {
                     publishAtIsoDateTimeLocal,
                     ...blogEntryFormInput
                 }) => {
-                    await apiClient.POST(`/blog-entry/publish`, {
+                    await apiClient.POST(`/private/blog-entry/publish`, {
                         body: {
                             ...blogEntryFormInput,
                             blogEntryMetaTagNames: metaTagNames,
@@ -25,7 +25,7 @@ export const ManagementCreateBlogEntry: FC<{}> = ({}) => {
                     metaTagNames,
                     ...blogEntryFormInput
                 }) => {
-                    await apiClient.POST(`/blog-entry/draft`, {
+                    await apiClient.POST(`/private/blog-entry/draft`, {
                         body: {
                             ...blogEntryFormInput,
                             blogEntryMetaTagNames: metaTagNames,

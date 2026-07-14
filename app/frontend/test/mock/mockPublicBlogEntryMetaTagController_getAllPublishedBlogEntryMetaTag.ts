@@ -24,7 +24,7 @@ export const mockValuePublicBlogEntryMetaTagController_getAllPublishedBlogEntryM
 export const mockPublicBlogEntryMetaTagController_getAllPublishedBlogEntryMetaTag =
     (msw: MswFixture) => {
         mockBackendGetResponse(
-            "/public-blog-entry-meta-tag",
+            "/blog-entry-meta-tag",
             mockValuePublicBlogEntryMetaTagController_getAllPublishedBlogEntryMetaTag,
             msw,
         );

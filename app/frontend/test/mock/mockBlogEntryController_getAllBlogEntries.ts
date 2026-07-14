@@ -25,7 +25,7 @@ export const mockValueBlogEntryController_getAllBlogEntries =
 
 export const mockBlogEntryController_getAllBlogEntries = (msw: MswFixture) => {
     mockBackendGetResponse(
-        "/blog-entry",
+        "/private/blog-entry",
         mockValueBlogEntryController_getAllBlogEntries,
         msw,
     );

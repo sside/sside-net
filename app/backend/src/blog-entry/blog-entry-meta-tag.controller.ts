@@ -4,7 +4,7 @@ import { SignedIn } from "../authentication/decorator/signed-in.decorator";
 import { BlogEntryMetaTagService } from "./blog-entry-meta-tag.service";
 import { BlogEntryMetaTagCountResponse } from "./response/BlogEntryMetaTagCount.response";
 
-@Controller("blog-entry-meta-tag")
+@Controller("private/blog-entry-meta-tag")
 @SignedIn()
 export class BlogEntryMetaTagController {
     constructor(

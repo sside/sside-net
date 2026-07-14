@@ -3,7 +3,7 @@ import { ApiOkResponse } from "@nestjs/swagger";
 import { BlogEntryMetaTagService } from "./blog-entry-meta-tag.service";
 import { BlogEntryMetaTagCountResponse } from "./response/BlogEntryMetaTagCount.response";
 
-@Controller("public-blog-entry-meta-tag")
+@Controller("blog-entry-meta-tag")
 export class PublicBlogEntryMetaTagController {
     constructor(
         private readonly blogEntryMetaTagService: BlogEntryMetaTagService,

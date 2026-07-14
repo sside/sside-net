@@ -20,7 +20,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/blog-entry": {
+    "/private/blog-entry": {
         parameters: {
             query?: never;
             header?: never;
@@ -36,7 +36,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/blog-entry/{blogEntryId}": {
+    "/private/blog-entry/{blogEntryId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -52,7 +52,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/blog-entry/draft": {
+    "/private/blog-entry/draft": {
         parameters: {
             query?: never;
             header?: never;
@@ -68,7 +68,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/blog-entry/publish": {
+    "/private/blog-entry/publish": {
         parameters: {
             query?: never;
             header?: never;
@@ -84,7 +84,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/blog-entry/{blogEntryId}/draft": {
+    "/private/blog-entry/{blogEntryId}/draft": {
         parameters: {
             query?: never;
             header?: never;
@@ -100,7 +100,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/blog-entry/{blogEntryId}/publish": {
+    "/private/blog-entry/{blogEntryId}/publish": {
         parameters: {
             query?: never;
             header?: never;
@@ -116,7 +116,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/public-blog-entry/latest": {
+    "/blog-entry/latest": {
         parameters: {
             query?: never;
             header?: never;
@@ -132,7 +132,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/public-blog-entry/slug/{slug}": {
+    "/blog-entry/slug/{slug}": {
         parameters: {
             query?: never;
             header?: never;
@@ -148,7 +148,39 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/public-blog-entry/archive/{year}": {
+    "/blog-entry/earlier": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["PublicBlogEntryController_getEarlier"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/blog-entry/later": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["PublicBlogEntryController_getLater"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/blog-entry/archive/{year}": {
         parameters: {
             query?: never;
             header?: never;
@@ -164,7 +196,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/public-blog-entry/archive/{year}/{month}": {
+    "/blog-entry/archive/{year}/{month}": {
         parameters: {
             query?: never;
             header?: never;
@@ -180,7 +212,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/public-blog-entry/archive-year-month": {
+    "/blog-entry/archive-year-month": {
         parameters: {
             query?: never;
             header?: never;
@@ -196,7 +228,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/blog-entry-meta-tag": {
+    "/private/blog-entry-meta-tag": {
         parameters: {
             query?: never;
             header?: never;
@@ -212,7 +244,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/public-blog-entry-meta-tag": {
+    "/blog-entry-meta-tag": {
         parameters: {
             query?: never;
             header?: never;
@@ -238,6 +270,22 @@ export interface paths {
         get?: never;
         put?: never;
         post: operations["AuthenticationController_postSignIn"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/authentication/refresh": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["AuthenticationController_refreshAccessToken"];
         delete?: never;
         options?: never;
         head?: never;
@@ -303,7 +351,15 @@ export interface components {
             count: number;
         };
         SignInRequest: {
+            /** @example Pa55w0rd */
             password: string;
+        };
+        AuthenticationResponse: {
+            accessToken: string;
+            refreshToken: string;
+        };
+        TokenRefreshRequest: {
+            refreshToken: string;
         };
     };
     responses: never;
@@ -510,6 +566,64 @@ export interface operations {
             };
         };
     };
+    PublicBlogEntryController_getEarlier: {
+        parameters: {
+            query: {
+                "pointer-blog-entry-id"?: number;
+                count: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PublishedBlogEntryResponse"];
+                };
+            };
+            /** @description 指定より過去に公開済みBlogEntryがない場合に返ります。 */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    PublicBlogEntryController_getLater: {
+        parameters: {
+            query: {
+                "pointer-blog-entry-id"?: number;
+                count: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PublishedBlogEntryResponse"];
+                };
+            };
+            /** @description 指定より将来に公開済みBlogEntryがない場合に返ります。 */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     PublicBlogEntryController_getBlogEntryArchiveByYear: {
         parameters: {
             query: {
@@ -629,7 +743,46 @@ export interface operations {
             };
         };
         responses: {
-            201: {
+            /** @description 認証JWTトークンを返します。 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AuthenticationResponse"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AuthenticationController_refreshAccessToken: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TokenRefreshRequest"];
+            };
+        };
+        responses: {
+            /** @description 認証JWTトークンを返します。 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AuthenticationResponse"];
+                };
+            };
+            403: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -640,18 +793,21 @@ export interface operations {
 }
 export enum ApiPaths {
     AppController_getHealthCheck = "/health-check",
-    BlogEntryController_getAllBlogEntries = "/blog-entry",
-    BlogEntryController_getByBlogEntryId = "/blog-entry/{blogEntryId}",
-    BlogEntryController_postCreateBlogEntryDraft = "/blog-entry/draft",
-    BlogEntryController_postCreatePublishedBlogEntry = "/blog-entry/publish",
-    BlogEntryController_putUpdateBlogEntryDraft = "/blog-entry/{blogEntryId}/draft",
-    BlogEntryController_putPublishBlogEntry = "/blog-entry/{blogEntryId}/publish",
-    PublicBlogEntryController_getLatestBlogEntries = "/public-blog-entry/latest",
-    PublicBlogEntryController_getBlogEntryBySlug = "/public-blog-entry/slug/{slug}",
-    PublicBlogEntryController_getBlogEntryArchiveByYear = "/public-blog-entry/archive/{year}",
-    PublicBlogEntryController_getBlogEntryArchiveByYearMonth = "/public-blog-entry/archive/{year}/{month}",
-    PublicBlogEntryController_getBlogEntryArchiveYearMonths = "/public-blog-entry/archive-year-month",
-    BlogEntryMetaTagController_getAllWithCount = "/blog-entry-meta-tag",
-    PublicBlogEntryMetaTagController_getAllPublishedBlogEntryMetaTag = "/public-blog-entry-meta-tag",
-    AuthenticationController_postSignIn = "/authentication/sign-in"
+    BlogEntryController_getAllBlogEntries = "/private/blog-entry",
+    BlogEntryController_getByBlogEntryId = "/private/blog-entry/{blogEntryId}",
+    BlogEntryController_postCreateBlogEntryDraft = "/private/blog-entry/draft",
+    BlogEntryController_postCreatePublishedBlogEntry = "/private/blog-entry/publish",
+    BlogEntryController_putUpdateBlogEntryDraft = "/private/blog-entry/{blogEntryId}/draft",
+    BlogEntryController_putPublishBlogEntry = "/private/blog-entry/{blogEntryId}/publish",
+    PublicBlogEntryController_getLatestBlogEntries = "/blog-entry/latest",
+    PublicBlogEntryController_getBlogEntryBySlug = "/blog-entry/slug/{slug}",
+    PublicBlogEntryController_getEarlier = "/blog-entry/earlier",
+    PublicBlogEntryController_getLater = "/blog-entry/later",
+    PublicBlogEntryController_getBlogEntryArchiveByYear = "/blog-entry/archive/{year}",
+    PublicBlogEntryController_getBlogEntryArchiveByYearMonth = "/blog-entry/archive/{year}/{month}",
+    PublicBlogEntryController_getBlogEntryArchiveYearMonths = "/blog-entry/archive-year-month",
+    BlogEntryMetaTagController_getAllWithCount = "/private/blog-entry-meta-tag",
+    PublicBlogEntryMetaTagController_getAllPublishedBlogEntryMetaTag = "/blog-entry-meta-tag",
+    AuthenticationController_postSignIn = "/authentication/sign-in",
+    AuthenticationController_refreshAccessToken = "/authentication/refresh",
 }

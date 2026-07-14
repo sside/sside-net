@@ -16,7 +16,7 @@ export default async function YearArchivePage(
         IntegerPagePathParameter.Year,
     );
     const { data, error, response } = await apiClient.GET(
-        "/public-blog-entry/archive/{year}",
+        "/blog-entry/archive/{year}",
         {
             params: {
                 path: {
@@ -38,11 +38,9 @@ export default async function YearArchivePage(
         return null;
     }
 
-    console.log(data.nextPointerBlogEntryId);
-
     return (
         <>
-            {data.blogEntries.map((publishedBlogEntry) => (
+            {data.map((publishedBlogEntry) => (
                 <BlogEntryFromPublishedBlogEntryResponse
                     key={publishedBlogEntry.id}
                     publishedBlogEntryResponse={publishedBlogEntry}

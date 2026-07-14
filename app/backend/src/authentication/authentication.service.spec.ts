@@ -1,8 +1,7 @@
 import { beforeEach, describe, expect, test } from "@jest/globals";
-import { JwtModule } from "@nestjs/jwt";
 import { Test, TestingModule } from "@nestjs/testing";
-import { getAppConfig } from "@sside-net/app-config";
 import { isJWT } from "class-validator";
+import { AuthenticationModule } from "./authentication.module";
 import { AuthenticationService } from "./authentication.service";
 
 describe("AuthenticationService", () => {
@@ -10,15 +9,7 @@ describe("AuthenticationService", () => {
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
-            imports: [
-                JwtModule.register({
-                    secret: process.env.AUTHENTICATION_JWT_TOKEN_SECRET,
-                    signOptions: {
-                        expiresIn: `${getAppConfig().backend.authentication.accessTokenExpireSecond}s`,
-                    },
-                }),
-            ],
-            providers: [AuthenticationService],
+            imports: [AuthenticationModule],
         }).compile();
 
         authenticationService = module.get<AuthenticationService>(
@@ -28,7 +19,7 @@ describe("AuthenticationService", () => {
 
     describe("login", () => {
         test("環境変数ADMINISTRATOR_PASSWORDのパスワードが入力された場合、JWTのアクセストークンを返すこと。", async () => {
-            const accessToken = await authenticationService.signIn(
+            const { accessToken } = await authenticationService.signIn(
                 process.env.ADMINISTRATOR_PASSWORD!,
             );
 

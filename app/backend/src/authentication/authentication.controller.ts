@@ -1,8 +1,9 @@
-import { Body, Controller, HttpStatus, Post, Res } from "@nestjs/common";
-import { CookieKey } from "@sside-net/constant";
-import { Response as ExpressResponse } from "express";
+import { Body, Controller, Post } from "@nestjs/common";
+import { ApiForbiddenResponse, ApiOkResponse } from "@nestjs/swagger";
 import { AuthenticationService } from "./authentication.service";
-import { SignInRequest } from "./request/SignInRequest";
+import { SignInRequest } from "./request/SignIn.request";
+import { TokenRefreshRequest } from "./request/TokenRefresh.request";
+import { AuthenticationResponse } from "./response/Authentication.response";
 
 @Controller("authentication")
 export class AuthenticationController {
@@ -11,16 +12,32 @@ export class AuthenticationController {
     ) {}
 
     @Post("sign-in")
+    @ApiOkResponse({
+        description: "認証JWTトークンを返します。",
+        type: AuthenticationResponse,
+    })
+    @ApiForbiddenResponse()
     async postSignIn(
         @Body() { password }: SignInRequest,
-        @Res() res: ExpressResponse,
-    ) {
-        return res
-            .cookie(
-                CookieKey.AuthenticationJwt,
-                await this.authenticationService.signIn(password),
-            )
-            .status(HttpStatus.OK)
-            .send();
+    ): Promise<AuthenticationResponse> {
+        return AuthenticationResponse.fromAuthentication(
+            await this.authenticationService.signIn(password),
+        );
+    }
+
+    @Post("refresh")
+    @ApiOkResponse({
+        description: "認証JWTトークンを返します。",
+        type: AuthenticationResponse,
+    })
+    @ApiForbiddenResponse()
+    async refreshAccessToken(
+        @Body() { refreshToken }: TokenRefreshRequest,
+    ): Promise<AuthenticationResponse> {
+        return AuthenticationResponse.fromAuthentication(
+            await this.authenticationService.refreshAuthenticationToken(
+                refreshToken,
+            ),
+        );
     }
 }

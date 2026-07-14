@@ -17,7 +17,7 @@ export default async function EditBlogEntryPage(
         IntegerPagePathParameter.BlogEntryId,
     );
     const { data, error, response } = await apiClient.GET(
-        "/blog-entry/{blogEntryId}",
+        "/private/blog-entry/{blogEntryId}",
         {
             params: {
                 path: {

@@ -52,6 +52,8 @@ export default defineConfig([
             "unicorn/no-typeof-undefined": "off",
             "unicorn/explicit-length-check": "off",
             "unicorn/prefer-type-error": "off",
+            "unicorn/prefer-global-this": "off",
+            "unicorn/prefer-optional-catch-binding": "off",
 
             "@typescript-eslint/member-ordering": "warn",
             "unicorn/prevent-abbreviations": [

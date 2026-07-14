@@ -43,7 +43,7 @@ describe("PublicBlogEntryService", () => {
             const SEARCH_COUNT = 3;
             expect(
                 (
-                    await publicBlogEntryService.getLatestPublishedBlogEntries(
+                    await publicBlogEntryService.getLatestBlogEntries(
                         SEARCH_COUNT,
                     )
                 ).length,
@@ -56,8 +56,7 @@ describe("PublicBlogEntryService", () => {
             await blogEntryService.seed(PUBLISH_COUNT, 2, 0);
 
             expect(
-                (await publicBlogEntryService.getLatestPublishedBlogEntries(10))
-                    .length,
+                (await publicBlogEntryService.getLatestBlogEntries(10)).length,
             ).toBe(PUBLISH_COUNT);
         });
 
@@ -66,7 +65,7 @@ describe("PublicBlogEntryService", () => {
             const pointerBlogEntry = createdBlogEntries.at(4)!;
 
             const foundBlogEntries =
-                await publicBlogEntryService.getLatestPublishedBlogEntries(
+                await publicBlogEntryService.getLatestBlogEntries(
                     5,
                     pointerBlogEntry.id,
                 );
@@ -83,8 +82,7 @@ describe("PublicBlogEntryService", () => {
 
         test("公開済みBlogEntryがない場合は空配列を返すこと。", async () => {
             expect(
-                (await publicBlogEntryService.getLatestPublishedBlogEntries(10))
-                    .length,
+                (await publicBlogEntryService.getLatestBlogEntries(10)).length,
             ).toBe(0);
         });
     });
@@ -129,7 +127,7 @@ describe("PublicBlogEntryService", () => {
             );
 
             const publishedBlogEntries =
-                await publicBlogEntryService.getPublishedBlogEntriesByPublishYear(
+                await publicBlogEntryService.getBlogEntriesByPublishYear(
                     2026,
                     PUBLISH_COUNT,
                 );
@@ -183,7 +181,7 @@ describe("PublicBlogEntryService", () => {
             );
 
             const publishedBlogEntries =
-                await publicBlogEntryService.getPublishedBlogEntriesByPublishYear(
+                await publicBlogEntryService.getBlogEntriesByPublishYear(
                     2025,
                     PUBLISH_COUNT * 100,
                 );
@@ -250,7 +248,7 @@ describe("PublicBlogEntryService", () => {
             );
 
             const publishedBlogEntries =
-                await publicBlogEntryService.getPublishedBlogEntriesByPublishYear(
+                await publicBlogEntryService.getBlogEntriesByPublishYear(
                     2026,
                     PUBLISH_COUNT * 100,
                 );
@@ -266,10 +264,7 @@ describe("PublicBlogEntryService", () => {
             );
 
             await expect(
-                publicBlogEntryService.getPublishedBlogEntriesByPublishYear(
-                    2026,
-                    1,
-                ),
+                publicBlogEntryService.getBlogEntriesByPublishYear(2026, 1),
             ).rejects.toThrow(/検索日時範囲/);
         });
     });
@@ -316,7 +311,7 @@ describe("PublicBlogEntryService", () => {
             );
 
             const publishedBlogEntries =
-                await publicBlogEntryService.getPublishedBlogEntriesByPublishYearMonth(
+                await publicBlogEntryService.getBlogEntriesByPublishYearMonth(
                     2026,
                     1,
                     PUBLISH_COUNT,
@@ -340,7 +335,7 @@ describe("PublicBlogEntryService", () => {
             );
 
             await expect(
-                publicBlogEntryService.getPublishedBlogEntriesByPublishYearMonth(
+                publicBlogEntryService.getBlogEntriesByPublishYearMonth(
                     2026,
                     1,
                     1,
@@ -357,8 +352,7 @@ describe("PublicBlogEntryService", () => {
                 10,
             );
 
-            const publishAts =
-                await publicBlogEntryService.getAllBlogEntriesPublishAt();
+            const publishAts = await publicBlogEntryService.getAllPublishAt();
 
             for (const { publishAt } of publishedBlogEntries) {
                 if (!publishAt) {
@@ -392,8 +386,7 @@ describe("PublicBlogEntryService", () => {
             }
 
             expect(
-                (await publicBlogEntryService.getAllBlogEntriesPublishAt())
-                    .length,
+                (await publicBlogEntryService.getAllPublishAt()).length,
             ).toBe(CREATE_COUNT - FUTURE_ENTRY_COUNT);
         });
     });

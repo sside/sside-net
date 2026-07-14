@@ -16,9 +16,9 @@ export const captureApiCallError = <T>(
                 componentOrContextName
             :   componentOrContextName.name,
         );
-    }
 
-    captureException(response);
+        captureException(response);
+    }
 
     return response;
 };

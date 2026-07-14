@@ -27,7 +27,7 @@ export const mockPublicBlogEntryController_getBlogEntryBySlug = (
     mswFixture: MswFixture,
 ) => {
     mockBackendGetResponse(
-        `/public-blog-entry/slug/${mockValuePublicBlogEntryController_getBlogEntryBySlug.slug}` as "/public-blog-entry/slug/{slug}",
+        `/blog-entry/slug/${mockValuePublicBlogEntryController_getBlogEntryBySlug.slug}` as "/blog-entry/slug/{slug}",
         mockValuePublicBlogEntryController_getBlogEntryBySlug,
         mswFixture,
     );

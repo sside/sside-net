@@ -15,7 +15,7 @@ export default async function BlogEntryBySlugPage(
         StringPagePathParameter.BlogEntrySlug,
     );
     const { data, response, error } = await apiClient.GET(
-        `/public-blog-entry/slug/{slug}`,
+        `/blog-entry/slug/{slug}`,
         {
             params: {
                 path: {

@@ -1,4 +1,4 @@
-import { DateTime } from "luxon";
+import { DateTime, DateTimeOptions } from "luxon";
 
 export const DateFormat = {} as const;
 export type DateFormat = (typeof DateFormat)[keyof typeof DateFormat];
@@ -16,8 +16,13 @@ export type DateTimeFormat =
 
 type Format = TimeFormat | DateFormat | DateTimeFormat;
 
+export const LUXON_JST_OPTION = {
+    zone: "Asia/Tokyo",
+    locale: "ja-JP",
+} satisfies Pick<DateTimeOptions, "zone" | "locale">;
+
 export const setJst = (dateTime: DateTime): DateTime =>
-    dateTime.setZone("Asia/Tokyo").setLocale("ja-JP");
+    dateTime.setZone(LUXON_JST_OPTION.zone).setLocale(LUXON_JST_OPTION.locale);
 
 export const parseIso8601ToJst = (iso8601DateTime: string): DateTime => {
     const parsed = DateTime.fromISO(iso8601DateTime);
@@ -32,3 +37,42 @@ export const parseIso8601ToJst = (iso8601DateTime: string): DateTime => {
 
 export const formatDateByJst = (date: Date, format: Format): string =>
     setJst(DateTime.fromJSDate(date)).toFormat(format);
+
+export const createJstYearRange = (year: number): [Date, Date] => {
+    const startOfYear = DateTime.fromObject(
+        { year, day: 1 },
+        LUXON_JST_OPTION,
+    ).startOf("year");
+
+    return [
+        startOfYear.toJSDate(),
+        startOfYear
+            .plus({
+                year: 1,
+            })
+            .toJSDate(),
+    ];
+};
+
+export const createJstMonthRange = (
+    year: number,
+    month: number,
+): [Date, Date] => {
+    const startOfMonth = DateTime.fromObject(
+        {
+            year,
+            month,
+            day: 1,
+        },
+        LUXON_JST_OPTION,
+    ).startOf("month");
+
+    return [
+        startOfMonth.toJSDate(),
+        startOfMonth
+            .plus({
+                month: 1,
+            })
+            .toJSDate(),
+    ];
+};

@@ -1,20 +1,18 @@
 import { Module } from "@nestjs/common";
 import { JwtModule, JwtService } from "@nestjs/jwt";
-import { getAppConfig } from "@sside-net/app-config";
+import { DatabaseModule } from "../database/database.module";
 import { AuthenticationController } from "./authentication.controller";
 import { AuthenticationService } from "./authentication.service";
+import { AuthenticationQuery } from "./query/authentication.query";
 
 @Module({
     imports: [
+        DatabaseModule,
         JwtModule.register({
             global: true,
-            secret: process.env.AUTHENTICATION_JWT_TOKEN_SECRET,
-            signOptions: {
-                expiresIn: `${getAppConfig().backend.authentication.accessTokenExpireSecond}s`,
-            },
         }),
     ],
-    providers: [AuthenticationService, JwtService],
+    providers: [AuthenticationService, JwtService, AuthenticationQuery],
     controllers: [AuthenticationController],
 })
 export class AuthenticationModule {}

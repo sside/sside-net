@@ -24,7 +24,7 @@ const ArchiveMonth: FC<{ year: number; month: number }> = ({ year, month }) => (
 
 export const BlogMenuArchives: FC<{}> = async ({}) => {
     const { data, error, response } = await apiClient.GET(
-        "/public-blog-entry/archive-year-month",
+        "/blog-entry/archive-year-month",
     );
 
     if (error) {

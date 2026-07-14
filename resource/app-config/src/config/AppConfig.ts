@@ -11,6 +11,10 @@ export type AppConfig = {
             frontend: string;
             backend: string;
         };
+        authentication: {
+            accessTokenExpireSecond: number;
+            refreshTokenExpireSecond: number;
+        };
     };
     frontend: {
         blog: {
@@ -26,9 +30,6 @@ export type AppConfig = {
         };
     };
     backend: {
-        authentication: {
-            accessTokenExpireSecond: number;
-        };
         blogEntry: {
             public: {
                 maximumFetchCountPerOnce: number;

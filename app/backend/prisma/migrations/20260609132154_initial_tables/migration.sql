@@ -1,4 +1,11 @@
 -- CreateTable
+CREATE TABLE "authentication" (
+    "refresh_token" TEXT NOT NULL,
+    "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "expire_at" DATETIME NOT NULL
+);
+
+-- CreateTable
 CREATE TABLE "blog_entry" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -45,13 +52,22 @@ CREATE TABLE "_BlogEntryToBlogEntryMetaTag" (
 );
 
 -- CreateIndex
+CREATE UNIQUE INDEX "authentication_refresh_token_key" ON "authentication"("refresh_token");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "blog_entry_slug_key" ON "blog_entry"("slug");
+
+-- CreateIndex
+CREATE INDEX "blog_entry_slug_publish_at_idx" ON "blog_entry"("slug", "publish_at");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "blog_entry_draft_blogEntryId_key" ON "blog_entry_draft"("blogEntryId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "blog_entry_meta_tag_name_key" ON "blog_entry_meta_tag"("name");
+
+-- CreateIndex
+CREATE INDEX "blog_entry_meta_tag_name_idx" ON "blog_entry_meta_tag"("name");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "_BlogEntryToBlogEntryMetaTag_AB_unique" ON "_BlogEntryToBlogEntryMetaTag"("A", "B");

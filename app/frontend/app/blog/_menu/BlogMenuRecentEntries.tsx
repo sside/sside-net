@@ -35,7 +35,7 @@ const BlogRecentEntry: FC<{
 
 export const BlogMenuRecentEntries: FC<{}> = async ({}) => {
     const { data, response, error } = await apiClient.GET(
-        "/public-blog-entry/latest",
+        "/blog-entry/latest",
         {
             params: {
                 query: {
@@ -49,7 +49,7 @@ export const BlogMenuRecentEntries: FC<{}> = async ({}) => {
     if (error) {
         captureApiCallError(response, BlogMenuRecentEntries);
     }
-    const latestBlogEntries = error ? [] : data.blogEntries;
+    const latestBlogEntries = error ? [] : data;
 
     return (
         <BlogMenuSection headerLabel="Latest entries">

@@ -19,7 +19,7 @@ test.describe("BlogEntryBody", () => {
         msw,
     }) => {
         mockBackendGetResponse(
-            `/public-blog-entry/slug/${mockValuePublicBlogEntryController_getBlogEntryBySlug.slug}` as "/public-blog-entry/slug/{slug}",
+            `/blog-entry/slug/${mockValuePublicBlogEntryController_getBlogEntryBySlug.slug}` as "/blog-entry/slug/{slug}",
             {
                 ...mockValuePublicBlogEntryController_getBlogEntryBySlug,
                 bodyMarkdown: dedent`
@@ -58,7 +58,7 @@ test.describe("BlogEntryBody", () => {
             ${mockValuePublicBlogEntryController_getBlogEntryBySlug.bodyMarkdown}
         `;
         mockBackendGetResponse(
-            `/public-blog-entry/slug/${slug}` as "/public-blog-entry/slug/{slug}",
+            `/blog-entry/slug/${slug}` as "/blog-entry/slug/{slug}",
             {
                 ...mockValuePublicBlogEntryController_getBlogEntryBySlug,
                 bodyMarkdown: bodyWithScript,
