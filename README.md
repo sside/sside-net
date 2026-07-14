@@ -12,6 +12,10 @@ sside.net web site
 ```shell
 npm install
 
+# .envのセット
+# コピー後にコミットしないトークンなどは適宜セット
+cp .env.sample .env
+
 # バックエンドのseed
 npm run --workspace @sside-net/backend seed:dev
 
