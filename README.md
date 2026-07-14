@@ -15,6 +15,7 @@ npm install
 # .envのセット
 # コピー後にコミットしないトークンなどは適宜セット
 cp .env.sample .env
+cp .env.test.sample .env.test
 
 # バックエンドのseed
 npm run --workspace @sside-net/backend seed:dev
