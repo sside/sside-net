@@ -2,15 +2,39 @@
 
 sside.net web site
 
-## .envの使用
+## prerequisite
 
-開発中に`/.env.sample`を使用するには、`/.env`としてシンボリックリンクを貼る。
+- Node.js@24
+- npm@11
 
-```powershell
-# run on administrator
-New-Item -Path .\ -Name .env -Value .\.env.sample -ItemType SymbolicLink
+## セットアップ
+
+```shell
+npm install
+
+# バックエンドのseed
+npm run --workspace @sside-net/backend seed:dev
+
+# 共有パッケージのwatch
+npm run dev:shared
+
+# バックエンド立ち上げ
+npm run --workspace @sside-net/backend dev
+
+# フロントエンド立ち上げ
+npm run --workspace @sside-net/frontend dev
 ```
 
-### WebStormからテストを実行する場合の注意点
+## 注意点
+
+### バックエンド
+
+### 非公開エンドポイントは全て`/private`配下に置く
+
+認証を必要とするエンドポイントは、全て`/private`以下のパスにすること。
+
+理由はフロントエンド側のAPIクライアント。`/private/`から始まるパスの際、Bearerトークンをヘッダに入れるようになっている。
+
+### WebStormからテストを実行する場合の.env読み込み
 
 Run configのNode optionsに`--env-file ../../.env.test`を追加する。
