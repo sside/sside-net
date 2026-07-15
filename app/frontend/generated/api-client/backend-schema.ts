@@ -809,5 +809,5 @@ export enum ApiPaths {
     BlogEntryMetaTagController_getAllWithCount = "/private/blog-entry-meta-tag",
     PublicBlogEntryMetaTagController_getAllPublishedBlogEntryMetaTag = "/blog-entry-meta-tag",
     AuthenticationController_postSignIn = "/authentication/sign-in",
-    AuthenticationController_refreshAccessToken = "/authentication/refresh",
+    AuthenticationController_refreshAccessToken = "/authentication/refresh"
 }

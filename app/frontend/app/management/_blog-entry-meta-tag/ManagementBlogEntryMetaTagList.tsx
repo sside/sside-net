@@ -10,8 +10,8 @@ import {
 } from "@tanstack/react-table";
 import { FaEdit } from "react-icons/fa";
 import { FaTrashCan } from "react-icons/fa6";
+import { components } from "../../../generated/api-client/backend-schema";
 import { $apiClient } from "../../../library/api-client/api-client";
-import { components } from "../../../library/api-client/backend-schema";
 import { captureApiCallError } from "../../../library/sentry/captureApiCallError";
 import { ManagementSectionHeader } from "../ManagementSectionHeader";
 

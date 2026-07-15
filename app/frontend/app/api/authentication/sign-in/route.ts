@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { StatusCodes } from "http-status-codes";
+import { components } from "../../../../generated/api-client/backend-schema";
 import { ErrorResponse } from "../../../../library/api-client/ErrorResponse";
 import { apiClient } from "../../../../library/api-client/api-client";
-import { components } from "../../../../library/api-client/backend-schema";
 import { registerAuthenticationTokenCookie } from "../registerAuthenticationTokenCookie";
 
 export async function POST(request: NextRequest): Promise<Response> {

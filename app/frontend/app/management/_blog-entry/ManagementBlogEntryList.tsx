@@ -9,8 +9,8 @@ import {
     getCoreRowModel,
     useReactTable,
 } from "@tanstack/react-table";
+import { components } from "../../../generated/api-client/backend-schema";
 import { $apiClient } from "../../../library/api-client/api-client";
-import { components } from "../../../library/api-client/backend-schema";
 import { captureApiCallError } from "../../../library/sentry/captureApiCallError";
 import { ManagementSectionHeader } from "../ManagementSectionHeader";
 

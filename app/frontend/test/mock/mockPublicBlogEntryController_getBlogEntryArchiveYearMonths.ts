@@ -1,5 +1,5 @@
 import { MswFixture } from "next/dist/experimental/testmode/playwright/msw";
-import { components } from "../../library/api-client/backend-schema";
+import { components } from "../../generated/api-client/backend-schema";
 import { mockBackendGetResponse } from "../mockBackendGetResponse";
 
 export const mockValuePublicBlogEntryController_getBlogEntryArchiveYearMonths =

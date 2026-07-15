@@ -2,7 +2,7 @@ import { MswFixture } from "next/dist/experimental/testmode/playwright/msw";
 import { fakerEN, fakerJA } from "@faker-js/faker";
 import { MARKDOWN_SAMPLES } from "@sside-net/constant";
 import { createIntegerRange } from "@sside-net/utility";
-import { components } from "../../library/api-client/backend-schema";
+import { components } from "../../generated/api-client/backend-schema";
 import { mockBackendGetResponse } from "../mockBackendGetResponse";
 
 export const mockValueBlogEntryController_getAllBlogEntries =

@@ -6,7 +6,7 @@ import { getAppConfig } from "@sside-net/app-config";
 import { validateRequired } from "@sside-net/validator";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Button } from "../../component/button/Button";
-import { paths } from "../../library/api-client/backend-schema";
+import { paths } from "../../generated/api-client/backend-schema";
 import { ManagementInputSet } from "../management/_component/input/ManagementInputSet";
 
 type SignInFormInput = {

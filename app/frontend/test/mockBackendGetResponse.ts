@@ -1,7 +1,7 @@
 import { MswFixture } from "next/dist/experimental/testmode/playwright/msw";
 import { http } from "next/experimental/testmode/playwright/msw";
 import { getAppConfig } from "@sside-net/app-config";
-import { paths } from "../library/api-client/backend-schema";
+import { paths } from "../generated/api-client/backend-schema";
 
 export const mockBackendGetResponse = <T extends keyof paths>(
     path: T,

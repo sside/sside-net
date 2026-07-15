@@ -6,7 +6,7 @@ import { jwtDecode } from "jwt-decode";
 import createFetchClient from "openapi-fetch";
 import createTanstackClient from "openapi-react-query";
 import { FrontendCookieKey } from "../../constant/cookie/FrontendCookieKey";
-import { components, paths } from "./backend-schema";
+import { components, paths } from "../../generated/api-client/backend-schema";
 
 export const isErrorResponse = (response: Response): boolean =>
     response.status >= 400;

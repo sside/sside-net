@@ -1,6 +1,6 @@
 import { expect } from "@playwright/test";
 import dedent from "dedent";
-import { components } from "../../../library/api-client/backend-schema";
+import { components } from "../../../generated/api-client/backend-schema";
 import { test } from "../../../test/clientTest";
 import { mockDefaultValues } from "../../../test/mockDefaultValues";
 
