@@ -13,7 +13,7 @@ sside.net web site
 npm install
 
 # .envのセット
-# コピー後にコミットしないトークンなどは適宜セット
+# コミットしないトークンはコピー後に適宜セット
 cp .env.sample .env
 cp .env.test.sample .env.test
 
