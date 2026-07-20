@@ -73,8 +73,6 @@ export class AuthenticationService {
             payload,
         });
 
-        this.logger.debug("env", process.env);
-
         return await this.jwtService.signAsync(payload, {
             // JwtModuleのimport時にシークレットは指定しているが効いていないのでここでも渡している。
             secret: process.env.AUTHENTICATION_JWT_TOKEN_SECRET,
