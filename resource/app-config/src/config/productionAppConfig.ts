@@ -6,7 +6,7 @@ export const productionAppConfig = defu(
     {
         global: {
             log: {
-                level: "debug",
+                level: "info",
             },
             baseUrl: {
                 frontend: "http://localhost:42979",
