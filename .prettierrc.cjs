@@ -7,6 +7,7 @@ module.exports = {
     singleAttributePerLine: true,
     experimentalTernaries: true,
     importOrder: [
+        "^./instrument$",
         "^@storybook/",
         "^react$",
         "^next$",

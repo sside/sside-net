@@ -1,3 +1,4 @@
+import "./instrument";
 import { INestApplication, ValidationPipe } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
@@ -11,6 +12,7 @@ import * as ClassValidator from "class-validator";
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
 import { AppModule } from "./app.module";
+import { GlobalExceptionFilter } from "./filter/global-exception.filter";
 import { JsonLogger } from "./library/logger/JsonLogger";
 
 const logger = new ProjectLogger("NestJS bootstrap");
@@ -26,13 +28,14 @@ async function bootstrap() {
         logger: new JsonLogger(),
     });
 
-    applyGlobalValidation(app);
-
+    logger.log("グローバルのException Filterを適用します。");
+    app.useGlobalFilters(new GlobalExceptionFilter());
     logger.log("helmetを適用します。");
     app.use(helmet());
     logger.log("cookie-parserを適用します。");
     app.use(cookieParser());
 
+    applyGlobalValidation(app);
     applyCors(app);
 
     if (getEnvironmentType() !== EnvironmentType.Production) {

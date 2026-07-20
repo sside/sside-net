@@ -1,5 +1,6 @@
 import { Module } from "@nestjs/common";
 import { ThrottlerModule } from "@nestjs/throttler";
+import { SentryModule } from "@sentry/nestjs/setup";
 import { getAppConfig } from "@sside-net/app-config";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
@@ -9,6 +10,7 @@ import { DatabaseModule } from "./database/database.module";
 
 @Module({
     imports: [
+        SentryModule.forRoot(),
         ThrottlerModule.forRoot({
             throttlers: [
                 {
