@@ -1,10 +1,15 @@
 import * as Sentry from "@sentry/nestjs";
 import { nodeProfilingIntegration } from "@sentry/profiling-node";
-import { isProductionEnvironment } from "@sside-net/utility";
+import {
+    getEnvironmentType,
+    isProductionEnvironment,
+} from "@sside-net/utility";
 
 // Ensure to call this before requiring any other modules!
 Sentry.init({
     dsn: process.env.SENTRY_DSN_BACKEND,
+    environment: getEnvironmentType(),
+
     integrations: [
         // Add our Profiling integration
         nodeProfilingIntegration(),
