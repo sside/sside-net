@@ -5,6 +5,7 @@ import {
     notImplementedStab,
     parseDecimalFloat,
     parseDecimalInt,
+    wait,
 } from "./index";
 
 describe("parseDecimalFloat", () => {
@@ -82,6 +83,18 @@ describe("createIntegerRange", () => {
         expect(() => createIntegerRange(3, -2)).toThrow(/負/);
         expect(() => createIntegerRange(-1, -2)).toThrow(/負/);
         expect(() => createIntegerRange(-1, 2)).toThrow(/負/);
+    });
+});
+
+describe("wait", () => {
+    test("指定の時間処理が停止していること。", async () => {
+        const WAIT_DURATION_MILLISECOND = 100;
+        const start = Date.now();
+        await wait(WAIT_DURATION_MILLISECOND);
+
+        expect(
+            Math.abs(Date.now() - start - WAIT_DURATION_MILLISECOND),
+        ).toBeLessThanOrEqual(20);
     });
 });
 

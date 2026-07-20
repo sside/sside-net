@@ -97,6 +97,16 @@ export const isTestEnvironment = (): boolean =>
     getEnvironmentType() === EnvironmentType.Test;
 
 /**
+ * 指定のmillisecondの間ウェイトします。
+ */
+export const wait = async (milliseconds: number): Promise<void> =>
+    new Promise((resolve) =>
+        setTimeout(() => {
+            resolve();
+        }, milliseconds),
+    );
+
+/**
  * Error.stackをログするとき、呼び出し元の関数が分かるように必要な行のみトリムします。
  */
 const trimStackTraceLines = (stack?: string): string =>
