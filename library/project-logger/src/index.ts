@@ -163,6 +163,7 @@ export class ProjectLogger {
             {
                 message,
                 context: this.context,
+                isLogToSentry: !!this.sentryLogger,
             },
             ...logObjects,
         ]);
