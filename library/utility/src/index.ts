@@ -1,5 +1,4 @@
 import { EnvironmentType } from "@sside-net/constant";
-import { ProjectLogger } from "@sside-net/project-logger";
 import { Nullish } from "utility-types";
 
 /**
@@ -121,9 +120,9 @@ const trimStackTraceLines = (stack?: string): string =>
  * 実行時、呼び出し個所を確認できるようにスタックトレースの一部をログに残します。
  */
 export const notImplementedStab = <T>(argument: T): T => {
-    const logger = new ProjectLogger("notImplementedStab");
     const { stack } = new Error("スタック取得");
-    logger.warn("未実装の値をstabしています。", {
+    // eslint-disable-next-line no-console
+    console.warn("未実装の値をstabしています。", {
         arg: argument,
         stackTrace: trimStackTraceLines(stack),
     });
@@ -136,9 +135,9 @@ export const notImplementedStab = <T>(argument: T): T => {
  * 実行時、呼び出し個所を確認できるようにスタックトレースの一部をログに残します。
  */
 export const notImplementedVoid = (...args: unknown[]): void => {
-    const logger = new ProjectLogger("notImplementedVoid");
     const { stack } = new Error("スタック取得");
-    logger.warn("未実装の関数をstabしています。", {
+    // eslint-disable-next-line no-console
+    console.warn("未実装の関数をstabしています。", {
         args,
         stackTrace: trimStackTraceLines(stack),
     });
