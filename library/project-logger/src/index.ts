@@ -9,6 +9,9 @@ export type ProjectLoggerInputObject =
     | Primitive
     | Error;
 
+/**
+ * sside-netプロジェクト全体で使用するロガー。
+ */
 export class ProjectLogger {
     private readonly pinoLogger: Logger;
     private readonly logLevel: LogLevel;
@@ -21,6 +24,9 @@ export class ProjectLogger {
         this.logLevel = getAppConfig().global.log.level;
     }
 
+    /**
+     * エラーオブジェクトをロギング用にRecordへ解体します。
+     */
     private static errorToLogObject(error: Error): Record<string, unknown> {
         return {
             errorName: error.name,
@@ -111,6 +117,9 @@ export class ProjectLogger {
         return createKeyName(key, maximumIndex, padLength);
     }
 
+    /**
+     * 通常ログを記録します。
+     */
     log(message: string, ...logObjects: ProjectLoggerInputObject[]): void {
         this.pinoLogger.info(this.createPinoLogObject(message, logObjects));
         if (this.sentryLogger) {
@@ -121,6 +130,10 @@ export class ProjectLogger {
         }
     }
 
+    /**
+     * デバッグ用ログを記録します。
+     * 本番環境ではロギングしません。
+     */
     debug(message: string, ...logObjects: ProjectLoggerInputObject[]): void {
         if (this.logLevel === LogLevel.Info) {
             return;
@@ -135,6 +148,9 @@ export class ProjectLogger {
         }
     }
 
+    /**
+     * 警告ログを記録します。
+     */
     warn(message: string, ...logObjects: ProjectLoggerInputObject[]): void {
         this.pinoLogger.warn(this.createPinoLogObject(message, logObjects));
         if (this.sentryLogger) {
@@ -145,6 +161,9 @@ export class ProjectLogger {
         }
     }
 
+    /**
+     * エラーログを記録します。
+     */
     error(message: string, ...logObjects: ProjectLoggerInputObject[]): void {
         this.pinoLogger.error(this.createPinoLogObject(message, logObjects));
         if (this.sentryLogger) {
@@ -155,6 +174,9 @@ export class ProjectLogger {
         }
     }
 
+    /**
+     * Pinoログ出力用にマージしたオブジェクトを作成します。
+     */
     private createPinoLogObject(
         message: string,
         logObjects: ProjectLoggerInputObject[],
