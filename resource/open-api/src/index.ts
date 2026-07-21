@@ -1,10 +1,8 @@
+/* eslint-disable no-console */
 // __dirnameからの相対パス指定を使っているため、このファイルは別のディレクトリに動かさないこと
-import { ProjectLogger } from "@sside-net/project-logger";
 import { execSync } from "node:child_process";
 import { readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
-
-const logger = new ProjectLogger("api-client");
 
 export async function updateOpenApiDocument(
     openApiDocumentJson: string,
@@ -12,13 +10,14 @@ export async function updateOpenApiDocument(
     isLogClientGenerateCommandLog = false,
 ): Promise<void> {
     const OPEN_API_DOCUMENT_FILE_NAME = "open-api.json";
+
     const openApiFileSaveFullPath = resolve(
         __dirname,
         "..",
         OPEN_API_DOCUMENT_FILE_NAME,
     );
 
-    logger.log("OpenAPIドキュメントを保存を試みます。", {
+    console.log("OpenAPIドキュメントを保存を試みます。", {
         openApiFileSaveFullPath,
         isForceOverWrite,
         isLogClientGenerateCommandLog,
@@ -28,13 +27,13 @@ export async function updateOpenApiDocument(
         !isForceOverWrite &&
         !(await isDocumentUpdated(openApiFileSaveFullPath, openApiDocumentJson))
     ) {
-        logger.log("OpenApiドキュメントに変更がないため、更新は行いません。");
+        console.log("OpenApiドキュメントに変更がないため、更新は行いません。");
 
         return;
     }
 
     await writeFile(openApiFileSaveFullPath, openApiDocumentJson);
-    logger.log("OpenAPIドキュメントを更新しました。");
+    console.log("OpenAPIドキュメントを更新しました。");
 
     const clientGenerateLog = buildClientLibrary();
     if (isLogClientGenerateCommandLog) {
@@ -48,7 +47,7 @@ async function isDocumentUpdated(
     fileFullPath: string,
     openApiDocument: string,
 ): Promise<boolean> {
-    logger.log("OpenAPIドキュメントが更新されているかチェックします。", {
+    console.log("OpenAPIドキュメントが更新されているかチェックします。", {
         fileFullPath,
     });
 
@@ -58,7 +57,7 @@ async function isDocumentUpdated(
             openApiDocument.trim()
         );
     } catch (e) {
-        logger.warn(
+        console.warn(
             "既存のOpenAPIドキュメント取得時にエラー発生。",
             e as Error,
         );
@@ -68,7 +67,7 @@ async function isDocumentUpdated(
 }
 
 function buildClientLibrary(): string {
-    logger.log("OpenAPIクライアントを生成します。");
+    console.log("OpenAPIクライアントを生成します。");
 
     return execSync(`npm run generate:client`, {
         cwd: resolve(__dirname, ".."),

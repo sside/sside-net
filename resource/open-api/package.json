@@ -17,14 +17,13 @@
         "update:execute": "ncu -u"
     },
     "dependencies": {
-        "@sside-net/project-logger": "*"
+        "openapi-typescript": "7.13.0"
     },
     "devDependencies": {
         "@sside-net/eslint": "*",
         "@sside-net/tsconfig": "*",
         "@types/node": "24",
-        "openapi-typescript": "7.13.0",
         "rimraf": "6.1.3",
-        "typescript": "6.0.3"
+        "typescript": "5.9.3"
     }
 }
