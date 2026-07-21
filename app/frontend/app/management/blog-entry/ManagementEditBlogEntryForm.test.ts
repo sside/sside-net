@@ -95,8 +95,6 @@ test.describe("ManagementEditBlogEntryForm", () => {
                 const postData = request.postDataJSON();
                 expect(postData).toBeDefined();
 
-                console.log("postData", postData);
-
                 const {
                     title: requestTitle,
                     slug: requestSlug,

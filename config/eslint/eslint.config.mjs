@@ -25,6 +25,8 @@ export default defineConfig([
                     next: "return",
                 },
             ],
+
+            "no-console": "error",
         },
     },
     {
