@@ -1,63 +1,87 @@
-import { describe, test, expect, beforeEach } from "@jest/globals";
+import { describe, expect, test } from "@jest/globals";
 import { ProjectLogger } from "./index";
 
-const createLogObject = ProjectLogger["createLogObject"];
+const mergeLogMessageObjectsRecursive =
+    ProjectLogger["mergeLogMessageObjectsRecursive"];
 
 const message = "log object",
     bool = true,
     array = [1, 2, 3],
     error = new Error("error object");
 
-let logObject: Record<string, unknown> = {};
-
-beforeEach(() => {
-    logObject = createLogObject(
-        message,
-        {
-            message,
-            bool,
-        },
-        {
-            array,
-            error,
-        },
-    );
-});
-
 describe("ProjectLogger", () => {
-    describe("createLogObject", () => {
+    describe("mergeLogMessageObjects", () => {
         test("全てのプロパティがマージされていること。", () => {
-            expect(logObject.message).toBe(message);
-            expect(logObject.bool).toBe(bool);
-            expect(logObject.array).toBe(array);
+            const merged = mergeLogMessageObjectsRecursive([
+                message,
+                {
+                    message,
+                    bool,
+                },
+                {
+                    array,
+                    error,
+                },
+            ]);
+
+            expect(merged.message).toBe(message);
+            expect(merged.bool).toBe(bool);
+            expect(merged.array).toBe(array);
         });
 
         test("プロパティ名が被った場合はインクリメントされた接尾辞付きにリネームされること。", () => {
-            const merged = createLogObject(
-                "merged",
-                logObject,
+            const merged = mergeLogMessageObjectsRecursive([
+                message,
                 {
-                    array,
+                    message,
+                    bool,
                 },
                 {
                     array,
                 },
-            );
+                {
+                    array,
+                    bool,
+                },
+                {
+                    array,
+                    bool,
+                },
+            ]);
+
+            expect(merged.message).toBe(message);
+            expect(merged.message_01).toBe(message);
+            expect(merged.array).toBe(array);
             expect(merged.array_01).toBe(array);
             expect(merged.array_02).toBe(array);
+            expect(merged.bool).toBe(bool);
+            expect(merged.bool_01).toBe(bool);
+            expect(merged.bool_02).toBe(bool);
         });
 
         test("エラー内容がパースされていること。", () => {
+            const merged = mergeLogMessageObjectsRecursive([
+                message,
+                {
+                    message,
+                    bool,
+                    error,
+                },
+                {
+                    array,
+                    error,
+                },
+            ]);
             expect(
                 (
-                    logObject.error as {
+                    merged.error as {
                         name: unknown;
                     }
                 ).name,
             ).toBe(error.name);
             expect(
                 (
-                    logObject.error as {
+                    merged.error as {
                         stack: unknown;
                     }
                 ).stack,

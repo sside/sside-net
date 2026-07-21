@@ -1,8 +1,10 @@
+import { LogLevel } from "@sside-net/constant";
+
 export type AppConfig = {
     global: {
         appName: "sside.net";
         log: {
-            level: "info" | "debug";
+            level: LogLevel;
         };
         sentry: {
             organizationName: "ssidenet";

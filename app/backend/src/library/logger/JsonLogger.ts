@@ -1,11 +1,16 @@
 import { LoggerService } from "@nestjs/common";
+import type { logger as SentryLogger } from "@sentry/core";
+import * as Sentry from "@sentry/nestjs";
 import { ProjectLogger } from "@sside-net/project-logger";
 
 export class JsonLogger implements LoggerService {
     private readonly projectLogger: ProjectLogger;
 
     constructor(context?: string) {
-        this.projectLogger = new ProjectLogger(context ?? "not defined");
+        this.projectLogger = new ProjectLogger(
+            context ?? "not defined",
+            Sentry.logger as typeof SentryLogger,
+        );
     }
 
     log(...arguments_: Parameters<LoggerService["log"]>): void {

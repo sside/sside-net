@@ -7,7 +7,7 @@ import {
     useEditor,
     useInstance,
 } from "@milkdown/react";
-import { ProjectLogger } from "@sside-net/project-logger";
+import { createLogger } from "../../../library/logger/createLogger";
 import { ManagementInputSet } from "../_component/input/ManagementInputSet";
 import "./MarkdownEditor.css";
 
@@ -55,11 +55,11 @@ const CrepeMarkdownEditor: FC<{
 };
 
 const MilkdownControl: FC<{}> = ({}) => {
-    const logger = new ProjectLogger(MilkdownControl.name);
+    const logger = createLogger(MilkdownControl.name);
     const [isLoading, getInstance] = useInstance();
 
     if (isLoading) {
-        return;
+        return null;
     }
 
     logger.log("MilkdownControl status", {
@@ -67,7 +67,7 @@ const MilkdownControl: FC<{}> = ({}) => {
         milkdownInstance: !!getInstance(),
     });
 
-    return <></>;
+    return null;
 };
 
 export const ManagementBlogEntryBodyMarkdownEditor: FC<{

@@ -1,8 +1,10 @@
-/* eslint-disable no-console */
 // __dirnameからの相対パス指定を使っているため、このファイルは別のディレクトリに動かさないこと
+import { ProjectLogger } from "@sside-net/project-logger";
 import { execSync } from "node:child_process";
 import { readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
+
+const logger = new ProjectLogger("open-api");
 
 export async function updateOpenApiDocument(
     openApiDocumentJson: string,
@@ -17,7 +19,7 @@ export async function updateOpenApiDocument(
         OPEN_API_DOCUMENT_FILE_NAME,
     );
 
-    console.log("OpenAPIドキュメントを保存を試みます。", {
+    logger.log("OpenAPIドキュメントを保存を試みます。", {
         openApiFileSaveFullPath,
         isForceOverWrite,
         isLogClientGenerateCommandLog,
@@ -27,17 +29,19 @@ export async function updateOpenApiDocument(
         !isForceOverWrite &&
         !(await isDocumentUpdated(openApiFileSaveFullPath, openApiDocumentJson))
     ) {
-        console.log("OpenApiドキュメントに変更がないため、更新は行いません。");
+        logger.log("OpenApiドキュメントに変更がないため、更新は行いません。");
 
         return;
     }
 
     await writeFile(openApiFileSaveFullPath, openApiDocumentJson);
-    console.log("OpenAPIドキュメントを更新しました。");
+    logger.log("OpenAPIドキュメントを更新しました。");
 
     const clientGenerateLog = buildClientLibrary();
     if (isLogClientGenerateCommandLog) {
-        console.log(clientGenerateLog);
+        logger.log("クライアント生成コマンドログ。", {
+            clientGenerateLog,
+        });
     }
 
     return;
@@ -47,7 +51,7 @@ async function isDocumentUpdated(
     fileFullPath: string,
     openApiDocument: string,
 ): Promise<boolean> {
-    console.log("OpenAPIドキュメントが更新されているかチェックします。", {
+    logger.log("OpenAPIドキュメントが更新されているかチェックします。", {
         fileFullPath,
     });
 
@@ -57,7 +61,7 @@ async function isDocumentUpdated(
             openApiDocument.trim()
         );
     } catch (e) {
-        console.warn(
+        logger.warn(
             "既存のOpenAPIドキュメント取得時にエラー発生。",
             e as Error,
         );
@@ -67,7 +71,7 @@ async function isDocumentUpdated(
 }
 
 function buildClientLibrary(): string {
-    console.log("OpenAPIクライアントを生成します。");
+    logger.log("OpenAPIクライアントを生成します。");
 
     return execSync(`npm run generate:client`, {
         cwd: resolve(__dirname, ".."),

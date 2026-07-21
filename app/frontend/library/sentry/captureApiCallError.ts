@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { captureException } from "@sentry/nextjs";
-import { ProjectLogger } from "@sside-net/project-logger";
 import { is400sErrorResponse } from "../api-client/api-client";
+import { createLogger } from "../logger/createLogger";
 
 export const captureApiCallError = <T>(
     response: Response,
@@ -10,12 +10,20 @@ export const captureApiCallError = <T>(
         | ((...arguments_: unknown[]) => never)
         | string,
 ): Response => {
+    const clonedResponse = response.clone();
     if (!is400sErrorResponse(response)) {
-        new ProjectLogger(
-            typeof componentOrContextName === "string" ?
-                componentOrContextName
-            :   componentOrContextName.name,
-        );
+        // Client Componentから呼ばれるケースを考慮して非同期を待たない。
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        clonedResponse.json().then((json) => {
+            createLogger(
+                typeof componentOrContextName === "string" ?
+                    componentOrContextName
+                :   componentOrContextName.name,
+            ).error(
+                "バックエンドAPIコールに失敗しました。",
+                json as Record<string, unknown>,
+            );
+        });
 
         captureException(response);
     }

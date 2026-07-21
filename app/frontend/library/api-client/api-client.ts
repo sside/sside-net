@@ -1,12 +1,12 @@
 import { getAppConfig } from "@sside-net/app-config";
 import { RequestHeaderName } from "@sside-net/constant";
-import { ProjectLogger } from "@sside-net/project-logger";
 import { StatusCodes } from "http-status-codes";
 import { jwtDecode } from "jwt-decode";
 import createFetchClient from "openapi-fetch";
 import createTanstackClient from "openapi-react-query";
 import { FrontendCookieKey } from "../../constant/cookie/FrontendCookieKey";
 import { components, paths } from "../../generated/api-client/backend-schema";
+import { createLogger } from "../logger/createLogger";
 
 export const isErrorResponse = (response: Response): boolean =>
     response.status >= 400;
@@ -30,7 +30,7 @@ const clientSideApiClient = createFetchClient<paths>({
     baseUrl: backendBaseUrl,
 });
 
-const logger = new ProjectLogger("api-client(server side)");
+const logger = createLogger("api-client(server side)");
 apiClient.use({
     onRequest: async ({ request }): Promise<void> => {
         logger.debug("call api", {
@@ -40,7 +40,7 @@ apiClient.use({
     },
 });
 
-const clientSideLogger = new ProjectLogger("api-client(client side)");
+const clientSideLogger = createLogger("api-client(client side)");
 clientSideApiClient.use({
     onRequest: async ({ request }): Promise<void> => {
         if (!window) {

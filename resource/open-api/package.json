@@ -17,6 +17,7 @@
         "update:execute": "ncu -u"
     },
     "dependencies": {
+        "@sside-net/project-logger": "*",
         "openapi-typescript": "7.13.0"
     },
     "devDependencies": {

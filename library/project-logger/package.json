@@ -14,7 +14,9 @@
         "update:execute": "ncu -u"
     },
     "dependencies": {
+        "@sentry/core": "10.27.0",
         "@sside-net/app-config": "*",
+        "@sside-net/constant": "*",
         "pino": "10.3.1",
         "utility-types": "3.11.0"
     },

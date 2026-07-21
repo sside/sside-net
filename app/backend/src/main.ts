@@ -5,7 +5,6 @@ import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { getAppConfig } from "@sside-net/app-config";
 import { EnvironmentType } from "@sside-net/constant";
 import { updateOpenApiDocument } from "@sside-net/open-api/dist";
-import { ProjectLogger } from "@sside-net/project-logger";
 import { getEnvironmentType, parseDecimalInt } from "@sside-net/utility";
 import * as ClassTransformer from "class-transformer";
 import * as ClassValidator from "class-validator";
@@ -15,7 +14,7 @@ import { AppModule } from "./app.module";
 import { GlobalExceptionFilter } from "./filter/global-exception.filter";
 import { JsonLogger } from "./library/logger/JsonLogger";
 
-const logger = new ProjectLogger("NestJS bootstrap");
+const logger = new JsonLogger("NestJS bootstrap");
 
 /**
  * NestJSサーバ起動。main。
@@ -66,7 +65,7 @@ async function serveSwaggerDocument(
         new DocumentBuilder().setTitle(getAppConfig().global.appName).build(),
     );
 
-    await updateOpenApiDocument(JSON.stringify(openApiDocument), true, true);
+    await updateOpenApiDocument(JSON.stringify(openApiDocument), false, false);
 
     SwaggerModule.setup(documentPath, app, openApiDocument);
 
