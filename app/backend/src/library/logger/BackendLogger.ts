@@ -3,7 +3,7 @@ import type { logger as SentryLogger } from "@sentry/core";
 import * as Sentry from "@sentry/nestjs";
 import { ProjectLogger } from "@sside-net/project-logger";
 
-export class JsonLogger implements LoggerService {
+export class BackendLogger implements LoggerService {
     private readonly projectLogger: ProjectLogger;
 
     constructor(context?: string) {

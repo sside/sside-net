@@ -1,12 +1,12 @@
 import { copyFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { JsonLogger } from "../../logger/JsonLogger";
+import { BackendLogger } from "../../logger/BackendLogger";
 
 /**
  * テスト用DBを作成し、環境変数DATABASE_URLにセットします。
  */
 export const prepareTestDatabase = (): void => {
-    const logger = new JsonLogger("prepareTestDatabase");
+    const logger = new BackendLogger("prepareTestDatabase");
 
     if (!process.env.JEST_WORKER_ID) {
         throw new Error(`環境変数JEST_WORKER_IDが未定義です。`);

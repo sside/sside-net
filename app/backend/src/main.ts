@@ -12,9 +12,9 @@ import cookieParser from "cookie-parser";
 import helmet from "helmet";
 import { AppModule } from "./app.module";
 import { GlobalExceptionFilter } from "./filter/global-exception.filter";
-import { JsonLogger } from "./library/logger/JsonLogger";
+import { BackendLogger } from "./library/logger/BackendLogger";
 
-const logger = new JsonLogger("NestJS bootstrap");
+const logger = new BackendLogger("NestJS bootstrap");
 
 /**
  * NestJSサーバ起動。main。
@@ -24,7 +24,7 @@ async function bootstrap() {
     const listenPort = parseDecimalInt(process.env.PORT) || DEFAULT_LISTEN_PORT;
 
     const app = await NestFactory.create(AppModule, {
-        logger: new JsonLogger(),
+        logger: new BackendLogger(),
     });
 
     logger.log("グローバルのException Filterを適用します。");

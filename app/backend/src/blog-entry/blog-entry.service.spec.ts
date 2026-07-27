@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, test } from "@jest/globals";
 import { Test, TestingModule } from "@nestjs/testing";
 import { createIntegerArray } from "@sside-net/utility";
 import { AuthenticationModule } from "../authentication/authentication.module";
-import { JsonLogger } from "../library/logger/JsonLogger";
+import { BackendLogger } from "../library/logger/BackendLogger";
 import { prepareTestDatabase } from "../library/test/database/prepareTestDatabase";
 import { BlogEntryModule } from "./blog-entry.module";
 import { BlogEntryService } from "./blog-entry.service";
@@ -36,7 +36,7 @@ describe("BlogEntryService", () => {
         const module: TestingModule = await Test.createTestingModule({
             imports: [BlogEntryModule, AuthenticationModule],
         }).compile();
-        module.useLogger(new JsonLogger("BlogEntryService"));
+        module.useLogger(new BackendLogger("BlogEntryService"));
 
         blogEntryService = module.get<BlogEntryService>(BlogEntryService);
     });

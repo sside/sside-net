@@ -1,10 +1,10 @@
 import { fakerEN } from "@faker-js/faker";
 import { NestFactory } from "@nestjs/core";
 import { BlogEntryService } from "../blog-entry/blog-entry.service";
-import { JsonLogger } from "../library/logger/JsonLogger";
+import { BackendLogger } from "../library/logger/BackendLogger";
 import { SeedModule } from "./seed.module";
 
-const logger = new JsonLogger("Seed");
+const logger = new BackendLogger("Seed");
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises -- ブートストラップなので無視
 (async () => {
