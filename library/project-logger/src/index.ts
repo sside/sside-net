@@ -20,7 +20,9 @@ export class ProjectLogger {
         private readonly context: string,
         private readonly sentryLogger?: typeof SentryLogger,
     ) {
-        this.pinoLogger = Pino();
+        this.pinoLogger = Pino({
+            level: "trace",
+        });
         this.logLevel = getAppConfig().global.log.level;
     }
 
@@ -140,12 +142,6 @@ export class ProjectLogger {
         }
 
         this.pinoLogger.debug(this.createPinoLogObject(message, logObjects));
-        if (this.sentryLogger) {
-            this.sentryLogger.debug(
-                message,
-                this.createSentryLogObject(logObjects),
-            );
-        }
     }
 
     /**
