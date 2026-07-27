@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { StatusCodes } from "http-status-codes";
 import { components } from "../../../../generated/api-client/backend-schema";
-import { ErrorResponse } from "../../../../library/api-client/ErrorResponse";
+import { ApiClientErrorResponse } from "../../../../library/api-client/ApiClientErrorResponse";
 import { apiClient } from "../../../../library/api-client/api-client";
 import { registerAuthenticationTokenCookie } from "../registerAuthenticationTokenCookie";
 
@@ -19,7 +19,7 @@ export async function POST(request: NextRequest): Promise<Response> {
     );
 
     if (error) {
-        return new NextResponse((error as ErrorResponse).message, {
+        return new NextResponse((error as ApiClientErrorResponse).message, {
             status: response.status,
         });
     }

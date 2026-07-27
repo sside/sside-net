@@ -1,11 +1,14 @@
+import { notFound } from "next/navigation";
 import { getAppConfig } from "@sside-net/app-config";
 import { IntegerPagePathParameter } from "../../../../constant/path-parameter/IntegerPagePathParameter";
-import { apiClient } from "../../../../library/api-client/api-client";
+import {
+    apiClient,
+    isNotFoundErrorResponse,
+} from "../../../../library/api-client/api-client";
 import {
     getPagePathParameters,
     NextPagePathParameter,
 } from "../../../../library/path-parameter/getPagePathParameters";
-import { captureApiCallError } from "../../../../library/sentry/captureApiCallError";
 import { BlogEntryFromPublishedBlogEntryResponse } from "../../_blog-entry/BlogEntryFromPublishedBlogEntryResponse";
 
 export default async function YearArchivePage(
@@ -30,8 +33,8 @@ export default async function YearArchivePage(
         },
     );
 
-    if (error) {
-        captureApiCallError(response, YearArchivePage);
+    if (error && isNotFoundErrorResponse(response)) {
+        return notFound();
     }
 
     if (!data) {

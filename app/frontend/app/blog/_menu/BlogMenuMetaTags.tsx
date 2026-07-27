@@ -1,17 +1,10 @@
 import { FC } from "react";
 import { BlogMetaTag } from "../../../component/blog-meta-tag/BlogMetaTag";
 import { apiClient } from "../../../library/api-client/api-client";
-import { captureApiCallError } from "../../../library/sentry/captureApiCallError";
 import { BlogMenuSection } from "./BlogMenuSection";
 
 export const BlogMenuMetaTags: FC<{}> = async ({}) => {
-    const { data, error, response } = await apiClient.GET(
-        "/blog-entry-meta-tag",
-    );
-
-    if (error) {
-        captureApiCallError(response, BlogMenuMetaTags);
-    }
+    const { data, error } = await apiClient.GET("/blog-entry-meta-tag");
 
     const metaTags = error ? [] : data;
 

@@ -1,7 +1,6 @@
 import { FC, Fragment } from "react";
 import Link from "next/link";
 import { apiClient } from "../../../library/api-client/api-client";
-import { captureApiCallError } from "../../../library/sentry/captureApiCallError";
 import { BlogMenuSection } from "./BlogMenuSection";
 
 const ArchiveYear: FC<{ year: number }> = ({ year }) => (
@@ -23,13 +22,9 @@ const ArchiveMonth: FC<{ year: number; month: number }> = ({ year, month }) => (
 );
 
 export const BlogMenuArchives: FC<{}> = async ({}) => {
-    const { data, error, response } = await apiClient.GET(
+    const { data, error } = await apiClient.GET(
         "/blog-entry/archive-year-month",
     );
-
-    if (error) {
-        captureApiCallError(response, BlogMenuArchives);
-    }
 
     const archiveYearMonths =
         error ?

@@ -2,7 +2,7 @@ import { FC, useId } from "react";
 import "@yaireo/tagify/dist/tagify.css";
 import Tags from "@yaireo/tagify/react";
 import { $apiClient } from "../../../../library/api-client/api-client";
-import { captureApiCallError } from "../../../../library/sentry/captureApiCallError";
+import { BackendErrorDisplay } from "../../_backend-error/BackendErrorDisplay";
 import "./ManagementBlogEntryMetaTagTagifyCustom.css";
 import { ManagementInputSet } from "./ManagementInputSet";
 
@@ -17,7 +17,12 @@ export const ManagementBlogEntryMetaTagInputSet: FC<{
     );
 
     if (error) {
-        throw captureApiCallError(error, ManagementBlogEntryMetaTagInputSet);
+        return (
+            <BackendErrorDisplay
+                errorMessage="バックエンドからのデータ取得に失敗しました。"
+                errorResponse={error}
+            />
+        );
     }
 
     return (

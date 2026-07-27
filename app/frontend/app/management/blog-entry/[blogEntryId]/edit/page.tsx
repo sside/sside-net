@@ -1,12 +1,15 @@
+import { notFound } from "next/navigation";
 import { DateTimeFormat } from "@sside-net/date-time";
 import { DateTime } from "luxon";
 import { IntegerPagePathParameter } from "../../../../../constant/path-parameter/IntegerPagePathParameter";
-import { apiClient } from "../../../../../library/api-client/api-client";
+import {
+    apiClient,
+    isNotFoundErrorResponse,
+} from "../../../../../library/api-client/api-client";
 import {
     getPagePathParameters,
     NextPagePathParameter,
 } from "../../../../../library/path-parameter/getPagePathParameters";
-import { captureApiCallError } from "../../../../../library/sentry/captureApiCallError";
 import { ManagementEditExistBlogEntry } from "./ManagementEditExistBlogEntry";
 
 export default async function EditBlogEntryPage(
@@ -27,7 +30,11 @@ export default async function EditBlogEntryPage(
         },
     );
     if (error) {
-        throw captureApiCallError(response, EditBlogEntryPage);
+        if (isNotFoundErrorResponse(response)) {
+            return notFound();
+        }
+
+        throw error;
     }
     const { title, slug, bodyMarkdown, metaTags, publishAt } = data;
 

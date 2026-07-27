@@ -3,7 +3,6 @@ import Link from "next/link";
 import { getAppConfig } from "@sside-net/app-config";
 import { DateTimeFormat, formatDateByJst } from "@sside-net/date-time";
 import { apiClient } from "../../../library/api-client/api-client";
-import { captureApiCallError } from "../../../library/sentry/captureApiCallError";
 import { BlogMenuSection } from "./BlogMenuSection";
 
 const BlogRecentEntry: FC<{
@@ -34,21 +33,13 @@ const BlogRecentEntry: FC<{
 };
 
 export const BlogMenuRecentEntries: FC<{}> = async ({}) => {
-    const { data, response, error } = await apiClient.GET(
-        "/blog-entry/latest",
-        {
-            params: {
-                query: {
-                    count: getAppConfig().frontend.blog.menu
-                        .recentBlogEntryCount,
-                },
+    const { data, error } = await apiClient.GET("/blog-entry/latest", {
+        params: {
+            query: {
+                count: getAppConfig().frontend.blog.menu.recentBlogEntryCount,
             },
         },
-    );
-
-    if (error) {
-        captureApiCallError(response, BlogMenuRecentEntries);
-    }
+    });
     const latestBlogEntries = error ? [] : data;
 
     return (

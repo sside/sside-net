@@ -1,10 +1,13 @@
+import { notFound } from "next/navigation";
 import { StringPagePathParameter } from "../../../../constant/path-parameter/StringPagePathParameter";
-import { apiClient } from "../../../../library/api-client/api-client";
+import {
+    apiClient,
+    isNotFoundErrorResponse,
+} from "../../../../library/api-client/api-client";
 import {
     getPagePathParameters,
     NextPagePathParameter,
 } from "../../../../library/path-parameter/getPagePathParameters";
-import { captureApiCallError } from "../../../../library/sentry/captureApiCallError";
 import { BlogEntryFromPublishedBlogEntryResponse } from "../../_blog-entry/BlogEntryFromPublishedBlogEntryResponse";
 
 export default async function BlogEntryBySlugPage(
@@ -26,7 +29,11 @@ export default async function BlogEntryBySlugPage(
     );
 
     if (error) {
-        captureApiCallError(response, BlogEntryBySlugPage);
+        if (isNotFoundErrorResponse(response)) {
+            return notFound();
+        }
+
+        throw error;
     }
 
     return (

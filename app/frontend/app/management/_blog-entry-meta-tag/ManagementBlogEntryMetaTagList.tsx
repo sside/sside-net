@@ -12,14 +12,18 @@ import { FaEdit } from "react-icons/fa";
 import { FaTrashCan } from "react-icons/fa6";
 import { components } from "../../../generated/api-client/backend-schema";
 import { $apiClient } from "../../../library/api-client/api-client";
-import { captureApiCallError } from "../../../library/sentry/captureApiCallError";
+import { createLogger } from "../../../library/logger/createLogger";
 import { ManagementSectionHeader } from "../ManagementSectionHeader";
+import { BackendErrorDisplay } from "../_backend-error/BackendErrorDisplay";
 
 const DeleteIcon: FC<{ blogMetaTagId: number; metaTagName: string }> = ({
     blogMetaTagId,
     metaTagName,
 }) => {
     const deleteBlogMetaTag = async () => {
+        const logger = createLogger(DeleteIcon.name);
+        logger.log("Logging sample");
+
         const isDelete = confirm(`${metaTagName}を削除しますか`);
         if (!isDelete) {
             return;
@@ -55,7 +59,7 @@ const RenameIcon: FC<{ blogMetaTagId: number; currentName: string }> = ({
 const BlogMetaTagTable: FC = () => {
     const { data, error, isLoading } = $apiClient.useQuery(
         "get",
-        `/blog-entry-meta-tag`,
+        `/private/blog-entry-meta-tag`,
     );
     const metaTags = useMemo(() => data ?? [], [data]);
 
@@ -97,12 +101,17 @@ const BlogMetaTagTable: FC = () => {
         getCoreRowModel: getCoreRowModel(),
     });
 
-    if (isLoading || !data) {
-        return null;
+    if (error) {
+        return (
+            <BackendErrorDisplay
+                errorMessage="データ取得時にエラーが発生しました。"
+                errorResponse={error}
+            />
+        );
     }
 
-    if (error) {
-        throw captureApiCallError(error, BlogMetaTagTable);
+    if (isLoading || !data) {
+        return null;
     }
 
     return (

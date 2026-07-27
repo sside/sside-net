@@ -1,6 +1,9 @@
 import { FC } from "react";
-import { apiClient } from "../../../library/api-client/api-client";
-import { captureApiCallError } from "../../../library/sentry/captureApiCallError";
+import { notFound } from "next/navigation";
+import {
+    apiClient,
+    isNotFoundErrorResponse,
+} from "../../../library/api-client/api-client";
 import { BlogEntryFromPublishedBlogEntryResponse } from "./BlogEntryFromPublishedBlogEntryResponse";
 
 export const RecentBlogEntries: FC<{ fetchCount: number }> = async ({
@@ -18,7 +21,9 @@ export const RecentBlogEntries: FC<{ fetchCount: number }> = async ({
     );
 
     if (error) {
-        captureApiCallError(response, RecentBlogEntries);
+        if (isNotFoundErrorResponse(response)) {
+            return notFound();
+        }
 
         throw error;
     }

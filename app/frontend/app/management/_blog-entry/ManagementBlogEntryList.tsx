@@ -11,8 +11,8 @@ import {
 } from "@tanstack/react-table";
 import { components } from "../../../generated/api-client/backend-schema";
 import { $apiClient } from "../../../library/api-client/api-client";
-import { captureApiCallError } from "../../../library/sentry/captureApiCallError";
 import { ManagementSectionHeader } from "../ManagementSectionHeader";
+import { BackendErrorDisplay } from "../_backend-error/BackendErrorDisplay";
 
 const BlogEntryTable: FC<{}> = ({}) => {
     const { data, error, isLoading } = $apiClient.useQuery(
@@ -68,12 +68,17 @@ const BlogEntryTable: FC<{}> = ({}) => {
         getCoreRowModel: getCoreRowModel(),
     });
 
-    if (isLoading || !data) {
-        return null;
+    if (error) {
+        return (
+            <BackendErrorDisplay
+                errorMessage="データ取得時にエラーが発生しました。"
+                errorResponse={error}
+            />
+        );
     }
 
-    if (error) {
-        throw captureApiCallError(error, BlogEntryTable);
+    if (isLoading || !data) {
+        return null;
     }
 
     return (

@@ -7,6 +7,7 @@ import createTanstackClient from "openapi-react-query";
 import { FrontendCookieKey } from "../../constant/cookie/FrontendCookieKey";
 import { components, paths } from "../../generated/api-client/backend-schema";
 import { createLogger } from "../logger/createLogger";
+import { captureApiCallError } from "../sentry/captureApiCallError";
 
 export const isErrorResponse = (response: Response): boolean =>
     response.status >= 400;
@@ -16,6 +17,9 @@ export const isNotFoundErrorResponse = (response: Response): boolean =>
 
 export const is400sErrorResponse = (response: Response): boolean =>
     400 <= response.status && response.status <= 499;
+
+export const isServerErrorResponse = (response: Response): boolean =>
+    response.status >= 500;
 
 const {
     global: {
@@ -30,7 +34,7 @@ const clientSideApiClient = createFetchClient<paths>({
     baseUrl: backendBaseUrl,
 });
 
-const logger = createLogger("api-client(server side)");
+const logger = createLogger("api-client(server)");
 apiClient.use({
     onRequest: async ({ request }): Promise<void> => {
         logger.debug("call api", {
@@ -38,9 +42,16 @@ apiClient.use({
             url: request.url,
         });
     },
+    onResponse: async ({ response, request }) => {
+        if (response.status >= 500) {
+            await captureApiCallError(response, "api-client(server)", {
+                requestUrl: request.url,
+            });
+        }
+    },
 });
 
-const clientSideLogger = createLogger("api-client(client side)");
+const clientSideLogger = createLogger("api-client(browser)");
 clientSideApiClient.use({
     onRequest: async ({ request }): Promise<void> => {
         if (!window) {
@@ -88,6 +99,13 @@ clientSideApiClient.use({
         }
 
         request.headers.set(RequestHeaderName.Authentication, accessToken);
+    },
+    onResponse: async ({ response, request }) => {
+        if (response.status >= 500) {
+            await captureApiCallError(response, "api-client(browser)", {
+                requestUrl: request.url,
+            });
+        }
     },
 });
 
