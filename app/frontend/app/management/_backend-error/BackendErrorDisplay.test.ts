@@ -1,11 +1,19 @@
 import { expect, http, test } from "next/experimental/testmode/playwright/msw";
 import { getAppConfig } from "@sside-net/app-config";
 import { StatusCodes } from "http-status-codes";
+import { FrontendCookieKey } from "../../../constant/cookie/FrontendCookieKey";
 import { mockManagementRoot } from "../_test/mockManagementRoot";
 
 test.describe("BackendErrorDisplay", () => {
     test.beforeEach(async ({ page, msw }) => {
         mockManagementRoot(msw);
+        await page.context().addCookies([
+            {
+                name: FrontendCookieKey.RefreshToken,
+                value: "",
+                url: getAppConfig().global.baseUrl.frontend,
+            },
+        ]);
         msw.use(
             http.get(
                 getAppConfig().global.baseUrl.backend +
@@ -24,14 +32,14 @@ test.describe("BackendErrorDisplay", () => {
             ),
         );
 
-        await page.goto("/");
+        await page.goto("/management");
     });
 
     test("バックエンドから返ってきたエラーの内容を表示できていること。", async ({
         page,
     }) => {
-        expect(
+        await expect(
             page.locator(".backend-error-display").getByText("error sample"),
-        ).toBeDefined();
+        ).toBeVisible();
     });
 });

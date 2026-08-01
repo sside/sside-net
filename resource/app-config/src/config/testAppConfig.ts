@@ -6,6 +6,9 @@ export const testAppConfig = defu(
     {
         frontend: {
             baseUrl: "http://localhost:42980",
+            apiClient: {
+                onErrorRetryCount: 0,
+            },
         },
     },
     localAppConfig,

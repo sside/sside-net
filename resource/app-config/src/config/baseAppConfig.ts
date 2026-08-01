@@ -27,6 +27,9 @@ export const baseAppConfig = {
         sentry: {
             projectName: "sside-net-frontend",
         },
+        apiClient: {
+            onErrorRetryCount: 2,
+        },
     },
     backend: {
         blogEntry: {

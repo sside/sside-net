@@ -30,6 +30,9 @@ export type AppConfig = {
         sentry: {
             projectName: "sside-net-frontend";
         };
+        apiClient: {
+            onErrorRetryCount: number;
+        };
     };
     backend: {
         blogEntry: {
