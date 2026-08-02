@@ -2,10 +2,12 @@ import { expect } from "@playwright/test";
 import { test } from "../../../test/clientTest";
 import { mockValueBlogEntryController_getAllBlogEntries } from "../../../test/mock/mockBlogEntryController_getAllBlogEntries";
 import { mockDefaultValues } from "../../../test/mockDefaultValues";
+import { setAuthenticationCookie } from "../../../test/setAuthenticationCookie";
 
 test.describe("ManagementBlogEntryList", () => {
     test.beforeEach(async ({ page, network }) => {
         mockDefaultValues(network);
+        await setAuthenticationCookie(page);
 
         await page.goto("/management");
         await page.waitForLoadState("networkidle");

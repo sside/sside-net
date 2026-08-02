@@ -3,10 +3,12 @@ import dedent from "dedent";
 import { components } from "../../../generated/api-client/backend-schema";
 import { test } from "../../../test/clientTest";
 import { mockDefaultValues } from "../../../test/mockDefaultValues";
+import { setAuthenticationCookie } from "../../../test/setAuthenticationCookie";
 
 test.describe("ManagementEditBlogEntryForm", () => {
     test.beforeEach(async ({ page, network }) => {
         mockDefaultValues(network);
+        await setAuthenticationCookie(page);
 
         await page.goto(`/management/blog-entry/create`);
     });
