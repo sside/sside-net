@@ -61,13 +61,11 @@ export class PublicBlogEntryService {
      */
     async getEarlier(
         pointerBlogEntryId: number,
-        count: number,
     ): Promise<BlogEntryWithRelations | null> {
         this.logger.log(
             "指定されたものより過去の公開済みBlogEntryを取得します。",
             {
                 pointerBlogEntryId,
-                count,
             },
         );
 
@@ -79,18 +77,9 @@ export class PublicBlogEntryService {
             );
         }
 
-        const foundBlogEntryId = (
-            await this.blogEntryQuery.findManyIdsPublishedEarlierByPublishAt(
-                publishAt,
-                count,
-            )
-        ).at(-1);
-
-        if (!foundBlogEntryId) {
-            return null;
-        }
-
-        return await this.getById(foundBlogEntryId);
+        return await this.blogEntryQuery.findManyIdsPublishedEarlierByPublishAt(
+            publishAt,
+        );
     }
 
     /**
@@ -98,13 +87,11 @@ export class PublicBlogEntryService {
      */
     async getLater(
         pointerBlogEntryId: number,
-        count: number,
     ): Promise<BlogEntryWithRelations | null> {
         this.logger.log(
             "指定されたものより将来の公開済みBlogEntryを取得します。",
             {
                 pointerBlogEntryId,
-                count,
             },
         );
 
@@ -116,18 +103,9 @@ export class PublicBlogEntryService {
             );
         }
 
-        const foundBlogEntryId = (
-            await this.blogEntryQuery.findManyIdsPublishedEarlierByPublishAt(
-                publishAt,
-                count,
-            )
-        ).at(-1);
-
-        if (!foundBlogEntryId) {
-            return null;
-        }
-
-        return await this.getById(foundBlogEntryId);
+        return await this.blogEntryQuery.findManyIdsPublishedLaterByPublishAt(
+            publishAt,
+        );
     }
 
     /**

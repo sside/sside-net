@@ -88,7 +88,6 @@ export class PublicBlogEntryController {
     @ApiQuery({
         name: "pointer-blog-entry-id",
         type: Number,
-        required: false,
     })
     async getEarlier(
         @Res({
@@ -97,19 +96,9 @@ export class PublicBlogEntryController {
         res: ExpressResponse,
         @Query("pointer-blog-entry-id", ParseIntPipe)
         pointerBlogEntryId: number,
-        @Query(
-            "count",
-            new NumberLimitationPipe(
-                getAppConfig().backend.blogEntry.public
-                    .maximumFetchCountPerOnce,
-            ),
-        )
-        count: number,
     ): Promise<PublishedBlogEntryResponse | null> {
-        const earlierBlogEntry = await this.publicBlogEntryService.getEarlier(
-            pointerBlogEntryId,
-            count,
-        );
+        const earlierBlogEntry =
+            await this.publicBlogEntryService.getEarlier(pointerBlogEntryId);
 
         if (!earlierBlogEntry) {
             res.status(HttpStatus.NO_CONTENT);
@@ -135,7 +124,6 @@ export class PublicBlogEntryController {
     @ApiQuery({
         name: "pointer-blog-entry-id",
         type: Number,
-        required: false,
     })
     async getLater(
         @Res({
@@ -144,19 +132,9 @@ export class PublicBlogEntryController {
         res: ExpressResponse,
         @Query("pointer-blog-entry-id", ParseIntPipe)
         pointerBlogEntryId: number,
-        @Query(
-            "count",
-            new NumberLimitationPipe(
-                getAppConfig().backend.blogEntry.public
-                    .maximumFetchCountPerOnce,
-            ),
-        )
-        count: number,
     ): Promise<PublishedBlogEntryResponse | null> {
-        const laterBlogEntry = await this.publicBlogEntryService.getLater(
-            pointerBlogEntryId,
-            count,
-        );
+        const laterBlogEntry =
+            await this.publicBlogEntryService.getLater(pointerBlogEntryId);
 
         if (!laterBlogEntry) {
             res.status(HttpStatus.NO_CONTENT);

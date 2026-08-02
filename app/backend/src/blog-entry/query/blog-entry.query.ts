@@ -145,56 +145,48 @@ export class BlogEntryQuery {
 
     async findManyIdsPublishedLaterByPublishAt(
         publishAtGt: Date,
-        count: number,
-    ): Promise<number[]> {
-        return (
-            await this.blogEntry().findMany({
-                where: {
-                    AND: [
-                        BlogEntryQuery.WHERE_PUBLISHED(),
-                        {
-                            publishAt: {
-                                gt: publishAtGt,
-                            },
+    ): Promise<BlogEntryWithRelations | null> {
+        return await this.findFirstWithRelation({
+            where: {
+                AND: [
+                    BlogEntryQuery.WHERE_PUBLISHED(),
+                    {
+                        publishAt: {
+                            gt: publishAtGt,
                         },
-                    ],
-                },
-                select: {
-                    id: true,
-                },
-                take: count,
-                orderBy: {
-                    publishAt: "asc",
-                },
-            })
-        ).map(({ id }) => id);
+                    },
+                ],
+            },
+            select: {
+                id: true,
+            },
+            orderBy: {
+                publishAt: "asc",
+            },
+        });
     }
 
     async findManyIdsPublishedEarlierByPublishAt(
         publishAtLt: Date,
-        count: number,
-    ): Promise<number[]> {
-        return (
-            await this.blogEntry().findMany({
-                where: {
-                    AND: [
-                        BlogEntryQuery.WHERE_PUBLISHED(),
-                        {
-                            publishAt: {
-                                lt: publishAtLt,
-                            },
+    ): Promise<BlogEntryWithRelations | null> {
+        return await this.findFirstWithRelation({
+            where: {
+                AND: [
+                    BlogEntryQuery.WHERE_PUBLISHED(),
+                    {
+                        publishAt: {
+                            lt: publishAtLt,
                         },
-                    ],
-                },
-                select: {
-                    id: true,
-                },
-                take: count,
-                orderBy: {
-                    publishAt: "desc",
-                },
-            })
-        ).map(({ id }) => id);
+                    },
+                ],
+            },
+            select: {
+                id: true,
+            },
+            orderBy: {
+                publishAt: "desc",
+            },
+        });
     }
 
     async findManyPublishAt(): Promise<Date[]> {
