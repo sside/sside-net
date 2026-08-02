@@ -91,7 +91,10 @@ export class PublicBlogEntryController {
         required: false,
     })
     async getEarlier(
-        @Res() res: ExpressResponse,
+        @Res({
+            passthrough: true,
+        })
+        res: ExpressResponse,
         @Query("pointer-blog-entry-id", ParseIntPipe)
         pointerBlogEntryId: number,
         @Query(
@@ -108,14 +111,18 @@ export class PublicBlogEntryController {
             count,
         );
 
-        return earlierBlogEntry ?
-                PublishedBlogEntryResponse.fromEntities(
-                    earlierBlogEntry,
-                    await this.blogEntryMetaTagService.getAndCountPublishedByIds(
-                        earlierBlogEntry.blogEntryMetaTags.map(({ id }) => id),
-                    ),
-                )
-            :   (res.status(HttpStatus.NO_CONTENT).send() as unknown as null);
+        if (!earlierBlogEntry) {
+            res.status(HttpStatus.NO_CONTENT);
+
+            return null;
+        }
+
+        return PublishedBlogEntryResponse.fromEntities(
+            earlierBlogEntry,
+            await this.blogEntryMetaTagService.getAndCountPublishedByIds(
+                earlierBlogEntry.blogEntryMetaTags.map(({ id }) => id),
+            ),
+        );
     }
 
     @Get("later")
@@ -131,7 +138,10 @@ export class PublicBlogEntryController {
         required: false,
     })
     async getLater(
-        @Res() res: ExpressResponse,
+        @Res({
+            passthrough: true,
+        })
+        res: ExpressResponse,
         @Query("pointer-blog-entry-id", ParseIntPipe)
         pointerBlogEntryId: number,
         @Query(
@@ -148,14 +158,18 @@ export class PublicBlogEntryController {
             count,
         );
 
-        return laterBlogEntry ?
-                PublishedBlogEntryResponse.fromEntities(
-                    laterBlogEntry,
-                    await this.blogEntryMetaTagService.getAndCountPublishedByIds(
-                        laterBlogEntry.blogEntryMetaTags.map(({ id }) => id),
-                    ),
-                )
-            :   (res.status(HttpStatus.NO_CONTENT).send() as unknown as null);
+        if (!laterBlogEntry) {
+            res.status(HttpStatus.NO_CONTENT);
+
+            return null;
+        }
+
+        return PublishedBlogEntryResponse.fromEntities(
+            laterBlogEntry,
+            await this.blogEntryMetaTagService.getAndCountPublishedByIds(
+                laterBlogEntry.blogEntryMetaTags.map(({ id }) => id),
+            ),
+        );
     }
 
     @Get("archive/:year")
