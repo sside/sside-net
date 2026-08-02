@@ -15,7 +15,7 @@ export const mockBlogEntryMetaTagController_getAllWithCount = (
     mswFixture: MswFixture,
 ) => {
     mockBackendGetResponse(
-        "/blog-entry-meta-tag",
+        "/private/blog-entry-meta-tag",
         mockValueBlogEntryMetaTagController_getAllWithCount,
         mswFixture,
     );

@@ -8,6 +8,7 @@ test.describe("BackendErrorDisplay", () => {
     test.beforeEach(async ({ page, msw }) => {
         mockManagementRoot(msw);
         await setAuthenticationCookie(page);
+
         msw.use(
             http.get(
                 getAppConfig().global.baseUrl.backend +
