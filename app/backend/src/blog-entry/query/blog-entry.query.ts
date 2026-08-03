@@ -157,9 +157,6 @@ export class BlogEntryQuery {
                     },
                 ],
             },
-            select: {
-                id: true,
-            },
             orderBy: {
                 publishAt: "asc",
             },
@@ -179,9 +176,6 @@ export class BlogEntryQuery {
                         },
                     },
                 ],
-            },
-            select: {
-                id: true,
             },
             orderBy: {
                 publishAt: "desc",
