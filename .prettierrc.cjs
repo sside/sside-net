@@ -8,7 +8,6 @@ module.exports = {
     experimentalTernaries: true,
     importOrder: [
         "^./instrument$",
-        "^@storybook/",
         "^react$",
         "^next$",
         "^next/(.+)$",
