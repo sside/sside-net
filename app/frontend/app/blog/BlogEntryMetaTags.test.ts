@@ -1,6 +1,6 @@
 import { expect, test } from "next/experimental/testmode/playwright/msw";
-import { mockValuePublicBlogEntryController_getBlogEntryBySlug } from "../../../test/mock/mockPublicBlogEntryController_getBlogEntryBySlug";
-import { mockDefaultValues } from "../../../test/mockDefaultValues";
+import { mockValuePublicBlogEntryController_getBlogEntryBySlug } from "../../test/mock/mockPublicBlogEntryController_getBlogEntryBySlug";
+import { mockDefaultValues } from "../../test/mockDefaultValues";
 
 test.describe("BlogEntryMetaTags", () => {
     const mockValue = mockValuePublicBlogEntryController_getBlogEntryBySlug;

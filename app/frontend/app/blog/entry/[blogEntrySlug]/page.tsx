@@ -9,7 +9,7 @@ import {
     getPagePathParameters,
     NextPagePathParameter,
 } from "../../../../library/path-parameter/getPagePathParameters";
-import { BlogEntryFromPublishedBlogEntryResponse } from "../../_blog-entry/BlogEntryFromPublishedBlogEntryResponse";
+import { BlogEntryFromPublishedBlogEntryResponse } from "../../BlogEntryFromPublishedBlogEntryResponse";
 import { NextBlogEntryLink } from "./NextBlogEntryLink";
 import { PreviousBlogEntryLink } from "./PreviousBlogEntryLink";
 

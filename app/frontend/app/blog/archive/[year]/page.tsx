@@ -9,7 +9,7 @@ import {
     getPagePathParameters,
     NextPagePathParameter,
 } from "../../../../library/path-parameter/getPagePathParameters";
-import { BlogEntryFromPublishedBlogEntryResponse } from "../../_blog-entry/BlogEntryFromPublishedBlogEntryResponse";
+import { BlogEntryFromPublishedBlogEntryResponse } from "../../BlogEntryFromPublishedBlogEntryResponse";
 
 export default async function YearArchivePage(
     nextPagePathParameter: NextPagePathParameter,

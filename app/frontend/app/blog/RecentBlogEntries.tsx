@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import {
     apiClient,
     isNotFoundErrorResponse,
-} from "../../../library/api-client/api-client";
+} from "../../library/api-client/api-client";
 import { BlogEntryFromPublishedBlogEntryResponse } from "./BlogEntryFromPublishedBlogEntryResponse";
 
 export const RecentBlogEntries: FC<{ fetchCount: number }> = async ({

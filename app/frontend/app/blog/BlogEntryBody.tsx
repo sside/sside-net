@@ -2,7 +2,7 @@ import { FC } from "react";
 import Markdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
-import { AllowedInlineMarkdownTags } from "../../../constant/markdown/AllowedInlineMarkdownTags";
+import { AllowedInlineMarkdownTags } from "../../constant/markdown/AllowedInlineMarkdownTags";
 import "./BlogEntryBody.css";
 
 export const BlogEntryBody: FC<{ bodyMarkdown: string }> = ({

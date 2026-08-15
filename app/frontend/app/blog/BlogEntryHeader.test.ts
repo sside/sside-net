@@ -1,8 +1,8 @@
 import { expect, test } from "next/experimental/testmode/playwright/msw";
 import { DateTimeFormat, parseIso8601ToJst } from "@sside-net/date-time";
-import { mockValuePublicBlogEntryController_getBlogEntryBySlug } from "../../../test/mock/mockPublicBlogEntryController_getBlogEntryBySlug";
-import { mockBackendGetResponse } from "../../../test/mockBackendGetResponse";
-import { mockDefaultValues } from "../../../test/mockDefaultValues";
+import { mockValuePublicBlogEntryController_getBlogEntryBySlug } from "../../test/mock/mockPublicBlogEntryController_getBlogEntryBySlug";
+import { mockBackendGetResponse } from "../../test/mockBackendGetResponse";
+import { mockDefaultValues } from "../../test/mockDefaultValues";
 
 test.describe("BlogEntryHeader", () => {
     test.beforeEach(async ({ page, msw }) => {

@@ -1,5 +1,5 @@
 import { getAppConfig } from "@sside-net/app-config";
-import { RecentBlogEntries } from "./_blog-entry/RecentBlogEntries";
+import { RecentBlogEntries } from "./RecentBlogEntries";
 
 export default async function BlogRootPage() {
     return (

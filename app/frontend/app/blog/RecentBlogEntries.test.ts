@@ -1,6 +1,6 @@
 import { expect, test } from "next/experimental/testmode/playwright/msw";
-import { mockValuePublicBlogEntryController_getLatestBlogEntries } from "../../../test/mock/mockPublicBlogEntryController_getLatestBlogEntries";
-import { mockDefaultValues } from "../../../test/mockDefaultValues";
+import { mockValuePublicBlogEntryController_getLatestBlogEntries } from "../../test/mock/mockPublicBlogEntryController_getLatestBlogEntries";
+import { mockDefaultValues } from "../../test/mockDefaultValues";
 
 test.describe("RecentBlogEntries", () => {
     test.beforeEach(async ({ page, msw }) => {

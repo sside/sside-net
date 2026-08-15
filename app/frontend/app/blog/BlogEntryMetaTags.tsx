@@ -1,5 +1,5 @@
 import { ComponentProps, FC } from "react";
-import { BlogMetaTag } from "../../../component/blog-meta-tag/BlogMetaTag";
+import { BlogMetaTag } from "../../component/blog-meta-tag/BlogMetaTag";
 
 export const BlogEntryMetaTags: FC<{
     metaTags: Omit<ComponentProps<typeof BlogMetaTag>, "variant">[];

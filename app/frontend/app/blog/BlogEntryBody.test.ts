@@ -1,9 +1,9 @@
 import { expect, test } from "next/experimental/testmode/playwright/msw";
 import { createIntegerRange } from "@sside-net/utility";
 import dedent from "dedent";
-import { mockValuePublicBlogEntryController_getBlogEntryBySlug } from "../../../test/mock/mockPublicBlogEntryController_getBlogEntryBySlug";
-import { mockBackendGetResponse } from "../../../test/mockBackendGetResponse";
-import { mockDefaultValues } from "../../../test/mockDefaultValues";
+import { mockValuePublicBlogEntryController_getBlogEntryBySlug } from "../../test/mock/mockPublicBlogEntryController_getBlogEntryBySlug";
+import { mockBackendGetResponse } from "../../test/mockBackendGetResponse";
+import { mockDefaultValues } from "../../test/mockDefaultValues";
 
 test.describe("BlogEntryBody", () => {
     test.beforeEach(async ({ page, msw }) => {
