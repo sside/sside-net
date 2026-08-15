@@ -6,6 +6,7 @@
     "scripts": {
         "start": "next start",
         "dev": "rimraf .next & dotenvx run --env-file ../../.env -- cross-env PORT=42979 next dev --turbopack",
+        "dev:app": "npm run dev",
         "build": "next build",
         "test:cli": "playwright test",
         "test:ui": "playwright test --ui",

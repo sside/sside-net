@@ -6,6 +6,7 @@
     "scripts": {
         "start": "node dist/main",
         "dev": "dotenvx run --env-file ../../.env -- nest start --watch",
+        "dev:app": "npm run dev",
         "build": "nest build",
         "build:app": "npm run build",
         "lint": "eslint --fix",

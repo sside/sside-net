@@ -6,6 +6,10 @@
             "cache": false,
             "persistent": true
         },
+        "dev:app": {
+            "cache": false,
+            "persistent": true
+        },
         "dev:shared": {
             "cache": false,
             "persistent": true
