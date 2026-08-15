@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { AdjacentBlogLinksContainer } from "../../../../component/adjacent-blog-link/AdjacentBlogLinksContainer";
 import { StringPagePathParameter } from "../../../../constant/path-parameter/StringPagePathParameter";
 import {
     apiClient,
@@ -9,7 +10,8 @@ import {
     NextPagePathParameter,
 } from "../../../../library/path-parameter/getPagePathParameters";
 import { BlogEntryFromPublishedBlogEntryResponse } from "../../_blog-entry/BlogEntryFromPublishedBlogEntryResponse";
-import { AdjacentBlogEntries } from "./AdjacentBlogEntries";
+import { NextBlogEntryLink } from "./NextBlogEntryLink";
+import { PreviousBlogEntryLink } from "./PreviousBlogEntryLink";
 
 export default async function BlogEntryBySlugPage(
     nextPagePathParameter: NextPagePathParameter,
@@ -37,12 +39,17 @@ export default async function BlogEntryBySlugPage(
         throw error;
     }
 
+    const { id } = data;
+
     return (
         <div className="blog-entry-by-slug-page w-blog-entry grid gap-4">
             <BlogEntryFromPublishedBlogEntryResponse
                 publishedBlogEntryResponse={data}
             />
-            <AdjacentBlogEntries blogEntryId={data.id} />
+            <AdjacentBlogLinksContainer
+                next={<PreviousBlogEntryLink blogEntryId={id} />}
+                previous={<NextBlogEntryLink blogEntryId={id} />}
+            />
         </div>
     );
 }
