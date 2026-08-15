@@ -569,8 +569,7 @@ export interface operations {
     PublicBlogEntryController_getEarlier: {
         parameters: {
             query: {
-                "pointer-blog-entry-id"?: number;
-                count: number;
+                "pointer-blog-entry-id": number;
             };
             header?: never;
             path?: never;
@@ -598,8 +597,7 @@ export interface operations {
     PublicBlogEntryController_getLater: {
         parameters: {
             query: {
-                "pointer-blog-entry-id"?: number;
-                count: number;
+                "pointer-blog-entry-id": number;
             };
             header?: never;
             path?: never;

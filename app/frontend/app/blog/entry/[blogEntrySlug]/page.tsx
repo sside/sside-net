@@ -9,6 +9,7 @@ import {
     NextPagePathParameter,
 } from "../../../../library/path-parameter/getPagePathParameters";
 import { BlogEntryFromPublishedBlogEntryResponse } from "../../_blog-entry/BlogEntryFromPublishedBlogEntryResponse";
+import { AdjacentBlogEntries } from "./AdjacentBlogEntries";
 
 export default async function BlogEntryBySlugPage(
     nextPagePathParameter: NextPagePathParameter,
@@ -37,10 +38,11 @@ export default async function BlogEntryBySlugPage(
     }
 
     return (
-        <div className="blog-entry-by-slug-page">
+        <div className="blog-entry-by-slug-page w-blog-entry grid gap-4">
             <BlogEntryFromPublishedBlogEntryResponse
                 publishedBlogEntryResponse={data}
             />
+            <AdjacentBlogEntries blogEntryId={data.id} />
         </div>
     );
 }

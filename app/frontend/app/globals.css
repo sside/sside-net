@@ -47,3 +47,7 @@
 @utility layout-area-* {
     grid-area: --value(--grid-area-\*);
 }
+
+@utility w-blog-entry {
+    @apply w-full max-w-240;
+}

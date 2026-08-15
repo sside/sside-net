@@ -9,7 +9,7 @@ export const BlogEntry: FC<
         ComponentProps<typeof BlogEntryMetaTags>
 > = (props) => {
     return (
-        <article className="blog-entry grid w-full max-w-240 gap-4">
+        <article className="blog-entry grid gap-4">
             <BlogEntryHeader {...props} />
             <BlogEntryBody bodyMarkdown={props.bodyMarkdown} />
             <BlogEntryMetaTags metaTags={props.metaTags} />
