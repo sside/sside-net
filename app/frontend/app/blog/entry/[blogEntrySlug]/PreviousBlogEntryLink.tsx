@@ -1,9 +1,10 @@
 import { FC } from "react";
-import { apiClient } from "../../../../library/api-client/api-client";
+import { Route } from "next";
 import {
-    AdjacentBlogEntryDirection,
-    AdjacentBlogEntryLink,
-} from "./AdjacentBlogEntryLink";
+    AdjacentBlogLinkDirection,
+    AdjacentBlogLink,
+} from "../../../../component/adjacent-blog-link/AdjacentBlogLink";
+import { apiClient } from "../../../../library/api-client/api-client";
 
 export const PreviousBlogEntryLink: FC<{ blogEntryId: number }> = async ({
     blogEntryId,
@@ -20,17 +21,16 @@ export const PreviousBlogEntryLink: FC<{ blogEntryId: number }> = async ({
         return null;
     }
 
-    const { slug, title, publishAt, updatedAt } = data;
+    const { slug, title } = data;
 
     return (
         <div className="next-blog-entry-link">
-            <AdjacentBlogEntryLink
-                direction={AdjacentBlogEntryDirection.Previous}
-                slug={slug}
-                title={title}
-                publishedAt={new Date(publishAt)}
-                updatedAt={updatedAt ? new Date(updatedAt) : undefined}
-            />
+            <AdjacentBlogLink
+                href={`/blog/entry/${slug}` as Route}
+                direction={AdjacentBlogLinkDirection.Previous}
+            >
+                <span className="text-lg">{title}</span>
+            </AdjacentBlogLink>
         </div>
     );
 };
