@@ -4,8 +4,12 @@ import { localAppConfig } from "./localAppConfig";
 
 export const testAppConfig = defu(
     {
+        global: {
+            baseUrl: {
+                frontend: "http://localhost:42980",
+            },
+        },
         frontend: {
-            baseUrl: "http://localhost:42980",
             apiClient: {
                 onErrorRetryCount: 0,
             },

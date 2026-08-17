@@ -24,7 +24,7 @@ export const PreviousBlogEntryLink: FC<{ blogEntryId: number }> = async ({
     const { slug, title } = data;
 
     return (
-        <div className="next-blog-entry-link">
+        <div className="previous-blog-entry-link">
             <AdjacentBlogLink
                 href={`/blog/entry/${slug}` as Route}
                 direction={AdjacentBlogLinkDirection.Previous}

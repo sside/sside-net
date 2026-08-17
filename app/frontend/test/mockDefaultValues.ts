@@ -3,6 +3,8 @@ import { mockBlogEntryController_getAllBlogEntries } from "./mock/mockBlogEntryC
 import { mockBlogEntryMetaTagController_getAllWithCount } from "./mock/mockBlogEntryMetaTagController_getAllWithCount";
 import { mockPublicBlogEntryController_getBlogEntryArchiveYearMonths } from "./mock/mockPublicBlogEntryController_getBlogEntryArchiveYearMonths";
 import { mockPublicBlogEntryController_getBlogEntryBySlug } from "./mock/mockPublicBlogEntryController_getBlogEntryBySlug";
+import { mockPublicBlogEntryController_getEarlier } from "./mock/mockPublicBlogEntryController_getEarlier";
+import { mockPublicBlogEntryController_getLater } from "./mock/mockPublicBlogEntryController_getLater";
 import { mockPublicBlogEntryController_getLatestBlogEntries } from "./mock/mockPublicBlogEntryController_getLatestBlogEntries";
 import { mockPublicBlogEntryMetaTagController_getAllPublishedBlogEntryMetaTag } from "./mock/mockPublicBlogEntryMetaTagController_getAllPublishedBlogEntryMetaTag";
 
@@ -15,4 +17,6 @@ export const mockDefaultValues = (mswFixture: MswFixture) => {
     mockPublicBlogEntryMetaTagController_getAllPublishedBlogEntryMetaTag(
         mswFixture,
     );
+    mockPublicBlogEntryController_getLater(mswFixture);
+    mockPublicBlogEntryController_getEarlier(mswFixture);
 };
