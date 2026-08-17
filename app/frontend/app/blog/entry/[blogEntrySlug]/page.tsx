@@ -47,8 +47,8 @@ export default async function BlogEntryBySlugPage(
                 publishedBlogEntryResponse={data}
             />
             <AdjacentBlogLinksContainer
-                next={<PreviousBlogEntryLink blogEntryId={id} />}
-                previous={<NextBlogEntryLink blogEntryId={id} />}
+                next={<NextBlogEntryLink blogEntryId={id} />}
+                previous={<PreviousBlogEntryLink blogEntryId={id} />}
             />
         </div>
     );
