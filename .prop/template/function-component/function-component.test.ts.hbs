@@ -6,6 +6,7 @@ await page.goto("/");
 });
 
 test("", async ({ page }) => {
-await expect(page.locator(".{{{kebabFunctionComponentName}}}"));
+const locator = page.locator(".{{{kebabFunctionComponentName}}}")
+await expect(locator).toBeVisible();
 });
 });
