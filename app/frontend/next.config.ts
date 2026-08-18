@@ -11,6 +11,10 @@ const nextConfig: NextConfig = {
     transpilePackages: ["@yaireo/tagify"],
 };
 
+if (process.env.NODE_ENV === "test") {
+    nextConfig.distDir = ".next_test";
+}
+
 const appConfig = getAppConfig();
 export default withSentryConfig(nextConfig, {
     org: appConfig.global.sentry.organizationName,
