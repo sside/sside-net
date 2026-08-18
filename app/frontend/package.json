@@ -5,8 +5,9 @@
     "description": "sside.net frontend",
     "scripts": {
         "start": "next start",
-        "dev": "rimraf .next & dotenvx run --env-file ../../.env -- cross-env PORT=42979 next dev --turbopack",
+        "dev": "rimraf .next && dotenvx run --env-file ../../.env -- cross-env PORT=42979 next dev --turbopack",
         "dev:app": "npm run dev",
+        "dev:test": "dotenvx run --env-file ../../.env.test -- cross-env PORT=42980 next dev --turbopack",
         "build": "next build",
         "test:cli": "playwright test",
         "test:ui": "playwright test --ui",

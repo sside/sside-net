@@ -2,7 +2,7 @@ import { expect, test } from "next/experimental/testmode/playwright/msw";
 
 test.describe("SignInForm", () => {
     test.beforeEach(async ({ page }) => {
-        await page.goto("/");
+        await page.goto("/sign-in");
     });
 
     test("", async ({ page }) => {

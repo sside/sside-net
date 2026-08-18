@@ -11,6 +11,12 @@ test.describe("ManagementEditBlogEntryForm", () => {
         await setAuthenticationCookie(page);
 
         await page.goto(`/management/blog-entry/create`);
+        await expect(
+            page
+                .locator(".management-edit-blog-entry-form")
+                .locator(".crepe-markdown-editor")
+                .getByRole("textbox"),
+        ).toBeVisible();
     });
 
     const title = "title";

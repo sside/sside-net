@@ -1,6 +1,5 @@
 import { defineConfig } from "next/experimental/testmode/playwright/msw";
 import { config } from "@dotenvx/dotenvx";
-import { devices } from "@playwright/test";
 import { getAppConfig } from "@sside-net/app-config";
 import { resolve } from "node:path";
 
@@ -19,14 +18,14 @@ export default defineConfig({
     testDir: "./",
     testMatch: "**/*.test.ts",
     expect: {
-        timeout: 2000,
+        timeout: 3000,
     },
     /* Run tests in files in parallel */
     fullyParallel: true,
     /* Fail the build on CI if you accidentally left test.only in the source code. */
     forbidOnly: !!process.env.CI,
     /* Retry on CI only */
-    retries: 2,
+    retries: 1,
     /* Opt out of parallel tests on CI. */
     workers: process.env.CI ? 1 : undefined,
     /* Reporter to use. See https://playwright.dev/docs/test-reporters */
@@ -42,21 +41,21 @@ export default defineConfig({
 
     /* Configure projects for major browsers */
     // FIXME: next/experimental/testmodeでは機能しないのでコメントアウト。ソリューションを見つけたら戻す。
-    projects: [
-        {
-            name: "Google Chrome",
-            use: { ...devices["Desktop Chrome"], channel: "chrome" },
-        },
-        // {
-        //     name: "Mobile Safari",
-        //     use: { ...devices["iPhone 15"] },
-        // },
-    ],
+    // projects: [
+    //     {
+    //         name: "Google Chrome",
+    //         use: { ...devices["Desktop Chrome"], channel: "chrome" },
+    //     },
+    // {
+    //     name: "Mobile Safari",
+    //     use: { ...devices["iPhone 15"] },
+    // },
+    // ],
 
     /* Run your local dev server before starting the tests */
     webServer: {
-        command: `npm run build && cross-env PORT=${new URL(frontendBaseUrl).port} npm run start`,
-        url: frontendBaseUrl,
+        command: `npm run dev:test`,
+        url: frontendBaseUrl + "/icon.svg",
         reuseExistingServer: !process.env.CI,
     },
 });
