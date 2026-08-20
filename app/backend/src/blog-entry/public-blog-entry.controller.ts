@@ -30,25 +30,19 @@ export class PublicBlogEntryController {
         type: [PublishedBlogEntryResponse],
     })
     @ApiQuery({
-        name: "pointer-blog-entry-id",
-        type: Number,
+        name: "pointer-blog-entry-slug",
         required: false,
     })
     async getLatestBlogEntries(
         @Query("count", ParseIntPipe) count: number,
-        @Query(
-            "pointer-blog-entry-id",
-            new ParseIntPipe({
-                optional: true,
-            }),
-        )
-        pointerBlogEntryId?: number,
+        @Query("pointer-blog-entry-slug")
+        pointerBlogEntrySlug?: string,
     ): Promise<PublishedBlogEntryResponse[]> {
         return await Promise.all(
             (
                 await this.publicBlogEntryService.getLatestBlogEntries(
                     count,
-                    pointerBlogEntryId,
+                    pointerBlogEntrySlug,
                 )
             ).map(async (blogEntry) =>
                 PublishedBlogEntryResponse.fromEntities(
@@ -86,7 +80,10 @@ export class PublicBlogEntryController {
         description: "指定より過去に公開済みBlogEntryがない場合に返ります。",
     })
     @ApiQuery({
-        name: "pointer-blog-entry-id",
+        name: "pointer-blog-entry-slug",
+    })
+    @ApiQuery({
+        name: "count",
         type: Number,
     })
     async getEarlier(
@@ -94,11 +91,21 @@ export class PublicBlogEntryController {
             passthrough: true,
         })
         res: ExpressResponse,
-        @Query("pointer-blog-entry-id", ParseIntPipe)
-        pointerBlogEntryId: number,
+        @Query("pointer-blog-entry-slug")
+        pointerBlogEntrySlug: string,
+        @Query(
+            "count",
+            new NumberLimitationPipe(
+                getAppConfig().backend.blogEntry.public
+                    .maximumFetchCountPerOnce,
+            ),
+        )
+        count: number,
     ): Promise<PublishedBlogEntryResponse | null> {
-        const earlierBlogEntry =
-            await this.publicBlogEntryService.getEarlier(pointerBlogEntryId);
+        const earlierBlogEntry = await this.publicBlogEntryService.getEarlier(
+            pointerBlogEntrySlug,
+            count,
+        );
 
         if (!earlierBlogEntry) {
             res.status(HttpStatus.NO_CONTENT);
@@ -122,7 +129,10 @@ export class PublicBlogEntryController {
         description: "指定より将来に公開済みBlogEntryがない場合に返ります。",
     })
     @ApiQuery({
-        name: "pointer-blog-entry-id",
+        name: "pointer-blog-entry-slug",
+    })
+    @ApiQuery({
+        name: "count",
         type: Number,
     })
     async getLater(
@@ -130,11 +140,21 @@ export class PublicBlogEntryController {
             passthrough: true,
         })
         res: ExpressResponse,
-        @Query("pointer-blog-entry-id", ParseIntPipe)
-        pointerBlogEntryId: number,
+        @Query("pointer-blog-entry-slug")
+        pointerBlogEntrySlug: string,
+        @Query(
+            "count",
+            new NumberLimitationPipe(
+                getAppConfig().backend.blogEntry.public
+                    .maximumFetchCountPerOnce,
+            ),
+        )
+        count: number,
     ): Promise<PublishedBlogEntryResponse | null> {
-        const laterBlogEntry =
-            await this.publicBlogEntryService.getLater(pointerBlogEntryId);
+        const laterBlogEntry = await this.publicBlogEntryService.getLater(
+            pointerBlogEntrySlug,
+            count,
+        );
 
         if (!laterBlogEntry) {
             res.status(HttpStatus.NO_CONTENT);
@@ -155,8 +175,7 @@ export class PublicBlogEntryController {
         type: [PublishedBlogEntryResponse],
     })
     @ApiQuery({
-        name: "pointer-blog-entry-id",
-        type: Number,
+        name: "pointer-blog-entry-slug",
         required: false,
     })
     async getBlogEntryArchiveByYear(
@@ -169,20 +188,15 @@ export class PublicBlogEntryController {
             ),
         )
         count: number,
-        @Query(
-            "pointer-blog-entry-id",
-            new ParseIntPipe({
-                optional: true,
-            }),
-        )
-        pointerBlogEntryId?: number,
+        @Query("pointer-blog-entry-slug")
+        pointerBlogEntrySlug?: string,
     ): Promise<PublishedBlogEntryResponse[]> {
         return Promise.all(
             (
                 await this.publicBlogEntryService.getBlogEntriesByPublishYear(
                     year,
                     count,
-                    pointerBlogEntryId,
+                    pointerBlogEntrySlug,
                 )
             ).map(async (blogEntry) =>
                 PublishedBlogEntryResponse.fromEntities(
@@ -200,8 +214,7 @@ export class PublicBlogEntryController {
         type: [PublishedBlogEntryResponse],
     })
     @ApiQuery({
-        name: "pointer-blog-entry-id",
-        type: Number,
+        name: "pointer-blog-entry-slug",
         required: false,
     })
     async getBlogEntryArchiveByYearMonth(
@@ -215,13 +228,8 @@ export class PublicBlogEntryController {
             ),
         )
         count: number,
-        @Query(
-            "pointer-blog-entry-id",
-            new ParseIntPipe({
-                optional: true,
-            }),
-        )
-        pointerBlogEntryId?: number,
+        @Query("pointer-blog-entry-slug")
+        pointerBlogEntrySlug?: string,
     ): Promise<PublishedBlogEntryResponse[]> {
         return Promise.all(
             (
@@ -229,7 +237,7 @@ export class PublicBlogEntryController {
                     year,
                     month,
                     count,
-                    pointerBlogEntryId,
+                    pointerBlogEntrySlug,
                 )
             ).map(async (blogEntry) =>
                 PublishedBlogEntryResponse.fromEntities(

@@ -60,14 +60,14 @@ describe("PublicBlogEntryService", () => {
             ).toBe(PUBLISH_COUNT);
         });
 
-        test("ポインターのBlogEntryIdを指定した場合、ポインターで指定したものと、指定より過去のBlogEntryを取得できること。", async () => {
+        test("ポインターのBlogEntrySlugを指定した場合、ポインターで指定したものと、指定より過去のBlogEntryを取得できること。", async () => {
             const [createdBlogEntries] = await blogEntryService.seed(10, 2, 0);
             const pointerBlogEntry = createdBlogEntries.at(4)!;
 
             const foundBlogEntries =
                 await publicBlogEntryService.getLatestBlogEntries(
                     5,
-                    pointerBlogEntry.id,
+                    pointerBlogEntry.slug,
                 );
 
             expect(

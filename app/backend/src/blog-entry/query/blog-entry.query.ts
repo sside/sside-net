@@ -1,4 +1,5 @@
 import { Injectable } from "@nestjs/common";
+import { DeepNonNullable } from "utility-types";
 import { DatabaseService } from "../../database/database.service";
 import { BlogEntry, Prisma } from "../../generated/prisma/client";
 import { BlogEntryInput } from "../type/BlogEntryInput";
@@ -6,6 +7,11 @@ import { BlogEntryInput } from "../type/BlogEntryInput";
 export type BlogEntryWithRelations = Prisma.BlogEntryGetPayload<{
     include: (typeof BlogEntryQuery)["INCLUDE_RELATED_TABLES"];
 }>;
+export type PublishedBlogEntryWithRelations = Omit<
+    BlogEntryWithRelations,
+    "publishAt"
+> &
+    DeepNonNullable<Pick<BlogEntryWithRelations, "publishAt">>;
 
 @Injectable()
 export class BlogEntryQuery {
@@ -51,8 +57,8 @@ export class BlogEntryQuery {
     async findOnePublishedWithRelationsByBlogEntryId(
         blogEntryId: number,
         transaction?: Prisma.TransactionClient,
-    ): Promise<BlogEntryWithRelations | null> {
-        return await this.findFirstWithRelation(
+    ): Promise<PublishedBlogEntryWithRelations | null> {
+        return (await this.findFirstWithRelation(
             {
                 where: {
                     ...BlogEntryQuery.WHERE_PUBLISHED(),
@@ -60,14 +66,14 @@ export class BlogEntryQuery {
                 },
             },
             transaction,
-        );
+        )) as PublishedBlogEntryWithRelations;
     }
 
     async findOnePublishedWithRelationsBySlug(
         slug: string,
         transaction?: Prisma.TransactionClient,
-    ): Promise<BlogEntryWithRelations | null> {
-        return await this.findFirstWithRelation(
+    ): Promise<PublishedBlogEntryWithRelations | null> {
+        return (await this.findFirstWithRelation(
             {
                 where: {
                     ...BlogEntryQuery.WHERE_PUBLISHED(),
@@ -75,7 +81,7 @@ export class BlogEntryQuery {
                 },
             },
             transaction,
-        );
+        )) as PublishedBlogEntryWithRelations;
     }
 
     async findManyWithRelationsByBlogEntryIds(
@@ -97,8 +103,8 @@ export class BlogEntryQuery {
     async findManyLatestPublishedWithRelations(
         count: number,
         pointerPublishAtLte?: Date,
-    ): Promise<BlogEntryWithRelations[]> {
-        return await this.findManyWithRelation({
+    ): Promise<PublishedBlogEntryWithRelations[]> {
+        return (await this.findManyWithRelation({
             where: {
                 ...BlogEntryQuery.WHERE_PUBLISHED(),
                 publishAt: {
@@ -109,7 +115,7 @@ export class BlogEntryQuery {
                 publishAt: "desc",
             },
             take: count,
-        });
+        })) as PublishedBlogEntryWithRelations[];
     }
 
     async findManyPublishedByRange(
@@ -117,8 +123,8 @@ export class BlogEntryQuery {
         searchEndAtLt: Date,
         count: number,
         pointerPublishAtLte?: Date,
-    ): Promise<BlogEntryWithRelations[]> {
-        return await this.findManyWithRelation({
+    ): Promise<PublishedBlogEntryWithRelations[]> {
+        return (await this.findManyWithRelation({
             where: {
                 AND: [
                     BlogEntryQuery.WHERE_PUBLISHED(),
@@ -140,13 +146,14 @@ export class BlogEntryQuery {
                 ],
             },
             take: count,
-        });
+        })) as PublishedBlogEntryWithRelations[];
     }
 
     async findManyIdsPublishedLaterByPublishAt(
         publishAtGt: Date,
-    ): Promise<BlogEntryWithRelations | null> {
-        return await this.findFirstWithRelation({
+        count: number,
+    ): Promise<PublishedBlogEntryWithRelations[]> {
+        return (await this.findManyWithRelation({
             where: {
                 AND: [
                     BlogEntryQuery.WHERE_PUBLISHED(),
@@ -160,13 +167,15 @@ export class BlogEntryQuery {
             orderBy: {
                 publishAt: "asc",
             },
-        });
+            take: count,
+        })) as PublishedBlogEntryWithRelations[];
     }
 
     async findManyIdsPublishedEarlierByPublishAt(
         publishAtLt: Date,
-    ): Promise<BlogEntryWithRelations | null> {
-        return await this.findFirstWithRelation({
+        count: number,
+    ): Promise<PublishedBlogEntryWithRelations[]> {
+        return (await this.findManyWithRelation({
             where: {
                 AND: [
                     BlogEntryQuery.WHERE_PUBLISHED(),
@@ -180,7 +189,8 @@ export class BlogEntryQuery {
             orderBy: {
                 publishAt: "desc",
             },
-        });
+            take: count,
+        })) as PublishedBlogEntryWithRelations[];
     }
 
     async findManyPublishAt(): Promise<Date[]> {
