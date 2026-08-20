@@ -1,5 +1,5 @@
 import { notImplementedStab } from "@sside-net/utility";
-import { IntegerPagePathParameter } from "../../../../../constant/path-parameter/IntegerPagePathParameter";
+import { IntegerPathParameterName } from "../../../../../constant/path-parameter/IntegerPathParameterName";
 import {
     getPagePathParameters,
     NextPagePathParameter,
@@ -10,8 +10,8 @@ export default async function YearMonthArchivePage(
 ) {
     const { year, month } = await getPagePathParameters(
         nextPageIntegerPathParameter,
-        IntegerPagePathParameter.Year,
-        IntegerPagePathParameter.Month,
+        IntegerPathParameterName.Year,
+        IntegerPathParameterName.Month,
     );
 
     return (

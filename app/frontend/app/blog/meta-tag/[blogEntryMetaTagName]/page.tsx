@@ -1,5 +1,5 @@
 import { notImplementedStab } from "@sside-net/utility";
-import { StringPagePathParameter } from "../../../../constant/path-parameter/StringPagePathParameter";
+import { StringPathParameterName } from "../../../../constant/path-parameter/StringPathParameterName";
 import {
     getPagePathParameters,
     NextPagePathParameter,
@@ -10,7 +10,7 @@ export default async function MetaTagPage(
 ) {
     const { blogEntryMetaTag } = await getPagePathParameters(
         nextPagePathParameter,
-        StringPagePathParameter.BlogEntryMetaTag,
+        StringPathParameterName.BlogEntryMetaTag,
     );
 
     return <>{notImplementedStab(blogEntryMetaTag)}</>;

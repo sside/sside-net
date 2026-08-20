@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { DateTimeFormat } from "@sside-net/date-time";
 import { DateTime } from "luxon";
-import { IntegerPagePathParameter } from "../../../../../constant/path-parameter/IntegerPagePathParameter";
+import { IntegerPathParameterName } from "../../../../../constant/path-parameter/IntegerPathParameterName";
 import {
     apiClient,
     isNotFoundErrorResponse,
@@ -17,7 +17,7 @@ export default async function EditBlogEntryPage(
 ) {
     const { blogEntryId } = await getPagePathParameters(
         nextPagePathParameter,
-        IntegerPagePathParameter.BlogEntryId,
+        IntegerPathParameterName.BlogEntryId,
     );
     const { data, error, response } = await apiClient.GET(
         "/private/blog-entry/{blogEntryId}",

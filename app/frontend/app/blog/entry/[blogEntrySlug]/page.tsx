@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { AdjacentBlogLinksContainer } from "../../../../component/adjacent-blog-link/AdjacentBlogLinksContainer";
-import { StringPagePathParameter } from "../../../../constant/path-parameter/StringPagePathParameter";
+import { StringPathParameterName } from "../../../../constant/path-parameter/StringPathParameterName";
 import {
     apiClient,
     isNotFoundErrorResponse,
@@ -18,7 +18,7 @@ export default async function BlogEntryBySlugPage(
 ) {
     const { blogEntrySlug } = await getPagePathParameters(
         nextPagePathParameter,
-        StringPagePathParameter.BlogEntrySlug,
+        StringPathParameterName.BlogEntrySlug,
     );
     const { data, response, error } = await apiClient.GET(
         `/blog-entry/slug/{slug}`,

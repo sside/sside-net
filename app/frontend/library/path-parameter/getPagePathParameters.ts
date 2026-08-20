@@ -1,9 +1,9 @@
 import { notFound } from "next/navigation";
 import { parseDecimalInt } from "@sside-net/utility";
-import { IntegerPagePathParameter } from "../../constant/path-parameter/IntegerPagePathParameter";
-import { StringPagePathParameter } from "../../constant/path-parameter/StringPagePathParameter";
+import { IntegerPathParameterName } from "../../constant/path-parameter/IntegerPathParameterName";
+import { StringPathParameterName } from "../../constant/path-parameter/StringPathParameterName";
 
-type PathParameterKey = IntegerPagePathParameter | StringPagePathParameter;
+type PathParameterKey = IntegerPathParameterName | StringPathParameterName;
 
 export type NextPagePathParameter = {
     params: Promise<Record<PathParameterKey, string>>;
@@ -11,7 +11,7 @@ export type NextPagePathParameter = {
 
 const getIntegerPagePathParameter = async (
     { params }: NextPagePathParameter,
-    parameterName: IntegerPagePathParameter,
+    parameterName: IntegerPathParameterName,
 ): Promise<number> => {
     const pickedPathParameter = parseDecimalInt((await params)[parameterName]);
 
@@ -20,7 +20,7 @@ const getIntegerPagePathParameter = async (
 
 const getStringPagePathParameter = async (
     { params }: NextPagePathParameter,
-    parameterName: StringPagePathParameter,
+    parameterName: StringPathParameterName,
 ) => {
     const pickedPathParameter = (await params)[parameterName];
 
@@ -28,8 +28,8 @@ const getStringPagePathParameter = async (
 };
 
 type PickedPagePathParameter<T extends PathParameterKey[]> = {
-    [Key in T[number]]: Key extends IntegerPagePathParameter ? number
-    : Key extends StringPagePathParameter ? string
+    [Key in T[number]]: Key extends IntegerPathParameterName ? number
+    : Key extends StringPathParameterName ? string
     : never;
 };
 export const getPagePathParameters = async <
@@ -42,22 +42,22 @@ export const getPagePathParameters = async <
 
     for (const parameterName of parameterNames) {
         if (
-            Object.values(StringPagePathParameter).includes(
-                parameterName as StringPagePathParameter,
+            Object.values(StringPathParameterName).includes(
+                parameterName as StringPathParameterName,
             )
         ) {
             pageParameters[parameterName] = await getStringPagePathParameter(
                 nextPagePathParameter,
-                parameterName as StringPagePathParameter,
+                parameterName as StringPathParameterName,
             );
         } else if (
-            Object.values(IntegerPagePathParameter).includes(
-                parameterName as IntegerPagePathParameter,
+            Object.values(IntegerPathParameterName).includes(
+                parameterName as IntegerPathParameterName,
             )
         ) {
             pageParameters[parameterName] = await getIntegerPagePathParameter(
                 nextPagePathParameter,
-                parameterName as IntegerPagePathParameter,
+                parameterName as IntegerPathParameterName,
             );
         }
     }

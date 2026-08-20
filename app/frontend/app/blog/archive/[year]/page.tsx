@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { getAppConfig } from "@sside-net/app-config";
-import { IntegerPagePathParameter } from "../../../../constant/path-parameter/IntegerPagePathParameter";
+import { IntegerPathParameterName } from "../../../../constant/path-parameter/IntegerPathParameterName";
 import {
     apiClient,
     isNotFoundErrorResponse,
@@ -16,7 +16,7 @@ export default async function YearArchivePage(
 ) {
     const { year } = await getPagePathParameters(
         nextPagePathParameter,
-        IntegerPagePathParameter.Year,
+        IntegerPathParameterName.Year,
     );
     const { data, error, response } = await apiClient.GET(
         "/blog-entry/archive/{year}",
