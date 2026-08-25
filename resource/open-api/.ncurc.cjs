@@ -1,6 +1,9 @@
+const config = require("../../.ncurc.cjs");
+
 module.exports = {
-    cooldown: 14,
+    ...config,
     reject: [
+        ...config.reject,
         // openapi-typescriptが5.xまでのサポートに留まっているためバージョン固定
         "typescript",
     ],
