@@ -56,9 +56,10 @@ export default defineConfig([
             "unicorn/prefer-type-error": "off",
             "unicorn/prefer-global-this": "off",
             "unicorn/prefer-optional-catch-binding": "off",
+            "unicorn/no-incorrect-template-string-interpolation": "off",
 
             "@typescript-eslint/member-ordering": "warn",
-            "unicorn/prevent-abbreviations": [
+            "unicorn/name-replacements": [
                 "warn",
                 {
                     allowList: [
