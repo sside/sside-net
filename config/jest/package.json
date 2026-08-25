@@ -8,10 +8,10 @@
         "update:execute": "ncu -u"
     },
     "devDependencies": {
-        "@dotenvx/dotenvx": "1.52.0",
+        "@dotenvx/dotenvx": "2.21.0",
         "@jest/globals": "30.4.1",
         "jest": "30.4.2",
-        "ts-jest": "29.4.11"
+        "ts-jest": "29.4.12"
     },
     "private": true
 }
