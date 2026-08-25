@@ -11,7 +11,7 @@ import {
 describe("parseDecimalFloat", () => {
     test("浮動小数点の文字列を数値に変換できること。", () => {
         const a = 123_456;
-        const b = 123.456_789;
+        const b = 123.456789;
         expect(parseDecimalFloat("123456.789")).toBe(123_456.789);
         expect(parseDecimalFloat(a)).toBe(a);
         expect(parseDecimalFloat(b)).toBe(b);

@@ -3,7 +3,7 @@ import { createLogger } from "../logger/createLogger";
 
 export const captureApiCallError = async (
     errorResponse: Response,
-    componentOrContextName: ((...arguments_: unknown[]) => never) | string,
+    componentOrContextName: string | { readonly name: string },
     ...additionalLogObjects: Record<string, unknown>[]
 ): Promise<void> => {
     const ERROR_MESSAGE = "バックエンドAPIコールに失敗しました。";
@@ -20,6 +20,7 @@ export const captureApiCallError = async (
     errorResponse
         .clone()
         .json()
+        // eslint-disable-next-line unicorn/prefer-await
         .then((json) => {
             logger.error(
                 ERROR_MESSAGE,
@@ -30,6 +31,7 @@ export const captureApiCallError = async (
                 ...additionalLogObjects,
             );
         })
+        // eslint-disable-next-line unicorn/prefer-await
         .catch(async () => {
             logger.error(
                 ERROR_MESSAGE,

@@ -5,7 +5,7 @@ import { Nullish } from "utility-types";
  * 10進数浮動小数点をパースします。
  */
 export const parseDecimalFloat = (input: string | number | Nullish): number =>
-    input === null ? Number.NaN : Number(input);
+    input === null ? NaN : Number(input);
 
 /**
  * 10進数整数をパースします。parseIntよりrobustです。
@@ -17,7 +17,7 @@ export const parseDecimalInt = (input: string | number | Nullish): number =>
  * 整数で昇順の配列を作成します。
  */
 export const createIntegerArray = (length: number, start = 0): number[] => {
-    if (!Number.isInteger(start)) {
+    if (!Number.isSafeInteger(start)) {
         throw new TypeError(`整数以外が入力されています。`);
     }
 
@@ -25,7 +25,7 @@ export const createIntegerArray = (length: number, start = 0): number[] => {
         throw new Error(`負数が入力されています。`);
     }
 
-    return Array.from({ length }).map((_, index) => index + start);
+    return Array.from({ length }, (_, index) => index + start);
 };
 
 /**
@@ -47,9 +47,12 @@ export const createIntegerRange = (start: number, end: number): number[] => {
 
     const isIncrease = start < end;
     const [small, large] = isIncrease ? [start, end] : [end, start];
-    const range = Array.from({
-        length: large - small + 1,
-    }).map((_, index) => index + small);
+    const range = Array.from(
+        {
+            length: large - small + 1,
+        },
+        (_, index) => index + small,
+    );
 
     return isIncrease ? range : range.toReversed();
 };

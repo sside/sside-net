@@ -57,6 +57,11 @@ export default defineConfig([
             "unicorn/prefer-global-this": "off",
             "unicorn/prefer-optional-catch-binding": "off",
             "unicorn/no-incorrect-template-string-interpolation": "off",
+            "unicorn/consistent-class-member-order": "off",
+            "unicorn/class-reference-in-static-methods": "off",
+            "unicorn/max-nested-calls": "off",
+            "unicorn/no-declarations-before-early-exit": "off",
+            "unicorn/no-optional-chaining-on-undeclared-variable": "off",
 
             "@typescript-eslint/member-ordering": "warn",
             "unicorn/name-replacements": [

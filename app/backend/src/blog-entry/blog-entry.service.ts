@@ -88,8 +88,8 @@ export class BlogEntryService {
 
         if (
             isCheckContainsAllBlogEntry &&
-            !blogEntryIds.every((blogEntryId) =>
-                blogEntries.some(({ id: foundId }) => foundId === blogEntryId),
+            blogEntryIds.some((blogEntryId) =>
+                blogEntries.every(({ id: foundId }) => foundId !== blogEntryId),
             )
         ) {
             throw new ForbiddenException(

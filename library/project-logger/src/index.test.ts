@@ -5,7 +5,7 @@ const mergeLogMessageObjectsRecursive =
     ProjectLogger["mergeLogMessageObjectsRecursive"];
 
 const message = "log object",
-    bool = true,
+    isBool = true,
     array = [1, 2, 3],
     error = new Error("error object");
 
@@ -16,7 +16,7 @@ describe("ProjectLogger", () => {
                 message,
                 {
                     message,
-                    bool,
+                    bool: isBool,
                 },
                 {
                     array,
@@ -25,7 +25,7 @@ describe("ProjectLogger", () => {
             ]);
 
             expect(merged.message).toBe(message);
-            expect(merged.bool).toBe(bool);
+            expect(merged.bool).toBe(isBool);
             expect(merged.array).toBe(array);
         });
 
@@ -34,18 +34,18 @@ describe("ProjectLogger", () => {
                 message,
                 {
                     message,
-                    bool,
+                    bool: isBool,
                 },
                 {
                     array,
                 },
                 {
                     array,
-                    bool,
+                    bool: isBool,
                 },
                 {
                     array,
-                    bool,
+                    bool: isBool,
                 },
             ]);
 
@@ -54,9 +54,9 @@ describe("ProjectLogger", () => {
             expect(merged.array).toBe(array);
             expect(merged.array_01).toBe(array);
             expect(merged.array_02).toBe(array);
-            expect(merged.bool).toBe(bool);
-            expect(merged.bool_01).toBe(bool);
-            expect(merged.bool_02).toBe(bool);
+            expect(merged.bool).toBe(isBool);
+            expect(merged.bool_01).toBe(isBool);
+            expect(merged.bool_02).toBe(isBool);
         });
 
         test("エラー内容がパースされていること。", () => {
@@ -64,7 +64,7 @@ describe("ProjectLogger", () => {
                 message,
                 {
                     message,
-                    bool,
+                    bool: isBool,
                     error,
                 },
                 {
