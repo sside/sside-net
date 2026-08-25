@@ -11,7 +11,6 @@
         "@dotenvx/dotenvx": "1.52.0",
         "@jest/globals": "30.4.1",
         "jest": "30.4.2",
-        "npm-check-updates": "22.2.9",
         "ts-jest": "29.4.11"
     },
     "private": true
