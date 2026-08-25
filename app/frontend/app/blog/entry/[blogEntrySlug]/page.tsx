@@ -39,7 +39,7 @@ export default async function BlogEntryBySlugPage(
         throw error;
     }
 
-    const { id } = data;
+    const { slug } = data;
 
     return (
         <div className="blog-entry-by-slug-page w-blog-entry grid gap-4">
@@ -47,8 +47,8 @@ export default async function BlogEntryBySlugPage(
                 publishedBlogEntryResponse={data}
             />
             <AdjacentBlogLinksContainer
-                next={<NextBlogEntryLink blogEntryId={id} />}
-                previous={<PreviousBlogEntryLink blogEntryId={id} />}
+                next={<NextBlogEntryLink blogEntrySlug={slug} />}
+                previous={<PreviousBlogEntryLink blogEntrySlug={slug} />}
             />
         </div>
     );

@@ -302,15 +302,21 @@ export interface components {
         };
         BlogEntryResponse: {
             id: number;
-            /** Format: date-time */
+            /**
+            Format: date-time
+            */
             createdAt: string;
-            /** Format: date-time */
+            /**
+            Format: date-time
+            */
             updatedAt: string;
             slug: string;
             title: string;
             bodyMarkdown: string;
             metaTags: components["schemas"]["BlogEntryMetaTagResponse"][];
-            /** Format: date-time */
+            /**
+            Format: date-time
+            */
             publishAt?: string;
         };
         BlogEntryRequest: {
@@ -324,7 +330,9 @@ export interface components {
             title: string;
             bodyMarkdown: string;
             blogEntryMetaTagNames: string[];
-            /** Format: date-time */
+            /**
+            Format: date-time
+            */
             publishAt?: string;
         };
         BlogEntryMetaTagCountResponse: {
@@ -334,15 +342,21 @@ export interface components {
         };
         PublishedBlogEntryResponse: {
             id: number;
-            /** Format: date-time */
+            /**
+            Format: date-time
+            */
             createdAt: string;
             slug: string;
             title: string;
-            /** Format: date-time */
+            /**
+            Format: date-time
+            */
             publishAt: string;
             bodyMarkdown: string;
             metaTags: components["schemas"]["BlogEntryMetaTagCountResponse"][];
-            /** Format: date-time */
+            /**
+            Format: date-time
+            */
             updatedAt?: string;
         };
         BlogEntryArchivePublishDatesResponse: {
@@ -351,7 +365,9 @@ export interface components {
             count: number;
         };
         SignInRequest: {
-            /** @example Pa55w0rd */
+            /**
+            @example Pa55w0rd
+            */
             password: string;
         };
         AuthenticationResponse: {
@@ -527,7 +543,7 @@ export interface operations {
         parameters: {
             query: {
                 count: number;
-                "pointer-blog-entry-id"?: number;
+                "pointer-blog-entry-slug"?: string;
             };
             header?: never;
             path?: never;
@@ -569,7 +585,8 @@ export interface operations {
     PublicBlogEntryController_getEarlier: {
         parameters: {
             query: {
-                "pointer-blog-entry-id": number;
+                "pointer-blog-entry-slug": string;
+                count: number;
             };
             header?: never;
             path?: never;
@@ -585,7 +602,9 @@ export interface operations {
                     "application/json": components["schemas"]["PublishedBlogEntryResponse"];
                 };
             };
-            /** @description 指定より過去に公開済みBlogEntryがない場合に返ります。 */
+            /**
+            @description 指定より過去に公開済みBlogEntryがない場合に返ります。
+            */
             204: {
                 headers: {
                     [name: string]: unknown;
@@ -597,7 +616,8 @@ export interface operations {
     PublicBlogEntryController_getLater: {
         parameters: {
             query: {
-                "pointer-blog-entry-id": number;
+                "pointer-blog-entry-slug": string;
+                count: number;
             };
             header?: never;
             path?: never;
@@ -613,7 +633,9 @@ export interface operations {
                     "application/json": components["schemas"]["PublishedBlogEntryResponse"];
                 };
             };
-            /** @description 指定より将来に公開済みBlogEntryがない場合に返ります。 */
+            /**
+            @description 指定より将来に公開済みBlogEntryがない場合に返ります。
+            */
             204: {
                 headers: {
                     [name: string]: unknown;
@@ -626,7 +648,7 @@ export interface operations {
         parameters: {
             query: {
                 count: number;
-                "pointer-blog-entry-id"?: number;
+                "pointer-blog-entry-slug"?: string;
             };
             header?: never;
             path: {
@@ -650,7 +672,7 @@ export interface operations {
         parameters: {
             query: {
                 count: number;
-                "pointer-blog-entry-id"?: number;
+                "pointer-blog-entry-slug"?: string;
             };
             header?: never;
             path: {
@@ -741,7 +763,9 @@ export interface operations {
             };
         };
         responses: {
-            /** @description 認証JWTトークンを返します。 */
+            /**
+            @description 認証JWTトークンを返します。
+            */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -771,7 +795,9 @@ export interface operations {
             };
         };
         responses: {
-            /** @description 認証JWTトークンを返します。 */
+            /**
+            @description 認証JWTトークンを返します。
+            */
             200: {
                 headers: {
                     [name: string]: unknown;

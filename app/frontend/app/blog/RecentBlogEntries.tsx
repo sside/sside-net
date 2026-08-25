@@ -6,15 +6,17 @@ import {
 } from "../../library/api-client/api-client";
 import { BlogEntryFromPublishedBlogEntryResponse } from "./BlogEntryFromPublishedBlogEntryResponse";
 
-export const RecentBlogEntries: FC<{ fetchCount: number }> = async ({
-    fetchCount,
-}) => {
+export const RecentBlogEntries: FC<{
+    fetchCount: number;
+    pointerBlogEntrySlug: string | undefined;
+}> = async ({ fetchCount, pointerBlogEntrySlug }) => {
     const { data, error, response } = await apiClient.GET(
         `/blog-entry/latest`,
         {
             params: {
                 query: {
                     count: fetchCount,
+                    "pointer-blog-entry-slug": pointerBlogEntrySlug,
                 },
             },
         },

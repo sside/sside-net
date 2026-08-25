@@ -6,13 +6,14 @@ import {
 } from "../../../../component/adjacent-blog-link/AdjacentBlogLink";
 import { apiClient } from "../../../../library/api-client/api-client";
 
-export const PreviousBlogEntryLink: FC<{ blogEntryId: number }> = async ({
-    blogEntryId,
+export const PreviousBlogEntryLink: FC<{ blogEntrySlug: string }> = async ({
+    blogEntrySlug,
 }) => {
     const { data } = await apiClient.GET("/blog-entry/later", {
         params: {
             query: {
-                "pointer-blog-entry-id": blogEntryId,
+                "pointer-blog-entry-slug": blogEntrySlug,
+                count: 1,
             },
         },
     });
