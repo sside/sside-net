@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getAppConfig } from "@sside-net/app-config";
 import { DateTimeFormat, formatDateByJst } from "@sside-net/date-time";
 import { apiClient } from "../../../library/api-client/api-client";
+import { captureApiCallError } from "../../../library/sentry/captureApiCallError";
 import { BlogMenuSection } from "./BlogMenuSection";
 
 const BlogRecentEntry: FC<{
@@ -17,7 +18,10 @@ const BlogRecentEntry: FC<{
         :   false;
 
     return (
-        <Link href={`/blog/entry/${slug}`}>
+        <Link
+            className="underline"
+            href={`/blog/entry/${slug}`}
+        >
             <li>
                 {title} (
                 {formatDateByJst(
@@ -33,18 +37,27 @@ const BlogRecentEntry: FC<{
 };
 
 export const BlogMenuRecentEntries: FC<{}> = async ({}) => {
-    const { data, error } = await apiClient.GET("/blog-entry/latest", {
-        params: {
-            query: {
-                count: getAppConfig().frontend.blog.menu.recentBlogEntryCount,
+    const { data, error, response } = await apiClient.GET(
+        "/blog-entry/latest",
+        {
+            params: {
+                query: {
+                    count: getAppConfig().frontend.blog.menu
+                        .recentBlogEntryCount,
+                },
             },
         },
-    });
-    const latestBlogEntries = error ? [] : data;
+    );
+
+    if (error) {
+        await captureApiCallError(response, BlogMenuRecentEntries);
+    }
+
+    const latestBlogEntries = data ?? [];
 
     return (
         <BlogMenuSection headerLabel="Latest entries">
-            <menu className="blog-menu-recent-entries">
+            <menu className="blog-menu-recent-entries grid gap-1">
                 {latestBlogEntries.map(
                     ({ id, title, slug, updatedAt, publishAt }) => (
                         <BlogRecentEntry
