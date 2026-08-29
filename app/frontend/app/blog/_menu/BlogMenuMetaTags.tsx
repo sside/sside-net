@@ -9,17 +9,19 @@ export const BlogMenuMetaTags: FC<{}> = async ({}) => {
     const metaTags = error ? [] : data;
 
     return (
-        <BlogMenuSection headerLabel="Meta tags">
-            <div className="blog-menu-meta-tags flex flex-wrap gap-2">
-                {metaTags.map(({ id, name, count }) => (
-                    <BlogMetaTag
-                        key={id}
-                        name={name}
-                        blogEntryCount={count}
-                        variant="blogMenu"
-                    />
-                ))}
-            </div>
-        </BlogMenuSection>
+        <div className="blog-menu-meta-tags">
+            <BlogMenuSection headerLabel="Meta tags">
+                <div className="flex flex-wrap gap-2">
+                    {metaTags.map(({ id, name, count }) => (
+                        <BlogMetaTag
+                            key={id}
+                            name={name}
+                            blogEntryCount={count}
+                            variant="blogMenu"
+                        />
+                    ))}
+                </div>
+            </BlogMenuSection>
+        </div>
     );
 };

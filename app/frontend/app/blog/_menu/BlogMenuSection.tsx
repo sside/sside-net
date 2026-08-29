@@ -10,7 +10,7 @@ export const BlogMenuSection: FC<{ headerLabel: string } & ChildrenProp> = ({
     const horizontalPadding = "px-2";
 
     return (
-        <div className="grid w-full">
+        <div className="blog-menu-section grid w-full">
             <header
                 className={twMerge(
                     "w-full text-xl font-light",

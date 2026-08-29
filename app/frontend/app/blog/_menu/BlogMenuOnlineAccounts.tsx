@@ -33,26 +33,28 @@ const ONLINE_ACCOUNTS = [
 
 export const BlogMenuOnlineAccounts: FC<{}> = ({}) => {
     return (
-        <BlogMenuSection headerLabel="Online accounts">
-            <ul className="grid gap-0.5">
-                {ONLINE_ACCOUNTS.map(
-                    ({ accountName, serviceName, accountUrl }) => (
-                        <li key={serviceName}>
-                            {serviceName}:
-                            <span className="ml-1">
-                                {accountUrl ?
-                                    <a
-                                        className="underline"
-                                        href={accountUrl}
-                                    >
-                                        {accountName}
-                                    </a>
-                                :   accountName}
-                            </span>
-                        </li>
-                    ),
-                )}
-            </ul>
-        </BlogMenuSection>
+        <div className="blog-menu-online-accounts">
+            <BlogMenuSection headerLabel="Online accounts">
+                <ul className="grid gap-0.5">
+                    {ONLINE_ACCOUNTS.map(
+                        ({ accountName, serviceName, accountUrl }) => (
+                            <li key={serviceName}>
+                                {serviceName}:
+                                <span className="ml-1">
+                                    {accountUrl ?
+                                        <a
+                                            className="underline"
+                                            href={accountUrl}
+                                        >
+                                            {accountName}
+                                        </a>
+                                    :   accountName}
+                                </span>
+                            </li>
+                        ),
+                    )}
+                </ul>
+            </BlogMenuSection>
+        </div>
     );
 };

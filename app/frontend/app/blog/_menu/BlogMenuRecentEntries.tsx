@@ -56,22 +56,24 @@ export const BlogMenuRecentEntries: FC<{}> = async ({}) => {
     const latestBlogEntries = data ?? [];
 
     return (
-        <BlogMenuSection headerLabel="Latest entries">
-            <menu className="blog-menu-recent-entries grid gap-1">
-                {latestBlogEntries.map(
-                    ({ id, title, slug, updatedAt, publishAt }) => (
-                        <BlogRecentEntry
-                            key={id}
-                            title={title}
-                            slug={slug}
-                            publishAt={new Date(publishAt)}
-                            updatedAt={
-                                updatedAt ? new Date(updatedAt) : undefined
-                            }
-                        />
-                    ),
-                )}
-            </menu>
-        </BlogMenuSection>
+        <div className="blog-menu-recent-entries">
+            <BlogMenuSection headerLabel="Latest entries">
+                <menu className="grid gap-1">
+                    {latestBlogEntries.map(
+                        ({ id, title, slug, updatedAt, publishAt }) => (
+                            <BlogRecentEntry
+                                key={id}
+                                title={title}
+                                slug={slug}
+                                publishAt={new Date(publishAt)}
+                                updatedAt={
+                                    updatedAt ? new Date(updatedAt) : undefined
+                                }
+                            />
+                        ),
+                    )}
+                </menu>
+            </BlogMenuSection>
+        </div>
     );
 };
