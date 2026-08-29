@@ -1,11 +1,18 @@
-import { FC, Fragment } from "react";
+import { FC } from "react";
 import Link from "next/link";
+import { twMerge } from "tailwind-merge";
 import { apiClient } from "../../../library/api-client/api-client";
+import { captureApiCallError } from "../../../library/sentry/captureApiCallError";
 import { BlogMenuSection } from "./BlogMenuSection";
+
+const archivePadding = "py-1 px-2";
 
 const ArchiveYear: FC<{ year: number }> = ({ year }) => (
     <Link
-        className="border-base01 rounded-md border p-2"
+        className={twMerge(
+            "border-base01 bg-base01 text-base2 w-fit rounded-md border",
+            archivePadding,
+        )}
         href={`/blog/archive/${year}`}
     >
         {year}
@@ -14,7 +21,10 @@ const ArchiveYear: FC<{ year: number }> = ({ year }) => (
 
 const ArchiveMonth: FC<{ year: number; month: number }> = ({ year, month }) => (
     <Link
-        className="border-base01 rounded-md border p-2"
+        className={twMerge(
+            "border-base01 w-fit rounded-md border",
+            archivePadding,
+        )}
         href={`/blog/archive/${year}/${month}`}
     >
         {month}
@@ -22,37 +32,50 @@ const ArchiveMonth: FC<{ year: number; month: number }> = ({ year, month }) => (
 );
 
 export const BlogMenuArchives: FC<{}> = async ({}) => {
-    const { data, error } = await apiClient.GET(
+    const { data, error, response } = await apiClient.GET(
         "/blog-entry/archive-year-month",
     );
 
-    const archiveYearMonths =
-        error ?
-            []
-        :   data.toSorted(
-                (
-                    { year: aYear, month: aMonth },
-                    { year: bYear, month: bMonth },
-                ) => (aYear === bYear ? aMonth - bMonth : bYear - aYear),
-            );
+    if (error) {
+        await captureApiCallError(response, BlogMenuArchives);
+    }
+
+    const archiveYearMonths = data ?? [];
+
+    const years = [
+        ...new Set(archiveYearMonths.map(({ year }) => year)),
+    ].toSorted((a, b) => b - a);
 
     return (
-        <BlogMenuSection headerLabel="Archives">
-            <div className="blog-menu-archives flex flex-wrap gap-2 pt-4">
-                {archiveYearMonths.map(({ year, month }, index) => (
-                    <Fragment key={`${year}-${month}`}>
-                        {archiveYearMonths.at(index - 1)?.year !== year && (
-                            <div className="w-full">
-                                <ArchiveYear year={year} />
+        <div className="blog-menu-archives">
+            <BlogMenuSection headerLabel="Archives">
+                <div className="grid gap-1 py-2">
+                    {years.map((year) => (
+                        <div
+                            key={year}
+                            className="grid gap-1"
+                        >
+                            <ArchiveYear year={year} />
+                            <div className="flex flex-wrap gap-2">
+                                {archiveYearMonths
+                                    .filter(
+                                        ({ year: dataYear }) =>
+                                            dataYear === year,
+                                    )
+                                    .map(({ month }) => month)
+                                    .toSorted((a, b) => a - b)
+                                    .map((month) => (
+                                        <ArchiveMonth
+                                            key={[year, month].join("_")}
+                                            year={year}
+                                            month={month}
+                                        />
+                                    ))}
                             </div>
-                        )}
-                        <ArchiveMonth
-                            year={year}
-                            month={month}
-                        />
-                    </Fragment>
-                ))}
-            </div>
-        </BlogMenuSection>
+                        </div>
+                    ))}
+                </div>
+            </BlogMenuSection>
+        </div>
     );
 };

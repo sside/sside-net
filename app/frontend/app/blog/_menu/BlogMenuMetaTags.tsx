@@ -11,7 +11,7 @@ export const BlogMenuMetaTags: FC<{}> = async ({}) => {
     return (
         <div className="blog-menu-meta-tags">
             <BlogMenuSection headerLabel="Meta tags">
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-1 py-2">
                     {metaTags.map(({ id, name, count }) => (
                         <BlogMetaTag
                             key={id}

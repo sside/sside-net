@@ -26,7 +26,7 @@ export const BlogMetaTag: FC<{
         },
     });
     const countStyle = tv({
-        base: "flex h-6 w-6 items-center justify-center rounded-full border p-1",
+        base: "flex h-4 w-4 items-center justify-center rounded-full border p-1 text-[10px]",
         variants: {
             color: {
                 [BlogMetaTagColorVariant.BlogMenu]:

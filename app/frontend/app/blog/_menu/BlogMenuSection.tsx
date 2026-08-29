@@ -1,5 +1,4 @@
 import { FC } from "react";
-import { twMerge } from "tailwind-merge";
 import { VerticalDivider } from "../../../component/divider/VerticalDivider";
 import { ChildrenProp } from "../../../type/ChildrenProp";
 
@@ -7,22 +6,13 @@ export const BlogMenuSection: FC<{ headerLabel: string } & ChildrenProp> = ({
     headerLabel,
     children,
 }) => {
-    const horizontalPadding = "px-2";
-
     return (
         <div className="blog-menu-section grid w-full">
-            <header
-                className={twMerge(
-                    "w-full text-xl font-light",
-                    horizontalPadding,
-                )}
-            >
+            <header className="px-menu w-full text-xl font-light">
                 {headerLabel}
             </header>
             <VerticalDivider />
-            <div className={twMerge("py-1 font-light", horizontalPadding)}>
-                {children}
-            </div>
+            <div className="px-menu py-1 font-light">{children}</div>
         </div>
     );
 };
