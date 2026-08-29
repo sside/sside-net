@@ -38,7 +38,7 @@ export const BlogMenuArchives: FC<{}> = async ({}) => {
 
     return (
         <BlogMenuSection headerLabel="Archives">
-            <div className="blog-menu-archives flex flex-wrap gap-2">
+            <div className="blog-menu-archives flex flex-wrap gap-2 pt-4">
                 {archiveYearMonths.map(({ year, month }, index) => (
                     <Fragment key={`${year}-${month}`}>
                         {archiveYearMonths.at(index - 1)?.year !== year && (

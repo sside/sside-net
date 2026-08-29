@@ -21,11 +21,11 @@
 
     pre {
         width: fit-content;
-        max-width: 90%;
         font-family: var(--font-mono), monospace;
         border: solid 1px var(--color-text-body);
         padding: 1rem;
         background-color: var(--color-base02);
+        overflow-x: auto;
 
         code {
             border: unset;

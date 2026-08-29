@@ -11,9 +11,9 @@ export const metadata: Metadata = {
 
 export default async function BlogLayout({ children }: ChildrenProp) {
     return (
-        <div className="layout-mobile sm:layout-desktop grid min-h-dvh grid-cols-[20rem_1fr] grid-rows-[auto_1fr_auto]">
+        <div className="layout-mobile desktop:layout-desktop desktop:grid-cols-[20rem_1fr] grid min-h-dvh w-full grid-rows-[auto_1fr_auto]">
             <BlogTitle />
-            <main className="layout-area-main p-8">{children}</main>
+            <main className="layout-area-main w-full p-8">{children}</main>
             <BlogMenu />
             <BlogFooter />
         </div>

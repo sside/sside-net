@@ -7,7 +7,7 @@ export const BlogEntryMetaTags: FC<{
     return (
         <div className="blog-entry-meta-tags flex w-full items-center gap-4">
             <span className="font-bold">meta tags:</span>
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
                 {metaTags.map(({ ...props }) => (
                     <BlogMetaTag
                         key={props.name}

@@ -38,6 +38,10 @@
     --grid-area-menu: menu;
     --grid-area-header: header;
     --grid-area-footer: footer;
+
+    --breakpoint-*: initial;
+
+    --breakpoint-desktop: 40rem;
 }
 
 @utility layout-* {
