@@ -41,7 +41,7 @@
 
     --breakpoint-*: initial;
 
-    --breakpoint-desktop: 40rem;
+    --breakpoint-desktop: 769px;
 }
 
 @utility layout-* {
