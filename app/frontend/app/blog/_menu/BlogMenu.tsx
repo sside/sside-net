@@ -7,7 +7,7 @@ import { BlogMenuRecentEntries } from "./BlogMenuRecentEntries";
 
 export const BlogMenu: FC<{}> = ({}) => {
     return (
-        <aside className="blog-title text-text-menu layout-area-menu blog-menu bg-background-menu w-full px-4 text-sm">
+        <aside className="blog-title text-text-menu layout-area-menu blog-menu bg-background-menu w-full text-sm">
             <BlogMenuAbout />
             <BlogMenuOnlineAccounts />
             <BlogMenuRecentEntries />

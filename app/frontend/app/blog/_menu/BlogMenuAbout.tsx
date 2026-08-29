@@ -6,7 +6,8 @@ export const BlogMenuAbout: FC<{}> = ({}) => {
         <BlogMenuSection headerLabel="About this site">
             <p>長い文章載せたい時があるので作りました。</p>
             <p>
-                コメント欄は用意しないので、誤りの指摘やご意見があればTwitterまでどうぞ。
+                コメント欄は用意しないので、誤りの指摘やご意見があれば
+                <a href="https://x.com/sside">Twitter</a> までどうぞ。
             </p>
         </BlogMenuSection>
     );

@@ -34,14 +34,21 @@ const ONLINE_ACCOUNTS = [
 export const BlogMenuOnlineAccounts: FC<{}> = ({}) => {
     return (
         <BlogMenuSection headerLabel="Online accounts">
-            <ul>
+            <ul className="grid gap-0.5">
                 {ONLINE_ACCOUNTS.map(
                     ({ accountName, serviceName, accountUrl }) => (
                         <li key={serviceName}>
                             {serviceName}:
-                            {accountUrl ?
-                                <a href={accountUrl}>{accountName}</a>
-                            :   accountName}
+                            <span className="ml-1">
+                                {accountUrl ?
+                                    <a
+                                        className="underline"
+                                        href={accountUrl}
+                                    >
+                                        {accountName}
+                                    </a>
+                                :   accountName}
+                            </span>
                         </li>
                     ),
                 )}
