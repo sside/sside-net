@@ -4,7 +4,7 @@
         "build": "turbo run build:shared && turbo run build:app",
         "build:app": "turbo run build:app",
         "build:shared": "turbo run build:shared",
-        "dev": "turbo run dev",
+        "dev": "npm run build:shared && turbo run dev",
         "dev:app": "turbo run dev:app",
         "dev:shared": "npm run build:shared && turbo run dev:shared",
         "test": "turbo run test",
