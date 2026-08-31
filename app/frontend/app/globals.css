@@ -31,6 +31,8 @@
     --color-text-body: var(--color-base0);
     --color-text-menu: var(--color-base01);
 
+    --color-highlight-menu: var(--color-base01);
+
     --grid-areas-layout-desktop: "header main" "menu main" "footer main";
     --grid-areas-layout-mobile: "header" "main" "menu" "footer";
 

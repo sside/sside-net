@@ -10,7 +10,7 @@ const archivePadding = "py-1 px-2";
 const ArchiveYear: FC<{ year: number }> = ({ year }) => (
     <Link
         className={twMerge(
-            "border-base01 bg-base01 text-base2 w-fit rounded-md border",
+            "border-highlight-menu bg-highlight-menu text-base2 w-fit rounded-md border",
             archivePadding,
         )}
         href={`/blog/archive/${year}`}

@@ -30,7 +30,7 @@ export const BlogMetaTag: FC<{
         variants: {
             color: {
                 [BlogMetaTagColorVariant.BlogMenu]:
-                    "bg-base01 text-base2 border-base01",
+                    "bg-highlight-menu text-base2 border-highlight-menu",
                 [BlogMetaTagColorVariant.BlogBody]: "bg-base0 text-base02",
             },
         },
