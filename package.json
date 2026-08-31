@@ -9,6 +9,7 @@
         "dev:shared": "npm run build:shared && turbo run dev:shared",
         "test": "turbo run test",
         "lint": "turbo run lint",
+        "count-line": "cloc",
         "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md,yml,yaml,json}\"",
         "update:check": "ncu && turbo run update:check",
         "update:execute": "ncu -u && turbo run update:execute && npm install",
@@ -17,8 +18,8 @@
         "prepare": "husky"
     },
     "devDependencies": {
-        "@commitlint/cli": "21.2.1",
-        "@commitlint/config-conventional": "21.2.0",
+        "@commitlint/cli": "21.2.2",
+        "@commitlint/config-conventional": "21.2.2",
         "@inquirer/search": "4.2.1",
         "@trivago/prettier-plugin-sort-imports": "6.0.2",
         "husky": "9.1.7",
@@ -28,10 +29,10 @@
         "plop": "4.0.5",
         "prettier": "3.9.6",
         "prettier-plugin-tailwindcss": "0.8.1",
-        "turbo": "2.10.9"
+        "turbo": "2.10.10"
     },
     "engines": {
-        "node": ">=22"
+        "node": ">=24"
     },
     "packageManager": "npm@12.0.2",
     "workspaces": [
@@ -45,5 +46,16 @@
         "type": "git",
         "url": "https://github.com/sside/sside-net.git"
     },
-    "private": true
+    "private": true,
+    "allowScripts": {
+        "@prisma/engines@7.9.1": true,
+        "@scarf/scarf@1.4.0": true,
+        "@sentry/cli@2.58.6": true,
+        "@sentry/node-cpu-profiler@2.4.3": true,
+        "@swc/core@1.16.0": true,
+        "better-sqlite3@12.11.1": true,
+        "msw@2.15.0": true,
+        "prisma@7.9.1": true,
+        "unrs-resolver@1.12.2": true
+    }
 }

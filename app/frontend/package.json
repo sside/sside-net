@@ -17,9 +17,9 @@
         "update:execute": "ncu -u"
     },
     "dependencies": {
-        "@milkdown/crepe": "7.22.0",
-        "@milkdown/kit": "7.22.0",
-        "@milkdown/react": "7.22.0",
+        "@milkdown/crepe": "7.22.1",
+        "@milkdown/kit": "7.22.1",
+        "@milkdown/react": "7.22.1",
         "@msw/playwright": "0.6.7",
         "@sentry/nextjs": "10.70.0",
         "@sside-net/date-time": "*",
@@ -34,7 +34,7 @@
         "install": "0.13.0",
         "jwt-decode": "^4.0.0",
         "luxon": "3.7.2",
-        "next": "16.3.0",
+        "next": "16.3.1",
         "openapi-fetch": "0.17.0",
         "openapi-react-query": "0.5.4",
         "react": "19.2.8",
@@ -51,7 +51,7 @@
     "devDependencies": {
         "@dotenvx/dotenvx": "2.21.0",
         "@faker-js/faker": "9.9.0",
-        "@next/eslint-plugin-next": "16.3.0",
+        "@next/eslint-plugin-next": "16.3.1",
         "@playwright/test": "1.62.1",
         "@sside-net/eslint": "*",
         "@sside-net/open-api": "*",

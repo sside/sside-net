@@ -1,1 +1,1 @@
-npx --no lint-staged --concurrent false
+npx --no-install lint-staged --concurrent false
