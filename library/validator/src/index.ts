@@ -13,6 +13,9 @@ type IteratorValidator<RestArgs extends unknown[] = []> = (
 export const isValid = (validationResult: ValidationResult): boolean =>
     validationResult === true;
 
+/**
+ * Validatorを渡してIterableな対象をバリデーションします。
+ */
 export const iteratorValidator = (
     inputs: Iterable<string>,
     validator: (input: string) => ValidationResult,
@@ -35,6 +38,9 @@ export const iteratorValidator = (
     return true;
 };
 
+/**
+ * 必須入力のバリデーションを行います。
+ */
 export const validateRequired: Validator = (input) => {
     if (!input) {
         return "入力してください。";
@@ -43,6 +49,9 @@ export const validateRequired: Validator = (input) => {
     return true;
 };
 
+/**
+ * 入力長のバリデーションを行います。
+ */
 export const validateLength: Validator<
     [
         {
@@ -68,6 +77,9 @@ export const validateLength: Validator<
     return true;
 };
 
+/**
+ * BlogEntryのSlugとしてバリデーションを行います。。
+ */
 export const validateBlogEntrySlug: Validator = (input) => {
     const requiredResult = validateRequired(input);
     if (typeof requiredResult === "string") {
@@ -88,6 +100,9 @@ export const validateBlogEntrySlug: Validator = (input) => {
     return true;
 };
 
+/**
+ * BlogEntryのタイトルとしてバリデーションを行います。
+ */
 export const validateBlogEntryTitle: Validator = (input) => {
     const requiredResult = validateRequired(input);
     if (typeof requiredResult === "string") {
@@ -99,6 +114,9 @@ export const validateBlogEntryTitle: Validator = (input) => {
     });
 };
 
+/**
+ * BlogEntryMetaTag名称のバリデーションを行います。
+ */
 export const validateBlogEntryMetaTags: IteratorValidator = (inputs) =>
     iteratorValidator(
         inputs,

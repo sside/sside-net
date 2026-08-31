@@ -14,6 +14,9 @@ export class BlogEntryMetaTagService {
         private readonly blogEntryMetaTagQuery: BlogEntryMetaTagQuery,
     ) {}
 
+    /**
+     * 全てのBlogEntryMetaTagを取得します。
+     */
     async getAllBlogEntryMetaTags(
         ongoingTransaction?: Prisma.TransactionClient,
     ): Promise<BlogEntryMetaTag[]> {
@@ -24,6 +27,9 @@ export class BlogEntryMetaTagService {
         return await this.blogEntryMetaTagQuery.findAll(ongoingTransaction);
     }
 
+    /**
+     * 全てのBlogEntryMetaTagと、それらに紐づくBlogEntryの数を取得します。
+     */
     async getAndCountAllWithBlogEntryCount(
         ongoingTransaction?: Prisma.TransactionClient,
     ): Promise<BlogEntryMetaTagCountBlogEntry[]> {
@@ -36,11 +42,14 @@ export class BlogEntryMetaTagService {
         );
     }
 
+    /**
+     * 全ての公開済みBlogEntryに対して、紐づいているBlogEntryMetaTagの数を取得します。
+     */
     async getAndCountAllPublishedBlogEntryMetaTags(
         ongoingTransaction?: Prisma.TransactionClient,
     ): Promise<BlogEntryMetaTagCountBlogEntry[]> {
         this.logger.log(
-            "公開済みBlogEntryに紐づいている全てのBlogEntryMetaTagと紐づきの数を取得します。",
+            "全ての公開済みBlogEntryに対して紐づいているBlogEntryMetaTagの数を取得します。",
             {
                 ongoingTransaction: !!ongoingTransaction,
             },
@@ -51,6 +60,9 @@ export class BlogEntryMetaTagService {
         );
     }
 
+    /**
+     * 渡されたBlogEntryMetaTagIdに対して、紐づいている公開済みBlogEntryの数を取得します。
+     */
     async getAndCountPublishedByIds(
         blogEntryMetaTagIds: number[],
         ongoingTransaction?: Prisma.TransactionClient,
@@ -69,6 +81,9 @@ export class BlogEntryMetaTagService {
         );
     }
 
+    /**
+     * 名前を指定してBlogEntryMetaTagが作成済みなら取得、無ければ新規作成します。
+     */
     async getOrCreateByName(
         metaTagName: string,
         ongoingTransaction?: Prisma.TransactionClient,
@@ -97,6 +112,9 @@ export class BlogEntryMetaTagService {
         );
     }
 
+    /**
+     * 複数の名前に対してBlogEntryMetaTagが作成済みなら取得、無ければ新規作成します。
+     */
     async getOrCreateByNames(
         metaTagNames: string[],
         ongoingTransaction?: Prisma.TransactionClient,
@@ -120,6 +138,9 @@ export class BlogEntryMetaTagService {
         );
     }
 
+    /**
+     * BlogEntryMetaTagのnameを更新します。
+     */
     async updateName(
         blogEntryMetaTagId: number,
         metaTagName: string,
@@ -138,6 +159,9 @@ export class BlogEntryMetaTagService {
         );
     }
 
+    /**
+     * BlogEntryMetaTagをseedingします。
+     */
     async seed(count: number): Promise<BlogEntryMetaTag[]> {
         this.logger.log("BlogEntryMetaTagのseedを作成します。", {
             count,

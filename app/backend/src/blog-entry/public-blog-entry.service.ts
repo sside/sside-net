@@ -184,6 +184,9 @@ export class PublicBlogEntryService {
         );
     }
 
+    /**
+     * 全ての公開済みBlogEntryの公開日を取得します。
+     */
     async getAllPublishAt(): Promise<Date[]> {
         this.logger.log("全ての公開済みBlogEntryの公開日を取得します。");
 

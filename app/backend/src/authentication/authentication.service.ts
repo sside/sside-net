@@ -27,8 +27,11 @@ export class AuthenticationService {
         private readonly authenticationQuery: AuthenticationQuery,
     ) {}
 
+    /**
+     * 管理者のサインインを行います。
+     */
     async signIn(rawPassword: string): Promise<AuthenticationToken> {
-        this.logger.log("ログイン試行を行います。");
+        this.logger.log("サインイン試行を行います。");
 
         if (process.env.ADMINISTRATOR_PASSWORD !== rawPassword) {
             throw new ForbiddenException("パスワードが違います。");
@@ -42,6 +45,9 @@ export class AuthenticationService {
         };
     }
 
+    /**
+     * 管理者のログイントークンリフレッシュを行います。
+     */
     async refreshAuthenticationToken(
         refreshToken: string,
     ): Promise<AuthenticationToken> {
@@ -68,6 +74,9 @@ export class AuthenticationService {
         };
     }
 
+    /**
+     * RecordをJWTトークンに変換します。
+     */
     private async createAccessToken(payload: AccessToken): Promise<string> {
         this.logger.log("アクセストークンを作成します。", {
             payload,
@@ -80,6 +89,9 @@ export class AuthenticationService {
         });
     }
 
+    /**
+     * リフレッシュトークンを作成、保存します。
+     */
     private async createRefreshToken(): Promise<Authentication> {
         const REFRESH_TOKEN_LENGTH = 64;
 

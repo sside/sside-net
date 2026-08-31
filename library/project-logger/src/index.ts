@@ -5,9 +5,7 @@ import Pino, { Logger } from "pino";
 import { Primitive } from "utility-types";
 
 export type ProjectLoggerInputObject =
-    | Record<string, unknown>
-    | Primitive
-    | Error;
+    Record<string, unknown> | Primitive | Error;
 
 /**
  * sside-netプロジェクト全体で使用するロガー。
@@ -107,7 +105,6 @@ export class ProjectLogger {
             `${key}_${index.toString(10).padStart(padLength, "0")}`;
 
         const padLength = maximumIndex.toString(10).length;
-
         for (let i = 1; i < maximumIndex; i++) {
             const incrementedKey = createKeyName(key, i, padLength);
             if (!existKeys.includes(incrementedKey)) {

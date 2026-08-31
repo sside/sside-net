@@ -100,6 +100,9 @@ export class BlogEntryService {
         return blogEntries;
     }
 
+    /**
+     * BlogEntryの下書きを作成します。
+     */
     async createDraft(
         blogEntryInput: BlogEntryInput,
         blogEntryMetaTagNames: string[],
@@ -125,6 +128,9 @@ export class BlogEntryService {
         );
     }
 
+    /**
+     * BlogEntryの下書きを更新します。
+     */
     async updateDraft(
         blogEntryId: number,
         blogEntryInput: BlogEntryInput,
@@ -156,6 +162,9 @@ export class BlogEntryService {
         );
     }
 
+    /**
+     * 公開済みBlogEntryを新規作成します。
+     */
     async createPublished(
         blogEntryInput: BlogEntryInput,
         blogEntryMetaTagNames: string[],
@@ -187,6 +196,9 @@ export class BlogEntryService {
         );
     }
 
+    /**
+     * 既存の下書きBlogEntryを公開します。
+     */
     async publishBlogEntryDraft(
         blogEntryId: number,
         publishAt?: Date,
@@ -223,6 +235,9 @@ export class BlogEntryService {
         );
     }
 
+    /**
+     * BlogEntryの更新履歴を追加します。
+     */
     async addBlogEntryHistory(
         blogEntryId: number,
         blogEntryInput: BlogEntryInput,
@@ -256,6 +271,9 @@ export class BlogEntryService {
         );
     }
 
+    /**
+     * BlogEntryの公開日時を設定します。
+     */
     async setPublishAt(
         blogEntryId: number,
         publishAt: Date | null,
@@ -278,6 +296,9 @@ export class BlogEntryService {
         );
     }
 
+    /**
+     * BlogEntryにMetaTagを紐づけします。
+     */
     async setRelatedBlogEntryMetaTagsByName(
         blogEntryId: number,
         blogEntryMetaTagNames: string[],
@@ -304,6 +325,9 @@ export class BlogEntryService {
         );
     }
 
+    /**
+     * BlogEntryをseedingします。
+     */
     async seed(
         publishCount: number,
         maximumHistoryCount: number,

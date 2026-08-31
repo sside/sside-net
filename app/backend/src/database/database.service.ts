@@ -34,6 +34,10 @@ export class DatabaseService
         await this.$disconnect();
     }
 
+    /**
+     * DBトランザクションを作成します。
+     * コールバック内がトランザクションになります。コールバック引数のtransactionClientをqueryに渡してください。
+     */
     async transaction<T>(
         callback: (transactionClient: Prisma.TransactionClient) => Promise<T>,
         ongoingTransaction?: Prisma.TransactionClient,
@@ -72,6 +76,9 @@ export class DatabaseService
         }, transactionOption);
     }
 
+    /**
+     * 有効なDBコネクションの有無を取得します。
+     */
     async hasConnection(): Promise<boolean> {
         try {
             await this.$queryRaw`SELECT 1;`;
