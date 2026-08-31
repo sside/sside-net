@@ -1,10 +1,7 @@
 import { FC } from "react";
-import { notFound } from "next/navigation";
-import {
-    apiClient,
-    isNotFoundErrorResponse,
-} from "../../library/api-client/api-client";
-import { BlogEntryFromPublishedBlogEntryResponse } from "./BlogEntryFromPublishedBlogEntryResponse";
+import { apiClient } from "../../library/api-client/api-client";
+import { captureApiCallError } from "../../library/sentry/captureApiCallError";
+import { BlogEntriesFromPublishedBlogEntryResponses } from "./BlogEntriesFromPublishedBlogEntryResponses";
 
 export const RecentBlogEntries: FC<{
     fetchCount: number;
@@ -23,21 +20,16 @@ export const RecentBlogEntries: FC<{
     );
 
     if (error) {
-        if (isNotFoundErrorResponse(response)) {
-            return notFound();
-        }
+        await captureApiCallError(response, RecentBlogEntries);
 
         throw error;
     }
 
     return (
-        <div className="recent-blog-entries grid gap-8">
-            {data.map((blogEntry) => (
-                <BlogEntryFromPublishedBlogEntryResponse
-                    key={blogEntry.id}
-                    publishedBlogEntryResponse={blogEntry}
-                />
-            ))}
+        <div className="recent-blog-entries">
+            <BlogEntriesFromPublishedBlogEntryResponses
+                publishedBlogEntryResponses={data}
+            />
         </div>
     );
 };
