@@ -20,14 +20,8 @@ cp .env.test.sample .env.test
 # バックエンドのseed
 npm run --workspace @sside-net/backend seed:dev
 
-# 共有パッケージのwatch
-npm run dev:shared
-
-# バックエンド立ち上げ
-npm run --workspace @sside-net/backend dev
-
-# フロントエンド立ち上げ
-npm run --workspace @sside-net/frontend dev
+# ローカルでのサーバ立ち上げとwatch
+npm run dev
 ```
 
 ## 注意点
