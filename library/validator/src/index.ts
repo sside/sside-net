@@ -2,25 +2,57 @@ import { getAppConfig } from "@sside-net/app-config";
 
 type ValidationResult = true | string;
 type Validator<RestArgs extends unknown[] = []> = (
-    input: string,
+    input: unknown,
     ...restArgs: RestArgs
 ) => ValidationResult;
 type IteratorValidator<RestArgs extends unknown[] = []> = (
-    inputs: Iterable<string>,
+    inputs: Iterable<string> | unknown,
     ...restArgs: RestArgs
 ) => ValidationResult;
 
 export const isValid = (validationResult: ValidationResult): boolean =>
     validationResult === true;
 
+const isString = (input: unknown): input is string => typeof input === "string";
+
+export const validateString: Validator = (input) =>
+    isString(input) || "文字列を入力してください。";
+
+const isIterable = (inputs: unknown): inputs is Iterable<unknown> =>
+    !!inputs &&
+    typeof inputs === "object" &&
+    Symbol.iterator in inputs &&
+    typeof inputs[Symbol.iterator] === "function";
+
+const isIterableStrings = (inputs: unknown): inputs is Iterable<string> => {
+    if (!isIterable(inputs)) {
+        return false;
+    }
+
+    for (const input of inputs) {
+        if (!isString(input)) {
+            return false;
+        }
+    }
+
+    return true;
+};
+
+export const validateIterableStrings: IteratorValidator = (inputs) =>
+    isIterableStrings(inputs) || "反復可能な文字列を入力してください。";
+
 /**
  * Validatorを渡してIterableな対象をバリデーションします。
  */
 export const iteratorValidator = (
-    inputs: Iterable<string>,
+    inputs: Iterable<string> | unknown,
     validator: (input: string) => ValidationResult,
     minimumCount = 0,
 ): ValidationResult => {
+    if (!isIterableStrings(inputs)) {
+        return validateIterableStrings(inputs);
+    }
+
     let validationCount = 0;
 
     for (const input of inputs) {
@@ -50,6 +82,23 @@ export const validateRequired: Validator = (input) => {
 };
 
 /**
+ *
+ */
+export const validateInEnum: Validator<[string[]]> = (
+    input: unknown,
+    enums,
+) => {
+    if (!isString(input)) {
+        return validateString(input);
+    }
+
+    return (
+        enums.includes(input) ||
+        `[${enums.join(", ")}]の何れかを入力してください。`
+    );
+};
+
+/**
  * 入力長のバリデーションを行います。
  */
 export const validateLength: Validator<
@@ -60,6 +109,10 @@ export const validateLength: Validator<
         },
     ]
 > = (input, { maximum, minimum = 0 }) => {
+    if (!isString(input)) {
+        return validateString(input);
+    }
+
     const inputLength = [
         ...new Intl.Segmenter("ja", {
             granularity: "grapheme",
@@ -81,6 +134,10 @@ export const validateLength: Validator<
  * BlogEntryのSlugとしてバリデーションを行います。。
  */
 export const validateBlogEntrySlug: Validator = (input) => {
+    if (!isString(input)) {
+        return validateString(input);
+    }
+
     const requiredResult = validateRequired(input);
     if (typeof requiredResult === "string") {
         return requiredResult;

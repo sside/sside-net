@@ -4,16 +4,60 @@ import { getAppConfig } from "@sside-net/app-config";
 import {
     validateBlogEntrySlug,
     validateBlogEntryTitle,
+    validateInEnum,
     validateLength,
+    validateString,
 } from "./index";
 
 describe("validator", () => {
+    describe("validateString", () => {
+        test("文字列が入力されたらtrueを返すこと。", () => {
+            expect(validateString("")).toBe(true);
+            expect(validateString(Number("0").toString())).toBe(true);
+        });
+        test("文字列以外が入力された場合はバリデーションメッセージを返すこと。", () => {
+            expect(validateString(null)).not.toBe(true);
+            expect(validateString(undefined)).not.toBe(true);
+            expect(validateString({})).not.toBe(true);
+            expect(validateString(NaN)).not.toBe(true);
+            expect(validateString(0)).not.toBe(true);
+            expect(validateString(1)).not.toBe(true);
+            expect(validateString(() => {})).not.toBe(true);
+            expect(validateString(new Set())).not.toBe(true);
+            expect(validateString(BigInt("10000"))).not.toBe(true);
+        });
+    });
+
     describe("validateRequired", () => {
         test("空の入力値は跳ねること。", () => {
             expect(
                 validateBlogEntrySlug(undefined as unknown as string),
             ).toMatch(/入力してください/);
             expect(validateBlogEntrySlug("")).toMatch(/入力してください/);
+        });
+    });
+
+    describe("validateInEnum", () => {
+        const Constants = { Hoge: "hoge", Hige: "hige", Hage: "hage" } as const;
+        test("対象の配列に値を含む場合はtrueが返ること。", () => {
+            expect(
+                validateInEnum(Constants.Hoge, Object.values(Constants)),
+            ).toBe(true);
+            expect(validateInEnum("hoge", Object.values(Constants))).toBe(true);
+        });
+        test("対象の配列に値が含まれない場合はバリデーションメッセージが返ること。", () => {
+            expect(
+                validateInEnum("hogehoge", Object.values(Constants)),
+            ).not.toBe(true);
+            expect(
+                validateInEnum(undefined, Object.values(Constants)),
+            ).not.toBe(true);
+            expect(validateInEnum(100, Object.values(Constants))).not.toBe(
+                true,
+            );
+            expect(validateInEnum(null, Object.values(Constants))).not.toBe(
+                true,
+            );
         });
     });
 
