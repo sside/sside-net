@@ -132,6 +132,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/blog-entry/latest/adjecent/{direction}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["PublicBlogEntryController_getAdjacentLatestBlogEntries"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/blog-entry/slug/{slug}": {
         parameters: {
             query?: never;
@@ -140,38 +156,6 @@ export interface paths {
             cookie?: never;
         };
         get: operations["PublicBlogEntryController_getBlogEntryBySlug"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/blog-entry/earlier": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["PublicBlogEntryController_getEarlier"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/blog-entry/later": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["PublicBlogEntryController_getLater"];
         put?: never;
         post?: never;
         delete?: never;
@@ -561,6 +545,39 @@ export interface operations {
             };
         };
     };
+    PublicBlogEntryController_getAdjacentLatestBlogEntries: {
+        parameters: {
+            query: {
+                "pointer-blog-entry-slug": string;
+                count: number;
+            };
+            header?: never;
+            path: {
+                direction: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PublishedBlogEntryResponse"][];
+                };
+            };
+            /**
+            @description 指定した方向に公開済みBlogEntryがない場合に返ります。
+            */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     PublicBlogEntryController_getBlogEntryBySlug: {
         parameters: {
             query?: never;
@@ -579,68 +596,6 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["PublishedBlogEntryResponse"];
                 };
-            };
-        };
-    };
-    PublicBlogEntryController_getEarlier: {
-        parameters: {
-            query: {
-                "pointer-blog-entry-slug": string;
-                count: number;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["PublishedBlogEntryResponse"];
-                };
-            };
-            /**
-            @description 指定より過去に公開済みBlogEntryがない場合に返ります。
-            */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    PublicBlogEntryController_getLater: {
-        parameters: {
-            query: {
-                "pointer-blog-entry-slug": string;
-                count: number;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["PublishedBlogEntryResponse"];
-                };
-            };
-            /**
-            @description 指定より将来に公開済みBlogEntryがない場合に返ります。
-            */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
             };
         };
     };
@@ -824,9 +779,8 @@ export enum ApiPaths {
     BlogEntryController_putUpdateBlogEntryDraft = "/private/blog-entry/{blogEntryId}/draft",
     BlogEntryController_putPublishBlogEntry = "/private/blog-entry/{blogEntryId}/publish",
     PublicBlogEntryController_getLatestBlogEntries = "/blog-entry/latest",
+    PublicBlogEntryController_getAdjacentLatestBlogEntries = "/blog-entry/latest/adjecent/{direction}",
     PublicBlogEntryController_getBlogEntryBySlug = "/blog-entry/slug/{slug}",
-    PublicBlogEntryController_getEarlier = "/blog-entry/earlier",
-    PublicBlogEntryController_getLater = "/blog-entry/later",
     PublicBlogEntryController_getBlogEntryArchiveByYear = "/blog-entry/archive/{year}",
     PublicBlogEntryController_getBlogEntryArchiveByYearMonth = "/blog-entry/archive/{year}/{month}",
     PublicBlogEntryController_getBlogEntryArchiveYearMonths = "/blog-entry/archive-year-month",

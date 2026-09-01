@@ -1,6 +1,6 @@
 import { Injectable, Logger, NotFoundException } from "@nestjs/common";
+import { PagingDirection } from "@sside-net/constant";
 import { createJstMonthRange, createJstYearRange } from "@sside-net/date-time";
-import { BlogEntryService } from "./blog-entry.service";
 import {
     BlogEntryQuery,
     BlogEntryWithRelations,
@@ -11,10 +11,7 @@ import {
 export class PublicBlogEntryService {
     private readonly logger = new Logger(this.constructor.name);
 
-    constructor(
-        private readonly blogEntryService: BlogEntryService,
-        private readonly blogEntryQuery: BlogEntryQuery,
-    ) {}
+    constructor(private readonly blogEntryQuery: BlogEntryQuery) {}
 
     /**
      * idで公開されたBlogEntryを取得します。
@@ -61,54 +58,6 @@ export class PublicBlogEntryService {
     }
 
     /**
-     * 指定された公開済みBlogEntryから、指定した個数過去の公開済みBlogEntryを取得します。
-     */
-    async getEarlier(
-        pointerBlogEntrySlug: string,
-        count: number,
-    ): Promise<PublishedBlogEntryWithRelations | null> {
-        this.logger.log(
-            "指定されたものより過去の公開済みBlogEntryを取得します。",
-            {
-                pointerBlogEntrySlug,
-            },
-        );
-
-        return (
-            (
-                await this.blogEntryQuery.findManyIdsPublishedEarlierByPublishAt(
-                    (await this.getBySlug(pointerBlogEntrySlug)).publishAt,
-                    count,
-                )
-            )?.at(-1) ?? null
-        );
-    }
-
-    /**
-     * 指定された公開済みBlogEntryから、指定した個数将来の公開済みBlogEntryを取得します。
-     */
-    async getLater(
-        pointerBlogEntrySlug: string,
-        count: number,
-    ): Promise<PublishedBlogEntryWithRelations | null> {
-        this.logger.log(
-            "指定されたものより将来の公開済みBlogEntryを取得します。",
-            {
-                pointerBlogEntrySlug,
-            },
-        );
-
-        return (
-            (
-                await this.blogEntryQuery.findManyIdsPublishedLaterByPublishAt(
-                    (await this.getBySlug(pointerBlogEntrySlug)).publishAt,
-                    count,
-                )
-            )?.at(-1) ?? null
-        );
-    }
-
-    /**
      * 直近に公開されたBlogEntryを取得します。
      */
     async getLatestBlogEntries(
@@ -122,12 +71,41 @@ export class PublicBlogEntryService {
 
         const pointerPublishAt =
             pointerBlogEntrySlug ?
-                await this.getPointerPublishAtBySlug(pointerBlogEntrySlug)
+                (await this.getBySlug(pointerBlogEntrySlug)).publishAt
             :   undefined;
 
         return await this.blogEntryQuery.findManyLatestPublishedWithRelations(
             count,
             pointerPublishAt,
+        );
+    }
+
+    /**
+     * 指定された公開済みBlogEntryから、指定した個数前後したものを取得します。
+     * 指定した個数よりも手前のものしかない場合、手前のものを返します。
+     */
+    async getAdjacentLatestBlogEntry(
+        pointerBlogEntrySlug: string,
+        direction: PagingDirection,
+        count: number,
+    ): Promise<PublishedBlogEntryWithRelations | null> {
+        this.logger.log(
+            "指定したものから前後の公開済みBlogEntryを取得します。",
+            {
+                pointerBlogEntrySlug,
+                direction,
+                count,
+            },
+        );
+
+        return (
+            (
+                await this.blogEntryQuery.findManyAdjacentPublishedByPublishAt(
+                    (await this.getBySlug(pointerBlogEntrySlug)).publishAt,
+                    count,
+                    direction === "later" ? "asc" : "desc",
+                )
+            ).at(-1) ?? null
         );
     }
 
@@ -211,7 +189,7 @@ export class PublicBlogEntryService {
 
         const pointerPublishAt =
             pointerBlogEntrySlug ?
-                await this.getPointerPublishAtBySlug(pointerBlogEntrySlug)
+                (await this.getBySlug(pointerBlogEntrySlug)).publishAt
             :   undefined;
         const searchCount = count + 1;
 
@@ -229,25 +207,5 @@ export class PublicBlogEntryService {
         }
 
         return blogEntries;
-    }
-
-    /**
-     * BlogEntryIdからページング用の公開日を取得します。
-     */
-    private async getPointerPublishAtBySlug(
-        pointerBlogEntrySlug: string,
-    ): Promise<Date | undefined> {
-        this.logger.log("ポインターのBlogEntry公開日を取得します。", {
-            pointerBlogEntrySlug,
-        });
-
-        try {
-            return (
-                (await this.getBySlug(pointerBlogEntrySlug)).publishAt ??
-                undefined
-            );
-        } catch {
-            return undefined;
-        }
     }
 }

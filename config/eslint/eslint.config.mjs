@@ -62,6 +62,8 @@ export default defineConfig([
             "unicorn/max-nested-calls": "off",
             "unicorn/no-declarations-before-early-exit": "off",
             "unicorn/no-optional-chaining-on-undeclared-variable": "off",
+            "unicorn/no-computed-property-existence-check": "off",
+            "unicorn/prefer-bigint-literals": "off",
 
             "@typescript-eslint/member-ordering": "warn",
             "unicorn/name-replacements": [

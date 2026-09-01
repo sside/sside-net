@@ -149,7 +149,35 @@ export class BlogEntryQuery {
         })) as PublishedBlogEntryWithRelations[];
     }
 
-    async findManyIdsPublishedLaterByPublishAt(
+    async findManyAdjacentPublishedByPublishAt(
+        publishAt: Date,
+        count: number,
+        order: Prisma.SortOrder,
+    ): Promise<PublishedBlogEntryWithRelations[]> {
+        return (await this.findManyWithRelation({
+            where: {
+                AND: [
+                    BlogEntryQuery.WHERE_PUBLISHED(),
+                    {
+                        publishAt:
+                            order === "asc" ?
+                                {
+                                    gt: publishAt,
+                                }
+                            :   {
+                                    lt: publishAt,
+                                },
+                    },
+                ],
+            },
+            orderBy: {
+                publishAt: order,
+            },
+            take: count,
+        })) as PublishedBlogEntryWithRelations[];
+    }
+
+    async findManyPublishedLaterByPublishAt(
         publishAtGt: Date,
         count: number,
     ): Promise<PublishedBlogEntryWithRelations[]> {
@@ -171,7 +199,7 @@ export class BlogEntryQuery {
         })) as PublishedBlogEntryWithRelations[];
     }
 
-    async findManyIdsPublishedEarlierByPublishAt(
+    async findManyPublishedEarlierByPublishAt(
         publishAtLt: Date,
         count: number,
     ): Promise<PublishedBlogEntryWithRelations[]> {

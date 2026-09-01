@@ -9,7 +9,9 @@ import {
 } from "@nestjs/common";
 import { ApiNoContentResponse, ApiOkResponse, ApiQuery } from "@nestjs/swagger";
 import { getAppConfig } from "@sside-net/app-config";
+import { PagingDirection } from "@sside-net/constant";
 import { Response as ExpressResponse } from "express";
+import { EnumValidationPipe } from "../library/pipe/enum-validation.pipe";
 import { MonthValidationPipe } from "../library/pipe/month-validation.pipe";
 import { NumberLimitationPipe } from "../library/pipe/number-limitation.pipe";
 import { YearValidationPipe } from "../library/pipe/year-validation.pipe";
@@ -55,6 +57,62 @@ export class PublicBlogEntryController {
         );
     }
 
+    @Get("latest/adjecent/:direction")
+    @ApiOkResponse({
+        type: [PublishedBlogEntryResponse],
+    })
+    @ApiNoContentResponse({
+        description: "指定した方向に公開済みBlogEntryがない場合に返ります。",
+    })
+    @ApiQuery({
+        name: "pointer-blog-entry-slug",
+    })
+    @ApiQuery({
+        name: "count",
+        type: Number,
+    })
+    async getAdjacentLatestBlogEntries(
+        @Res({
+            passthrough: true,
+        })
+        res: ExpressResponse,
+        @Query("pointer-blog-entry-slug")
+        pointerBlogEntrySlug: string,
+        @Query(
+            "count",
+            new NumberLimitationPipe(
+                getAppConfig().backend.blogEntry.public
+                    .maximumFetchCountPerOnce,
+            ),
+        )
+        count: number,
+        @Param(
+            "direction",
+            new EnumValidationPipe(Object.values(PagingDirection)),
+        )
+        direction: PagingDirection,
+    ): Promise<PublishedBlogEntryResponse | null> {
+        const found =
+            await this.publicBlogEntryService.getAdjacentLatestBlogEntry(
+                pointerBlogEntrySlug,
+                direction,
+                count,
+            );
+
+        if (!found) {
+            res.status(HttpStatus.NO_CONTENT);
+
+            return null;
+        }
+
+        return PublishedBlogEntryResponse.fromEntities(
+            found,
+            await this.blogEntryMetaTagService.getAndCountPublishedByIds(
+                found.blogEntryMetaTags.map(({ id }) => id),
+            ),
+        );
+    }
+
     @Get("slug/:slug")
     @ApiOkResponse({
         type: PublishedBlogEntryResponse,
@@ -68,104 +126,6 @@ export class PublicBlogEntryController {
             blogEntry,
             await this.blogEntryMetaTagService.getAndCountPublishedByIds(
                 blogEntry.blogEntryMetaTags.map(({ id }) => id),
-            ),
-        );
-    }
-
-    @Get("earlier")
-    @ApiOkResponse({
-        type: PublishedBlogEntryResponse,
-    })
-    @ApiNoContentResponse({
-        description: "指定より過去に公開済みBlogEntryがない場合に返ります。",
-    })
-    @ApiQuery({
-        name: "pointer-blog-entry-slug",
-    })
-    @ApiQuery({
-        name: "count",
-        type: Number,
-    })
-    async getEarlier(
-        @Res({
-            passthrough: true,
-        })
-        res: ExpressResponse,
-        @Query("pointer-blog-entry-slug")
-        pointerBlogEntrySlug: string,
-        @Query(
-            "count",
-            new NumberLimitationPipe(
-                getAppConfig().backend.blogEntry.public
-                    .maximumFetchCountPerOnce,
-            ),
-        )
-        count: number,
-    ): Promise<PublishedBlogEntryResponse | null> {
-        const earlierBlogEntry = await this.publicBlogEntryService.getEarlier(
-            pointerBlogEntrySlug,
-            count,
-        );
-
-        if (!earlierBlogEntry) {
-            res.status(HttpStatus.NO_CONTENT);
-
-            return null;
-        }
-
-        return PublishedBlogEntryResponse.fromEntities(
-            earlierBlogEntry,
-            await this.blogEntryMetaTagService.getAndCountPublishedByIds(
-                earlierBlogEntry.blogEntryMetaTags.map(({ id }) => id),
-            ),
-        );
-    }
-
-    @Get("later")
-    @ApiOkResponse({
-        type: PublishedBlogEntryResponse,
-    })
-    @ApiNoContentResponse({
-        description: "指定より将来に公開済みBlogEntryがない場合に返ります。",
-    })
-    @ApiQuery({
-        name: "pointer-blog-entry-slug",
-    })
-    @ApiQuery({
-        name: "count",
-        type: Number,
-    })
-    async getLater(
-        @Res({
-            passthrough: true,
-        })
-        res: ExpressResponse,
-        @Query("pointer-blog-entry-slug")
-        pointerBlogEntrySlug: string,
-        @Query(
-            "count",
-            new NumberLimitationPipe(
-                getAppConfig().backend.blogEntry.public
-                    .maximumFetchCountPerOnce,
-            ),
-        )
-        count: number,
-    ): Promise<PublishedBlogEntryResponse | null> {
-        const laterBlogEntry = await this.publicBlogEntryService.getLater(
-            pointerBlogEntrySlug,
-            count,
-        );
-
-        if (!laterBlogEntry) {
-            res.status(HttpStatus.NO_CONTENT);
-
-            return null;
-        }
-
-        return PublishedBlogEntryResponse.fromEntities(
-            laterBlogEntry,
-            await this.blogEntryMetaTagService.getAndCountPublishedByIds(
-                laterBlogEntry.blogEntryMetaTags.map(({ id }) => id),
             ),
         );
     }
