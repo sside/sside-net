@@ -1,6 +1,7 @@
 import { fakerEN, fakerJA } from "@faker-js/faker";
 import { beforeEach, describe, expect, test, jest } from "@jest/globals";
 import { Test, TestingModule } from "@nestjs/testing";
+import { PagingDirection } from "@sside-net/constant";
 import { createIntegerRange } from "@sside-net/utility";
 import { DatabaseModule } from "../database/database.module";
 import { prepareTestDatabase } from "../library/test/database/prepareTestDatabase";
@@ -34,6 +35,23 @@ describe("PublicBlogEntryService", () => {
             PublicBlogEntryService,
         );
         blogEntryService = module.get<BlogEntryService>(BlogEntryService);
+    });
+
+    describe("getBySlug", () => {
+        test("存在するslugで公開済みBlogEntryを取得できること。", async () => {
+            const [publishedBlogEntries] = await blogEntryService.seed(3, 5, 0);
+
+            for (const { slug } of publishedBlogEntries) {
+                expect(
+                    (await publicBlogEntryService.getBySlug(slug)).publishAt,
+                ).toBeTruthy();
+            }
+        });
+        test("存在しないslugを指定した場合NotFoundExceptionが投げられること。", async () => {
+            await expect(
+                publicBlogEntryService.getBySlug("should_be_not_found"),
+            ).rejects.toThrow(/BlogEntryが見つかりませんでした/);
+        });
     });
 
     describe("getLatestPublishedBlogEntries", () => {
@@ -84,6 +102,98 @@ describe("PublicBlogEntryService", () => {
             expect(
                 (await publicBlogEntryService.getLatestBlogEntries(10)).length,
             ).toBe(0);
+        });
+    });
+
+    describe("getAdjacentLatestBlogEntry", () => {
+        test("手前に公開済みBlogEntryがない場合、nullが返ること。", async () => {
+            const [publishedBlogEntries] = await blogEntryService.seed(9, 3, 0);
+            const sorted = publishedBlogEntries.toSorted(
+                (a, b) => a.publishAt!.getTime() - b.publishAt!.getTime(),
+            );
+
+            expect(
+                await publicBlogEntryService.getAdjacentLatestBlogEntry(
+                    sorted.at(0)!.slug,
+                    PagingDirection.Earlier,
+                    1,
+                ),
+            ).toBeNull();
+        });
+
+        test("後続に公開済みBlogEntryがない場合、nullが返ること。", async () => {
+            const [publishedBlogEntries] = await blogEntryService.seed(9, 3, 0);
+            const sorted = publishedBlogEntries.toSorted(
+                (a, b) => a.publishAt!.getTime() - b.publishAt!.getTime(),
+            );
+
+            expect(
+                await publicBlogEntryService.getAdjacentLatestBlogEntry(
+                    sorted.at(8)!.slug,
+                    PagingDirection.Later,
+                    1,
+                ),
+            ).toBeNull();
+        });
+
+        test("検索対象に指定したslugを含まないこと。", async () => {
+            const [publishedBlogEntries] = await blogEntryService.seed(9, 3, 0);
+            const sorted = publishedBlogEntries.toSorted(
+                (a, b) => a.publishAt!.getTime() - b.publishAt!.getTime(),
+            );
+
+            const middle = sorted.at(4)!;
+
+            const later =
+                await publicBlogEntryService.getAdjacentLatestBlogEntry(
+                    middle.slug,
+                    PagingDirection.Later,
+                    1,
+                );
+            expect(later).not.toBeNull();
+            expect(later!.id).not.toBe(middle.id);
+        });
+
+        test("指定した方向に公開済みBlogEntryはあるが、指定したカウント分先の物がない場合は一番遠い物を返すこと。", async () => {
+            const [publishedBlogEntries] = await blogEntryService.seed(9, 3, 0);
+            const sorted = publishedBlogEntries.toSorted(
+                (a, b) => a.publishAt!.getTime() - b.publishAt!.getTime(),
+            );
+            const middle = sorted.at(4)!;
+
+            const earliest =
+                await publicBlogEntryService.getAdjacentLatestBlogEntry(
+                    middle.slug,
+                    PagingDirection.Earlier,
+                    4,
+                );
+            expect(earliest).not.toBeNull();
+            expect(earliest?.id).toBe(
+                (
+                    await publicBlogEntryService.getAdjacentLatestBlogEntry(
+                        middle.slug,
+                        PagingDirection.Earlier,
+                        10,
+                    )
+                )?.id,
+            );
+
+            const latest =
+                await publicBlogEntryService.getAdjacentLatestBlogEntry(
+                    middle.slug,
+                    PagingDirection.Later,
+                    4,
+                );
+            expect(latest).not.toBeNull();
+            expect(latest?.id).toBe(
+                (
+                    await publicBlogEntryService.getAdjacentLatestBlogEntry(
+                        middle.slug,
+                        PagingDirection.Later,
+                        10,
+                    )
+                )?.id,
+            );
         });
     });
 
