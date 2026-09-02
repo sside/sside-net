@@ -22,6 +22,7 @@
         "@milkdown/react": "7.22.1",
         "@msw/playwright": "0.6.7",
         "@sentry/nextjs": "10.70.0",
+        "@sside-net/constant": "*",
         "@sside-net/date-time": "*",
         "@sside-net/utility": "*",
         "@sside-net/validator": "*",

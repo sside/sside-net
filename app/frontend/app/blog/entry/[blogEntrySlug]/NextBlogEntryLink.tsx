@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { Route } from "next";
+import { PagingDirection } from "@sside-net/constant";
 import {
     AdjacentBlogLinkDirection,
     AdjacentBlogLink,
@@ -9,14 +10,20 @@ import { apiClient } from "../../../../library/api-client/api-client";
 export const NextBlogEntryLink: FC<{ blogEntrySlug: string }> = async ({
     blogEntrySlug,
 }) => {
-    const { data } = await apiClient.GET("/blog-entry/earlier", {
-        params: {
-            query: {
-                "pointer-blog-entry-slug": blogEntrySlug,
-                count: 1,
+    const { data } = await apiClient.GET(
+        "/blog-entry/latest/adjecent/{direction}",
+        {
+            params: {
+                path: {
+                    direction: PagingDirection.Earlier,
+                },
+                query: {
+                    "pointer-blog-entry-slug": blogEntrySlug,
+                    count: 1,
+                },
             },
         },
-    });
+    );
 
     if (!data) {
         return null;

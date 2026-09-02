@@ -564,7 +564,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["PublishedBlogEntryResponse"][];
+                    "application/json": components["schemas"]["PublishedBlogEntryResponse"];
                 };
             };
             /**

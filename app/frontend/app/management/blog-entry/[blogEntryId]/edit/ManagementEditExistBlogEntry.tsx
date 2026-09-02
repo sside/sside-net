@@ -43,7 +43,7 @@ export const ManagementEditExistBlogEntry: FC<{
                                     );
 
                                     return publishAtDateTime.isValid ?
-                                            publishAtDateTime.toISO()
+                                            publishAtDateTime.toISO()!
                                         :   undefined;
                                 })(),
                             },

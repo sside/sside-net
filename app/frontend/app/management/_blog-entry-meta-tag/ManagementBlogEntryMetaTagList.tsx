@@ -3,10 +3,11 @@
 import { FC, useMemo } from "react";
 import { notImplementedVoid, parseDecimalInt } from "@sside-net/utility";
 import {
+    columnVisibilityFeature,
     createColumnHelper,
     flexRender,
-    getCoreRowModel,
-    useReactTable,
+    tableFeatures,
+    useTable,
 } from "@tanstack/react-table";
 import { FaEdit } from "react-icons/fa";
 import { FaTrashCan } from "react-icons/fa6";
@@ -63,13 +64,17 @@ const BlogMetaTagTable: FC = () => {
     );
     const metaTags = useMemo(() => data ?? [], [data]);
 
-    const columnHelper =
-        createColumnHelper<
-            components["schemas"]["BlogEntryMetaTagCountResponse"]
-        >();
-    const reactTable = useReactTable({
+    const features = tableFeatures({
+        columnVisibilityFeature,
+    });
+    const columnHelper = createColumnHelper<
+        typeof features,
+        components["schemas"]["BlogEntryMetaTagCountResponse"]
+    >();
+    const reactTable = useTable({
+        features,
         data: metaTags,
-        columns: [
+        columns: columnHelper.columns([
             columnHelper.accessor("id", {
                 header: () => <></>,
                 cell: () => <></>,
@@ -97,8 +102,7 @@ const BlogMetaTagTable: FC = () => {
                     </div>
                 ),
             },
-        ],
-        getCoreRowModel: getCoreRowModel(),
+        ]),
     });
 
     if (error) {

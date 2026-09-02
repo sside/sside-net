@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { PagingDirection } from "@sside-net/constant";
 import { Client } from "openapi-fetch";
 import { AdjacentBlogLinksContainer } from "../../component/adjacent-blog-link/AdjacentBlogLinksContainer";
 import { paths } from "../../generated/api-client/backend-schema";
@@ -36,9 +37,7 @@ export const LatestBlogEntryPager: FC<{
         response,
     }: Awaited<
         ReturnType<
-            Client<
-                Pick<paths, "/blog-entry/later" | "/blog-entry/earlier">
-            >["GET"]
+            Client<paths["/blog-entry/latest/adjecent/{direction}"]>["GET"]
         >
     >): Promise<string | undefined> => {
         if (error) {
@@ -55,8 +54,11 @@ export const LatestBlogEntryPager: FC<{
     const [previousSlug, nextSlug] = await Promise.all([
         previousPointerSlug ?
             getPointerSlug(
-                await apiClient.GET("/blog-entry/later", {
+                await apiClient.GET("/blog-entry/latest/adjecent/{direction}", {
                     params: {
+                        path: {
+                            direction: PagingDirection.Later,
+                        },
                         query: {
                             count: count,
                             "pointer-blog-entry-slug": previousPointerSlug,
@@ -67,10 +69,13 @@ export const LatestBlogEntryPager: FC<{
         :   undefined,
         nextPointerSlug ?
             getPointerSlug(
-                await apiClient.GET("/blog-entry/earlier", {
+                await apiClient.GET("/blog-entry/latest/adjecent/{direction}", {
                     params: {
+                        path: {
+                            direction: PagingDirection.Earlier,
+                        },
                         query: {
-                            count: 1,
+                            count: count,
                             "pointer-blog-entry-slug": nextPointerSlug,
                         },
                     },

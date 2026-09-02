@@ -6,7 +6,7 @@ import {
 } from "next/experimental/testmode/playwright/msw";
 import { getAppConfig } from "@sside-net/app-config";
 import { StringSearchParameterName } from "../../constant/search-parameter/StringSearchParameterName";
-import { mockValuePublicBlogEntryController_getEarlier } from "../../test/mock/mockPublicBlogEntryController_getEarlier";
+import { mockValuePublicBlogEntryController_getAdjacentLatestBlogEntries_Earlier } from "../../test/mock/mockPublicBlogEntryController_getAdjacentLatestBlogEntries_Earlier";
 import { mockBlogRootPage } from "./_test/mockBlogRootPage";
 
 test.describe("NextLatestBlogEntryLink", () => {
@@ -20,7 +20,7 @@ test.describe("NextLatestBlogEntryLink", () => {
         const locator = page.locator(".next-latest-blog-entry-link");
         await expect(
             locator.locator(
-                `a[href="/blog?${StringSearchParameterName.PointerBlogEntrySlug}=${mockValuePublicBlogEntryController_getEarlier.slug}"]`,
+                `a[href="/blog?${StringSearchParameterName.PointerBlogEntrySlug}=${mockValuePublicBlogEntryController_getAdjacentLatestBlogEntries_Earlier.slug}"]`,
             ),
         ).toBeVisible();
     });

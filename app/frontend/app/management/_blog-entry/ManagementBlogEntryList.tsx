@@ -4,10 +4,11 @@ import { FC, useMemo } from "react";
 import Link from "next/link";
 import { DateTimeFormat, parseIso8601ToJst } from "@sside-net/date-time";
 import {
+    columnVisibilityFeature,
     createColumnHelper,
     flexRender,
-    getCoreRowModel,
-    useReactTable,
+    tableFeatures,
+    useTable,
 } from "@tanstack/react-table";
 import { components } from "../../../generated/api-client/backend-schema";
 import { $apiClient } from "../../../library/api-client/api-client";
@@ -22,11 +23,17 @@ const BlogEntryTable: FC<{}> = ({}) => {
     // dataをundefinedにしないために一度メモ化している
     const blogEntries = useMemo(() => data ?? [], [data]);
 
-    const columnHelper =
-        createColumnHelper<components["schemas"]["BlogEntryResponse"]>();
-    const reactTable = useReactTable({
+    const features = tableFeatures({
+        columnVisibilityFeature,
+    });
+    const columnHelper = createColumnHelper<
+        typeof features,
+        components["schemas"]["BlogEntryResponse"]
+    >();
+    const reactTable = useTable({
+        features,
         data: blogEntries,
-        columns: [
+        columns: columnHelper.columns([
             columnHelper.accessor("id", {
                 header: () => null,
                 cell: () => null,
@@ -64,8 +71,7 @@ const BlogEntryTable: FC<{}> = ({}) => {
                         :   null;
                 },
             }),
-        ],
-        getCoreRowModel: getCoreRowModel(),
+        ]),
     });
 
     if (error) {

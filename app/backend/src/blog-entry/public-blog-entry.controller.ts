@@ -59,7 +59,7 @@ export class PublicBlogEntryController {
 
     @Get("latest/adjecent/:direction")
     @ApiOkResponse({
-        type: [PublishedBlogEntryResponse],
+        type: PublishedBlogEntryResponse,
     })
     @ApiNoContentResponse({
         description: "指定した方向に公開済みBlogEntryがない場合に返ります。",
