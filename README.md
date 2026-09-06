@@ -34,6 +34,6 @@ npm run dev
 
 理由はフロントエンド側のAPIクライアント。`/private/`から始まるパスの際、Bearerトークンをヘッダに入れるようになっている。
 
-### WebStormからテストを実行する場合の.env読み込み
+### WebStormからfrontendテストを実行する場合の.env読み込み
 
 Run configのNode optionsに`--env-file ../../.env.test`を追加する。
