@@ -1,11 +1,4 @@
-import { notFound } from "next/navigation";
-import { DateTimeFormat } from "@sside-net/date-time";
-import { DateTime } from "luxon";
 import { IntegerPathParameterName } from "../../../../../constant/path-parameter/IntegerPathParameterName";
-import {
-    apiClient,
-    isNotFoundErrorResponse,
-} from "../../../../../library/api-client/api-client";
 import {
     getPagePathParameters,
     NextPagePathParameter,
@@ -19,45 +12,10 @@ export default async function EditBlogEntryPage(
         nextPagePathParameter,
         IntegerPathParameterName.BlogEntryId,
     );
-    const { data, error, response } = await apiClient.GET(
-        "/private/blog-entry/{blogEntryId}",
-        {
-            params: {
-                path: {
-                    blogEntryId,
-                },
-            },
-        },
-    );
-    if (error) {
-        if (isNotFoundErrorResponse(response)) {
-            return notFound();
-        }
-
-        throw error;
-    }
-    const { title, slug, bodyMarkdown, metaTags, publishAt } = data;
-
-    const publishAtIsoDateTimeLocal = (() => {
-        const dateTime = DateTime.fromISO(publishAt || "");
-
-        return dateTime.isValid ?
-                dateTime.toFormat(DateTimeFormat.DateTimeLocal)
-            :   "";
-    })();
 
     return (
         <div className="edit-blog-entry-page">
-            <ManagementEditExistBlogEntry
-                blogEntryId={blogEntryId}
-                existBlogEntry={{
-                    title,
-                    slug,
-                    bodyMarkdown,
-                    metaTagNames: metaTags.map(({ name }) => name),
-                    publishAtIsoDateTimeLocal,
-                }}
-            />
+            <ManagementEditExistBlogEntry blogEntryId={blogEntryId} />
         </div>
     );
 }

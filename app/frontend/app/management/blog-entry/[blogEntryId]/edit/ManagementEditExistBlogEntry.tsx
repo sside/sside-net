@@ -2,17 +2,61 @@
 
 import { ComponentProps, FC } from "react";
 import { useRouter } from "next/navigation";
+import { DateTimeFormat } from "@sside-net/date-time";
 import { DateTime } from "luxon";
-import { apiClient } from "../../../../../library/api-client/api-client";
+import {
+    $apiClient,
+    apiClient,
+} from "../../../../../library/api-client/api-client";
+import { BackendErrorDisplay } from "../../../_backend-error/BackendErrorDisplay";
 import { ManagementEditBlogEntryForm } from "../../ManagementEditBlogEntryForm";
 
 export const ManagementEditExistBlogEntry: FC<{
     blogEntryId: number;
-    existBlogEntry: ComponentProps<
-        typeof ManagementEditBlogEntryForm
-    >["initialInput"];
-}> = ({ blogEntryId, existBlogEntry }) => {
+}> = ({ blogEntryId }) => {
     const router = useRouter();
+
+    const { data, error, isLoading } = $apiClient.useQuery(
+        "get",
+        "/private/blog-entry/{blogEntryId}",
+        {
+            params: {
+                path: {
+                    blogEntryId,
+                },
+            },
+        },
+    );
+
+    if (isLoading || !data) {
+        return null;
+    }
+
+    if (error) {
+        return (
+            <BackendErrorDisplay
+                errorMessage={`BlogEntryの取得に失敗しました。blogEntryId: ${blogEntryId}`}
+                errorResponse={error}
+            />
+        );
+    }
+
+    const { title, slug, bodyMarkdown, metaTags, publishAt } = data;
+    const existBlogEntry: ComponentProps<
+        typeof ManagementEditBlogEntryForm
+    >["initialInput"] = {
+        title,
+        slug,
+        bodyMarkdown,
+        metaTagNames: metaTags.map(({ name }) => name),
+        publishAtIsoDateTimeLocal: ((): string => {
+            const dateTime = DateTime.fromISO(publishAt ?? "");
+
+            return dateTime.isValid ?
+                    dateTime.toFormat(DateTimeFormat.DateTimeLocal)
+                :   "";
+        })(),
+    };
 
     return (
         <div className="management-edit-exist-blog-entry">
