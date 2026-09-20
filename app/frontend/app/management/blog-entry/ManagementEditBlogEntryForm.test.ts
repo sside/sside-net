@@ -1,5 +1,6 @@
 import { expect } from "@playwright/test";
 import dedent from "dedent";
+import { StatusCodes } from "http-status-codes";
 import { components } from "../../../generated/api-client/backend-schema";
 import { test } from "../../../test/clientTest";
 import { mockDefaultValues } from "../../../test/mockDefaultValues";
@@ -117,7 +118,7 @@ test.describe("ManagementEditBlogEntryForm", () => {
                 expect(requestBlogEntryMetaTagNames.at(0)).toBe(metaTag);
 
                 return route.fulfill({
-                    status: 200,
+                    status: StatusCodes.OK,
                 });
             },
         );
