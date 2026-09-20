@@ -5,6 +5,8 @@ import {
     test,
 } from "next/experimental/testmode/playwright/msw";
 import { getAppConfig } from "@sside-net/app-config";
+import { PagingDirection } from "@sside-net/constant";
+import { StatusCodes } from "http-status-codes";
 import { mockValuePublicBlogEntryController_getBlogEntryBySlug } from "../../../../test/mock/mockPublicBlogEntryController_getBlogEntryBySlug";
 import { mockSlugBlogEntryPage } from "./_test/mockSlugBlogEntryPage";
 
@@ -24,18 +26,19 @@ test.describe("PreviousBlogEntryLink", () => {
         msw,
     }) => {
         const endpointUrl = new URL(
-            getAppConfig().global.baseUrl.backend + `/blog-entry/later`,
+            getAppConfig().global.baseUrl.backend +
+                `/blog-entry/latest/adjecent/${PagingDirection.Later}`,
         );
         endpointUrl.searchParams.set(
-            "pointer-blog-entry-id",
+            "pointer-blog-entry-slug",
             mockPageValue.slug,
         );
         msw.use(
             http.get(
-                endpointUrl.toString(),
+                endpointUrl.href,
                 () =>
                     new HttpResponse(null, {
-                        status: 204,
+                        status: StatusCodes.NO_CONTENT,
                     }),
             ),
         );

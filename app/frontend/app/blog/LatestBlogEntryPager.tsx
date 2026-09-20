@@ -31,7 +31,7 @@ export const LatestBlogEntryPager: FC<{
         return null;
     }
 
-    const getPointerSlug = async ({
+    const pickPointerSlug = async ({
         data,
         error,
         response,
@@ -53,7 +53,7 @@ export const LatestBlogEntryPager: FC<{
     const nextPointerSlug = latestBlogEntries.at(-1)?.slug;
     const [previousSlug, nextSlug] = await Promise.all([
         previousPointerSlug ?
-            getPointerSlug(
+            pickPointerSlug(
                 await apiClient.GET("/blog-entry/latest/adjecent/{direction}", {
                     params: {
                         path: {
@@ -68,7 +68,7 @@ export const LatestBlogEntryPager: FC<{
             )
         :   undefined,
         nextPointerSlug ?
-            getPointerSlug(
+            pickPointerSlug(
                 await apiClient.GET("/blog-entry/latest/adjecent/{direction}", {
                     params: {
                         path: {

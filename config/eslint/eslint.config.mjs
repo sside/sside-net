@@ -64,6 +64,9 @@ export default defineConfig([
             "unicorn/no-optional-chaining-on-undeclared-variable": "off",
             "unicorn/no-computed-property-existence-check": "off",
             "unicorn/prefer-bigint-literals": "off",
+            "unicorn/no-unreadable-object-destructuring": "off",
+            "unicorn/no-top-level-side-effects": "off",
+            "unicorn/prefer-simple-condition-first": "off",
 
             "@typescript-eslint/member-ordering": "warn",
             "unicorn/name-replacements": [
