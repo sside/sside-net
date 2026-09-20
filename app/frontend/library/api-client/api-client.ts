@@ -1,7 +1,7 @@
 import { getAppConfig } from "@sside-net/app-config";
 import { RequestHeaderName } from "@sside-net/constant";
 import { StatusCodes } from "http-status-codes";
-import { jwtDecode } from "jwt-decode";
+import { jwtDecode, JwtPayload } from "jwt-decode";
 import createFetchClient from "openapi-fetch";
 import createTanstackClient from "openapi-react-query";
 import { FrontendCookieKey } from "../../constant/cookie/FrontendCookieKey";
@@ -34,6 +34,37 @@ const clientSideApiClient = createFetchClient<paths>({
     baseUrl: backendBaseUrl,
 });
 
+const isAccessPrivateEndpoint = (accessUrl: string) =>
+    accessUrl.startsWith(getAppConfig().global.baseUrl.backend + "/private");
+const isExpiredAccessToken = (accessTokenJwt: string): boolean => {
+    const { exp } = jwtDecode<JwtPayload>(accessTokenJwt);
+
+    return !!exp && exp * 1000 < Date.now();
+};
+const refreshAccessToken = async (
+    refreshToken: string,
+): Promise<string | null> => {
+    try {
+        const response = await fetch("/api/authentication/refresh", {
+            method: "POST",
+            body: JSON.stringify({
+                refreshToken,
+            } satisfies paths["/authentication/refresh"]["post"]["requestBody"]["content"]["application/json"]),
+        });
+
+        return response.ok ?
+                (
+                    (await response.json()) as components["schemas"]["AuthenticationResponse"]
+                ).accessToken
+            :   null;
+    } catch (_) {
+        /**
+         * トークンリフレッシュできない場合は以後のリクエスト時に認証エラーになるので握りつぶす。
+         */
+        return null;
+    }
+};
+
 const logger = createLogger("api-client(server)");
 apiClient.use({
     onRequest: async ({ request }): Promise<void> => {
@@ -43,7 +74,7 @@ apiClient.use({
         });
     },
     onResponse: async ({ response, request }) => {
-        if (response.status >= 500) {
+        if (isServerErrorResponse(response)) {
             await captureApiCallError(response, "api-client(server)", {
                 requestUrl: request.url,
             });
@@ -63,6 +94,10 @@ clientSideApiClient.use({
             url: request.url,
         });
 
+        if (!isAccessPrivateEndpoint(request.url)) {
+            return;
+        }
+
         const [accessTokenItem, refreshTokenItem] = await Promise.all(
             [FrontendCookieKey.AccessToken, FrontendCookieKey.RefreshToken].map(
                 async (cookieKey) =>
@@ -70,35 +105,19 @@ clientSideApiClient.use({
             ),
         );
 
-        let accessToken = accessTokenItem?.value ?? "access_token_not_found";
-        if (accessTokenItem?.value) {
-            const { exp } = jwtDecode(accessTokenItem.value);
-            if (exp && exp * 1000 < Date.now() && refreshTokenItem?.value) {
-                try {
-                    const response = await fetch(
-                        "/api/authentication/refresh",
-                        {
-                            method: "POST",
-                            body: JSON.stringify({
-                                refreshToken: refreshTokenItem.value,
-                            } satisfies paths["/authentication/refresh"]["post"]["requestBody"]["content"]["application/json"]),
-                        },
-                    );
-
-                    if (response.ok) {
-                        accessToken = (
-                            (await response.json()) as components["schemas"]["AuthenticationResponse"]
-                        ).accessToken;
-                    }
-                } catch (_) {
-                    /**
-                     * トークンリフレッシュできない場合は以後のリクエスト時に認証エラーになるので握りつぶす。
-                     */
-                }
-            }
+        let accessToken: string | null = accessTokenItem?.value ?? null;
+        if (!accessToken) {
+            return;
         }
 
-        request.headers.set(RequestHeaderName.Authentication, accessToken);
+        if (isExpiredAccessToken(accessToken) && refreshTokenItem?.value) {
+            accessToken = await refreshAccessToken(refreshTokenItem.value);
+        }
+
+        request.headers.set(
+            RequestHeaderName.Authentication,
+            accessToken ?? "invalid_access_token",
+        );
     },
     onResponse: async ({ response, request }) => {
         if (response.status >= 500) {
