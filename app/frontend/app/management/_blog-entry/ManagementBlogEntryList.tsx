@@ -10,6 +10,7 @@ import {
     tableFeatures,
     useTable,
 } from "@tanstack/react-table";
+import { ButtonLink } from "../../../component/button/ButtonLink";
 import { components } from "../../../generated/api-client/backend-schema";
 import { $apiClient } from "../../../library/api-client/api-client";
 import { ManagementSectionHeader } from "../ManagementSectionHeader";
@@ -153,7 +154,14 @@ const BlogEntryTable: FC<{}> = ({}) => {
 export const ManagementBlogEntryList: FC<{}> = ({}) => {
     return (
         <div className="management-blog-entry-list grid gap-8">
-            <ManagementSectionHeader text="Blog Entry" />
+            <ManagementSectionHeader text="Blog Entry">
+                <ButtonLink
+                    href="/management/blog-entry/create"
+                    variant="primaryBordered"
+                >
+                    Create
+                </ButtonLink>
+            </ManagementSectionHeader>
             <BlogEntryTable />
         </div>
     );
