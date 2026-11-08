@@ -8,5 +8,6 @@ await page.goto("/");
 test("", async ({ page }) => {
 const locator = page.locator(".{{{kebabFunctionComponentName}}}")
 await expect(locator);
+throw new Error("Remove this line.");
 });
 });
