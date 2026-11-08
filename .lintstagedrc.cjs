@@ -2,10 +2,9 @@ module.exports = {
     "./(app|config|library|resource)/**/*.{ts,tsx,js,jsx,cjs}": (
         stagedFiles,
     ) => [`eslint --fix ${stagedFiles.join(" ")}`],
-    // フロントエンドのテストはバックエンド不要になるまで一旦見送り
-    // "./app/frontend/**/*.{ts,tsx,js,jsx,cjs}": [
-    //     "npx --no-install turbo run test --filter=@sside-net/frontend",
-    // ],
+    "./app/frontend/**/*.{ts,tsx,js,jsx,cjs}": [
+        "npx --no-install turbo run test --filter=@sside-net/frontend",
+    ],
     "./app/backend/**/*.(test|spec).{ts,tsx,js,jsx,cjs}": () => [
         "npx --no-install turbo run test --filter=@sside-net/backend",
     ],
