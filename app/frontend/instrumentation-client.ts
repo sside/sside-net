@@ -22,9 +22,6 @@ Sentry.init({
     // plus for 100% of sessions with an error
     replaysSessionSampleRate: 0.1,
     replaysOnErrorSampleRate: 1,
-
-    // Enable logs to be sent to Sentry
-    enableLogs: true,
 });
 
 export const onRouterTransitionStart = Sentry.captureRouterTransitionStart;

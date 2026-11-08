@@ -1,6 +1,6 @@
 import { copyFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { BackendLogger } from "../../logger/BackendLogger";
+import { BackendLogger } from "../../logger/BackendLogger.js";
 
 /**
  * テスト用DBを作成し、環境変数DATABASE_URLにセットします。
@@ -8,8 +8,8 @@ import { BackendLogger } from "../../logger/BackendLogger";
 export const prepareTestDatabase = (): void => {
     const logger = new BackendLogger("prepareTestDatabase");
 
-    if (!process.env.JEST_WORKER_ID) {
-        throw new Error(`環境変数JEST_WORKER_IDが未定義です。`);
+    if (!process.env.VITEST_WORKER_ID) {
+        throw new Error(`環境変数VITEST_WORKER_IDが未定義です。`);
     }
     if (!process.env.BASE_TEST_DATABASE_PATH) {
         throw new Error(`環境変数BASE_TEST_DATABASE_PATHが未定義です。`);
@@ -18,7 +18,7 @@ export const prepareTestDatabase = (): void => {
     const outputFullPath = resolve(
         process.env.BASE_TEST_DATABASE_PATH,
         "..",
-        process.env.JEST_WORKER_ID.padStart(3, "0") + `.test.sqlite`,
+        process.env.VITEST_WORKER_ID.padStart(3, "0") + `.test.sqlite`,
     );
 
     process.env.DATABASE_URL = "file:" + outputFullPath;
@@ -26,7 +26,7 @@ export const prepareTestDatabase = (): void => {
     logger.log("テスト用DBをコピーします。", {
         NODE_ENV: process.env.NODE_ENV,
         APP_ENV: process.env.APP_ENV,
-        JEST_WORKER_ID: process.env.JEST_WORKER_ID,
+        VITEST_WORKER_ID: process.env.VITEST_WORKER_ID,
         BASE_TEST_DATABASE_PATH: process.env.BASE_TEST_DATABASE_PATH,
         outputFullPath,
         DATABASE_URL: process.env.DATABASE_URL,

@@ -1,8 +1,8 @@
 import { fakerEN } from "@faker-js/faker";
 import { NestFactory } from "@nestjs/core";
-import { BlogEntryService } from "../blog-entry/blog-entry.service";
-import { BackendLogger } from "../library/logger/BackendLogger";
-import { SeedModule } from "./seed.module";
+import { BlogEntryService } from "../blog-entry/blog-entry.service.js";
+import { BackendLogger } from "../library/logger/BackendLogger.js";
+import { SeedModule } from "./seed.module.js";
 
 const logger = new BackendLogger("Seed");
 

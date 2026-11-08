@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { AuthenticationToken } from "../authentication.service";
+import { AuthenticationToken } from "../authentication.service.js";
 
 export class AuthenticationResponse {
     @ApiProperty()

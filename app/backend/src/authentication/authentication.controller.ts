@@ -1,9 +1,9 @@
 import { Body, Controller, Post } from "@nestjs/common";
 import { ApiForbiddenResponse, ApiOkResponse } from "@nestjs/swagger";
-import { AuthenticationService } from "./authentication.service";
-import { SignInRequest } from "./request/SignIn.request";
-import { TokenRefreshRequest } from "./request/TokenRefresh.request";
-import { AuthenticationResponse } from "./response/Authentication.response";
+import { AuthenticationService } from "./authentication.service.js";
+import { SignInRequest } from "./request/SignIn.request.js";
+import { TokenRefreshRequest } from "./request/TokenRefresh.request.js";
+import { AuthenticationResponse } from "./response/Authentication.response.js";
 
 @Controller("authentication")
 export class AuthenticationController {

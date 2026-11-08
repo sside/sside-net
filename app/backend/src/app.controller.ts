@@ -6,7 +6,7 @@ import {
     InternalServerErrorException,
 } from "@nestjs/common";
 import { ApiOkResponse } from "@nestjs/swagger";
-import { DatabaseService } from "./database/database.service";
+import { DatabaseService } from "./database/database.service.js";
 
 @Controller()
 export class AppController {

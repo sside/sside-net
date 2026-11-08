@@ -1,24 +1,21 @@
 import { fakerEN, fakerJA } from "@faker-js/faker";
-import { beforeEach, describe, expect, test } from "@jest/globals";
 import { Test, TestingModule } from "@nestjs/testing";
 import { createIntegerArray } from "@sside-net/utility";
-import { AuthenticationModule } from "../authentication/authentication.module";
-import { BackendLogger } from "../library/logger/BackendLogger";
-import { prepareTestDatabase } from "../library/test/database/prepareTestDatabase";
-import { BlogEntryModule } from "./blog-entry.module";
-import { BlogEntryService } from "./blog-entry.service";
-import { BlogEntryInput } from "./type/BlogEntryInput";
+import { beforeEach, describe, expect, test } from "vitest";
+import { AuthenticationModule } from "../authentication/authentication.module.js";
+import { BackendLogger } from "../library/logger/BackendLogger.js";
+import { prepareTestDatabase } from "../library/test/database/prepareTestDatabase.js";
+import { BlogEntryModule } from "./blog-entry.module.js";
+import { BlogEntryService } from "./blog-entry.service.js";
+import { BlogEntryInput } from "./type/BlogEntryInput.js";
 
 describe("BlogEntryService", () => {
     let blogEntryService: BlogEntryService;
 
-    const createBlogEntryInput = (
-        overWrite?: Partial<BlogEntryInput>,
-    ): BlogEntryInput => ({
+    const createBlogEntryInput = (): BlogEntryInput => ({
         slug: fakerEN.lorem.slug(),
         title: fakerJA.book.title(),
         bodyMarkdown: fakerJA.lorem.text(),
-        ...overWrite,
     });
 
     const createMetaTagNames = (min = 1, max = 6) =>

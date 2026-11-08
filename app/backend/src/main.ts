@@ -1,18 +1,18 @@
-import "./instrument";
 import { INestApplication, ValidationPipe } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { getAppConfig } from "@sside-net/app-config";
 import { EnvironmentType } from "@sside-net/constant";
-import { updateOpenApiDocument } from "@sside-net/open-api/dist";
+import { updateOpenApiDocument } from "@sside-net/open-api";
 import { getEnvironmentType, parseDecimalInt } from "@sside-net/utility";
 import * as ClassTransformer from "class-transformer";
 import * as ClassValidator from "class-validator";
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
-import { AppModule } from "./app.module";
-import { GlobalExceptionFilter } from "./filter/global-exception.filter";
-import { BackendLogger } from "./library/logger/BackendLogger";
+import { AppModule } from "./app.module.js";
+import { GlobalExceptionFilter } from "./filter/global-exception.filter.js";
+import "./instrument.js";
+import { BackendLogger } from "./library/logger/BackendLogger.js";
 
 const logger = new BackendLogger("NestJS bootstrap");
 

@@ -9,11 +9,10 @@ import { Button } from "../../component/button/Button";
 import { paths } from "../../generated/api-client/backend-schema";
 import { ManagementInputSet } from "../management/_component/input/ManagementInputSet";
 
-type SignInFormInput = {
-    password: string;
-};
-
 export const SignInForm: FC<{}> = ({}) => {
+    type SignInFormInput = {
+        password: string;
+    };
     const [signInErrorMessage, setSignInErrorMessage] = useState<string | null>(
         null,
     );
@@ -38,11 +37,9 @@ export const SignInForm: FC<{}> = ({}) => {
             } satisfies paths["/authentication/sign-in"]["post"]["requestBody"]["content"]["application/json"]),
         });
 
-        if (!response.clone().ok) {
-            return setSignInErrorMessage(await response.text());
-        }
-
-        return redirect("/management");
+        return response.clone().ok ?
+                redirect("/management")
+            :   setSignInErrorMessage(await response.text());
     };
 
     return (

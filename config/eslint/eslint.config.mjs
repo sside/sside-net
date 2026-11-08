@@ -68,6 +68,8 @@ export default defineConfig([
             "unicorn/no-top-level-side-effects": "off",
             "unicorn/prefer-simple-condition-first": "off",
             "unicorn/single-line-block-comment-style": "off",
+            "unicorn/no-asterisk-prefix-in-documentation-comments": "off",
+            "unicorn/no-unnecessary-parameters": "off",
 
             "@typescript-eslint/member-ordering": "warn",
             "unicorn/name-replacements": [

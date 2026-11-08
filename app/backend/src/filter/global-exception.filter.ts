@@ -7,7 +7,7 @@ import {
 } from "@nestjs/common";
 import { SentryExceptionCaptured, captureException } from "@sentry/nestjs";
 import { Request, Response } from "express";
-import { BackendLogger } from "../library/logger/BackendLogger";
+import { BackendLogger } from "../library/logger/BackendLogger.js";
 
 @Catch()
 export class GlobalExceptionFilter<

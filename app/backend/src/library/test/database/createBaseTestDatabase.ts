@@ -1,7 +1,7 @@
 import { execSync } from "node:child_process";
 import { resolve } from "node:path";
-import { BackendLogger } from "../../logger/BackendLogger";
-import { getDatabaseFileDirectoryPath } from "./getDatabaseFileDirectoryPath";
+import { BackendLogger } from "../../logger/BackendLogger.js";
+import { getDatabaseFileDirectoryPath } from "./getDatabaseFileDirectoryPath.js";
 
 // eslint-disable-next-line unicorn/no-anonymous-default-export -- jest.configから呼び出すためdefault exportしている。
 export default async function () {

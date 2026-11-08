@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
-import { DatabaseService } from "../../database/database.service";
-import { Authentication } from "../../generated/prisma/client";
+import { DatabaseService } from "../../database/database.service.js";
+import { Authentication } from "../../generated/prisma/client.js";
 
 @Injectable()
 export class AuthenticationQuery {

@@ -1,8 +1,8 @@
 import { InternalServerErrorException } from "@nestjs/common";
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-import { BlogEntryMetaTagCountBlogEntry } from "../query/blog-entry-meta-tag.query";
-import { BlogEntryWithRelations } from "../query/blog-entry.query";
-import { BlogEntryMetaTagCountResponse } from "./BlogEntryMetaTagCount.response";
+import { BlogEntryMetaTagCountBlogEntry } from "../query/blog-entry-meta-tag.query.js";
+import { BlogEntryWithRelations } from "../query/blog-entry.query.js";
+import { BlogEntryMetaTagCountResponse } from "./BlogEntryMetaTagCount.response.js";
 
 export class PublishedBlogEntryResponse {
     @ApiProperty()

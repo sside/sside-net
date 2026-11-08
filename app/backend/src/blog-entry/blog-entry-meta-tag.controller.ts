@@ -13,11 +13,11 @@ import {
     ApiNoContentResponse,
     ApiOkResponse,
 } from "@nestjs/swagger";
-import { SignedIn } from "../authentication/decorator/signed-in.decorator";
-import { BlogEntryMetaTagService } from "./blog-entry-meta-tag.service";
-import { BlogEntryMetaTagRequest } from "./request/BlogEntryMetaTag.request";
-import { BlogEntryMetaTagResponse } from "./response/BlogEntryMetaTag.response";
-import { BlogEntryMetaTagCountResponse } from "./response/BlogEntryMetaTagCount.response";
+import { SignedIn } from "../authentication/decorator/signed-in.decorator.js";
+import { BlogEntryMetaTagService } from "./blog-entry-meta-tag.service.js";
+import { BlogEntryMetaTagRequest } from "./request/BlogEntryMetaTag.request.js";
+import { BlogEntryMetaTagResponse } from "./response/BlogEntryMetaTag.response.js";
+import { BlogEntryMetaTagCountResponse } from "./response/BlogEntryMetaTagCount.response.js";
 
 @Controller("private/blog-entry-meta-tag")
 @SignedIn()

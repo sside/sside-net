@@ -5,7 +5,7 @@ import {
     OnModuleInit,
 } from "@nestjs/common";
 import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
-import { Prisma, PrismaClient } from "../generated/prisma/client";
+import { Prisma, PrismaClient } from "../generated/prisma/client.js";
 
 @Injectable()
 export class DatabaseService

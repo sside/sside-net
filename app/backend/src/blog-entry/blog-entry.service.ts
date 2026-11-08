@@ -12,13 +12,13 @@ import {
     MARKDOWN_SAMPLE_OLD_BLOG_2,
 } from "@sside-net/constant";
 import { createIntegerArray } from "@sside-net/utility";
-import { Prisma } from "../generated/prisma/client";
-import { BlogEntryMetaTagService } from "./blog-entry-meta-tag.service";
+import { Prisma } from "../generated/prisma/client.js";
+import { BlogEntryMetaTagService } from "./blog-entry-meta-tag.service.js";
 import {
     BlogEntryQuery,
     BlogEntryWithRelations,
-} from "./query/blog-entry.query";
-import { BlogEntryInput } from "./type/BlogEntryInput";
+} from "./query/blog-entry.query.js";
+import { BlogEntryInput } from "./type/BlogEntryInput.js";
 
 @Injectable()
 export class BlogEntryService {

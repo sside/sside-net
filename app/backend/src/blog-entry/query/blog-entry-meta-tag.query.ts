@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
-import { DatabaseService } from "../../database/database.service";
-import { BlogEntryMetaTag, Prisma } from "../../generated/prisma/client";
+import { DatabaseService } from "../../database/database.service.js";
+import { BlogEntryMetaTag, Prisma } from "../../generated/prisma/client.js";
 
 export type BlogEntryMetaTagCountBlogEntry = Prisma.BlogEntryMetaTagGetPayload<{
     include: (typeof BlogEntryMetaTagQuery)["INCLUDE_COUNT_BLOG_ENTRY"];

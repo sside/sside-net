@@ -1,7 +1,7 @@
 import { Controller, Get } from "@nestjs/common";
 import { ApiOkResponse } from "@nestjs/swagger";
-import { BlogEntryMetaTagService } from "./blog-entry-meta-tag.service";
-import { BlogEntryMetaTagCountResponse } from "./response/BlogEntryMetaTagCount.response";
+import { BlogEntryMetaTagService } from "./blog-entry-meta-tag.service.js";
+import { BlogEntryMetaTagCountResponse } from "./response/BlogEntryMetaTagCount.response.js";
 
 @Controller("blog-entry-meta-tag")
 export class PublicBlogEntryMetaTagController {

@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-import { BaseIdentifiableResponse } from "../../type/response/BaseIdentifiable.response";
-import { BlogEntryWithRelations } from "../query/blog-entry.query";
-import { BlogEntryMetaTagResponse } from "./BlogEntryMetaTag.response";
+import { BaseIdentifiableResponse } from "../../type/response/BaseIdentifiable.response.js";
+import { BlogEntryWithRelations } from "../query/blog-entry.query.js";
+import { BlogEntryMetaTagResponse } from "./BlogEntryMetaTag.response.js";
 
 export class BlogEntryResponse extends BaseIdentifiableResponse {
     @ApiProperty()

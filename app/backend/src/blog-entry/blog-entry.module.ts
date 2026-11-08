@@ -1,15 +1,15 @@
 import { Module } from "@nestjs/common";
-import { AuthenticationModule } from "../authentication/authentication.module";
-import { DatabaseModule } from "../database/database.module";
-import { BlogEntryMetaTagController } from "./blog-entry-meta-tag.controller";
-import { BlogEntryMetaTagService } from "./blog-entry-meta-tag.service";
-import { BlogEntryController } from "./blog-entry.controller";
-import { BlogEntryService } from "./blog-entry.service";
-import { PublicBlogEntryMetaTagController } from "./public-blog-entry-meta-tag.controller";
-import { PublicBlogEntryController } from "./public-blog-entry.controller";
-import { PublicBlogEntryService } from "./public-blog-entry.service";
-import { BlogEntryMetaTagQuery } from "./query/blog-entry-meta-tag.query";
-import { BlogEntryQuery } from "./query/blog-entry.query";
+import { AuthenticationModule } from "../authentication/authentication.module.js";
+import { DatabaseModule } from "../database/database.module.js";
+import { BlogEntryMetaTagController } from "./blog-entry-meta-tag.controller.js";
+import { BlogEntryMetaTagService } from "./blog-entry-meta-tag.service.js";
+import { BlogEntryController } from "./blog-entry.controller.js";
+import { BlogEntryService } from "./blog-entry.service.js";
+import { PublicBlogEntryMetaTagController } from "./public-blog-entry-meta-tag.controller.js";
+import { PublicBlogEntryController } from "./public-blog-entry.controller.js";
+import { PublicBlogEntryService } from "./public-blog-entry.service.js";
+import { BlogEntryMetaTagQuery } from "./query/blog-entry-meta-tag.query.js";
+import { BlogEntryQuery } from "./query/blog-entry.query.js";
 
 @Module({
     imports: [DatabaseModule, AuthenticationModule],

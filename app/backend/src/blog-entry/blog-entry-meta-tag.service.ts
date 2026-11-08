@@ -1,10 +1,10 @@
 import { fakerEN } from "@faker-js/faker";
 import { Injectable, Logger, NotFoundException } from "@nestjs/common";
-import { BlogEntryMetaTag, Prisma } from "../generated/prisma/client";
+import { BlogEntryMetaTag, Prisma } from "../generated/prisma/client.js";
 import {
     BlogEntryMetaTagCountBlogEntry,
     BlogEntryMetaTagQuery,
-} from "./query/blog-entry-meta-tag.query";
+} from "./query/blog-entry-meta-tag.query.js";
 
 @Injectable()
 export class BlogEntryMetaTagService {

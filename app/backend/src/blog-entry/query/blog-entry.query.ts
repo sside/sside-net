@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import { DeepNonNullable } from "utility-types";
-import { DatabaseService } from "../../database/database.service";
-import { BlogEntry, Prisma } from "../../generated/prisma/client";
-import { BlogEntryInput } from "../type/BlogEntryInput";
+import { DatabaseService } from "../../database/database.service.js";
+import { BlogEntry, Prisma } from "../../generated/prisma/client.js";
+import { BlogEntryInput } from "../type/BlogEntryInput.js";
 
 export type BlogEntryWithRelations = Prisma.BlogEntryGetPayload<{
     include: (typeof BlogEntryQuery)["INCLUDE_RELATED_TABLES"];

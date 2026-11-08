@@ -1,11 +1,11 @@
 import { fakerEN } from "@faker-js/faker";
-import { beforeEach, describe, expect, test } from "@jest/globals";
 import { Test, TestingModule } from "@nestjs/testing";
 import { createIntegerRange } from "@sside-net/utility";
-import { prepareTestDatabase } from "../library/test/database/prepareTestDatabase";
-import { BlogEntryMetaTagService } from "./blog-entry-meta-tag.service";
-import { BlogEntryModule } from "./blog-entry.module";
-import { BlogEntryService } from "./blog-entry.service";
+import { beforeEach, describe, expect, test } from "vitest";
+import { prepareTestDatabase } from "../library/test/database/prepareTestDatabase.js";
+import { BlogEntryMetaTagService } from "./blog-entry-meta-tag.service.js";
+import { BlogEntryModule } from "./blog-entry.module.js";
+import { BlogEntryService } from "./blog-entry.service.js";
 
 describe("BlogEntryMetaTagService", () => {
     let blogEntryService: BlogEntryService;

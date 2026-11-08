@@ -1,12 +1,14 @@
 {
     "compilerOptions": {
-        "module": "commonjs",
-        "target": "ES2024",
+        "module": "nodenext",
+        "moduleResolution": "nodenext",
+        "target": "es2025",
         "declaration": true,
         "removeComments": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "allowSyntheticDefaultImports": true,
+        "resolvePackageJsonExports": true,
         "sourceMap": true,
         "outDir": "./dist",
         "incremental": true,

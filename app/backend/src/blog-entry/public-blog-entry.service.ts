@@ -5,7 +5,7 @@ import {
     BlogEntryQuery,
     BlogEntryWithRelations,
     PublishedBlogEntryWithRelations,
-} from "./query/blog-entry.query";
+} from "./query/blog-entry.query.js";
 
 @Injectable()
 export class PublicBlogEntryService {

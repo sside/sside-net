@@ -63,22 +63,16 @@ export const iteratorValidator = (
         }
     }
 
-    if (validationCount < minimumCount) {
-        return `${minimumCount}個以上入力してください。`;
-    }
-
-    return true;
+    return validationCount < minimumCount ?
+            `${minimumCount}個以上入力してください。`
+        :   true;
 };
 
 /**
  * 必須入力のバリデーションを行います。
  */
 export const validateRequired: Validator = (input) => {
-    if (!input) {
-        return "入力してください。";
-    }
-
-    return true;
+    return input ? true : "入力してください。";
 };
 
 /**
@@ -88,14 +82,10 @@ export const validateInEnum: Validator<[string[]]> = (
     input: unknown,
     enums,
 ) => {
-    if (!isString(input)) {
-        return validateString(input);
-    }
-
-    return (
-        enums.includes(input) ||
-        `[${enums.join(", ")}]の何れかを入力してください。`
-    );
+    return isString(input) ?
+            enums.includes(input) ||
+                `[${enums.join(", ")}]の何れかを入力してください。`
+        :   validateString(input);
 };
 
 /**

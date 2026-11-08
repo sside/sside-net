@@ -6,9 +6,9 @@ import { ProjectLogger } from "@sside-net/project-logger";
 export class BackendLogger implements LoggerService {
     private readonly projectLogger: ProjectLogger;
 
-    constructor(context?: string) {
+    constructor(context: string = "not defined") {
         this.projectLogger = new ProjectLogger(
-            context ?? "not defined",
+            context,
             Sentry.logger as typeof SentryLogger,
         );
     }

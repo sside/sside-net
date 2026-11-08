@@ -1,26 +1,23 @@
 import { fakerEN, fakerJA } from "@faker-js/faker";
-import { beforeEach, describe, expect, test, jest } from "@jest/globals";
 import { Test, TestingModule } from "@nestjs/testing";
 import { PagingDirection } from "@sside-net/constant";
 import { createIntegerRange } from "@sside-net/utility";
-import { DatabaseModule } from "../database/database.module";
-import { prepareTestDatabase } from "../library/test/database/prepareTestDatabase";
-import { BlogEntryModule } from "./blog-entry.module";
-import { BlogEntryService } from "./blog-entry.service";
-import { PublicBlogEntryService } from "./public-blog-entry.service";
-import { BlogEntryInput } from "./type/BlogEntryInput";
+import { beforeEach, describe, expect, test, vitest } from "vitest";
+import { DatabaseModule } from "../database/database.module.js";
+import { prepareTestDatabase } from "../library/test/database/prepareTestDatabase.js";
+import { BlogEntryModule } from "./blog-entry.module.js";
+import { BlogEntryService } from "./blog-entry.service.js";
+import { PublicBlogEntryService } from "./public-blog-entry.service.js";
+import { BlogEntryInput } from "./type/BlogEntryInput.js";
 
 describe("PublicBlogEntryService", () => {
     let publicBlogEntryService: PublicBlogEntryService;
     let blogEntryService: BlogEntryService;
 
-    const createBlogEntryInput = (
-        overWrite?: Partial<BlogEntryInput>,
-    ): BlogEntryInput => ({
+    const createBlogEntryInput = (): BlogEntryInput => ({
         slug: fakerEN.lorem.slug(),
         title: fakerJA.book.title(),
         bodyMarkdown: fakerJA.lorem.text(),
-        ...overWrite,
     });
 
     beforeEach(async () => {
@@ -301,11 +298,11 @@ describe("PublicBlogEntryService", () => {
 
         test("取得時点で公開日に達していないBlogEntryを取得しないこと。", async () => {
             const halfOfYear = new Date("2026-07-01T00:00:00+09:00");
-            jest.useFakeTimers({
+            vitest.useFakeTimers({
                 now: halfOfYear,
-                // FIXME: タイムアウト対策のためにdoNotFakeを入れている。
+                // FIXME: タイムアウト対策のためにtoNotFakeを入れている。
                 // https://zenn.dev/kterui9019/scraps/9dfb7c79919f70
-                doNotFake: [
+                toNotFake: [
                     "nextTick",
                     "setImmediate",
                     "clearImmediate",

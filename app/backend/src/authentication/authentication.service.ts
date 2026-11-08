@@ -8,8 +8,8 @@ import { JwtService } from "@nestjs/jwt";
 import { getAppConfig } from "@sside-net/app-config";
 import { DateTime } from "luxon";
 import { randomBytes } from "node:crypto";
-import { Authentication } from "../generated/prisma/client";
-import { AuthenticationQuery } from "./query/authentication.query";
+import { Authentication } from "../generated/prisma/client.js";
+import { AuthenticationQuery } from "./query/authentication.query.js";
 
 export type AuthenticationToken = {
     accessToken: string;

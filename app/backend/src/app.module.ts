@@ -2,11 +2,11 @@ import { Module } from "@nestjs/common";
 import { ThrottlerModule } from "@nestjs/throttler";
 import { SentryModule } from "@sentry/nestjs/setup";
 import { getAppConfig } from "@sside-net/app-config";
-import { AppController } from "./app.controller";
-import { AppService } from "./app.service";
-import { AuthenticationModule } from "./authentication/authentication.module";
-import { BlogEntryModule } from "./blog-entry/blog-entry.module";
-import { DatabaseModule } from "./database/database.module";
+import { AppController } from "./app.controller.js";
+import { AppService } from "./app.service.js";
+import { AuthenticationModule } from "./authentication/authentication.module.js";
+import { BlogEntryModule } from "./blog-entry/blog-entry.module.js";
+import { DatabaseModule } from "./database/database.module.js";
 
 @Module({
     imports: [

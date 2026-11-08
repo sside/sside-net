@@ -10,11 +10,11 @@ import {
     Put,
 } from "@nestjs/common";
 import { ApiCreatedResponse, ApiOkResponse } from "@nestjs/swagger";
-import { SignedIn } from "../authentication/decorator/signed-in.decorator";
-import { BlogEntryService } from "./blog-entry.service";
-import { BlogEntryRequest } from "./request/BlogEntry.request";
-import { PublishBlogEntryRequest } from "./request/PublishBlogEntry.request";
-import { BlogEntryResponse } from "./response/BlogEntry.response";
+import { SignedIn } from "../authentication/decorator/signed-in.decorator.js";
+import { BlogEntryService } from "./blog-entry.service.js";
+import { BlogEntryRequest } from "./request/BlogEntry.request.js";
+import { PublishBlogEntryRequest } from "./request/PublishBlogEntry.request.js";
+import { BlogEntryResponse } from "./response/BlogEntry.response.js";
 
 @Controller("private/blog-entry")
 @SignedIn()

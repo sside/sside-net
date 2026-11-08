@@ -10,11 +10,11 @@
     "devDependencies": {
         "@eslint/js": "10.0.1",
         "change-case": "5.4.4",
-        "eslint": "10.9.0",
+        "eslint": "10.13.0",
         "eslint-config-prettier": "10.1.8",
-        "eslint-plugin-unicorn": "73.0.0",
+        "eslint-plugin-unicorn": "79.0.0",
         "typescript": "6.0.3",
-        "typescript-eslint": "8.67.0"
+        "typescript-eslint": "8.72.0"
     },
     "private": true
 }

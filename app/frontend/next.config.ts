@@ -1,5 +1,5 @@
 import type { NextConfig } from "next";
-import { withSentryConfig } from "@sentry/nextjs";
+import { withSentryConfig } from "@sentry/nextjs/config";
 import { getAppConfig } from "@sside-net/app-config";
 import { isTestEnvironment } from "@sside-net/utility";
 

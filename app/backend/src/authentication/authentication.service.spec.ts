@@ -1,8 +1,8 @@
-import { beforeEach, describe, expect, test } from "@jest/globals";
 import { Test, TestingModule } from "@nestjs/testing";
 import { isJWT } from "class-validator";
-import { AuthenticationModule } from "./authentication.module";
-import { AuthenticationService } from "./authentication.service";
+import { beforeEach, describe, expect, test } from "vitest";
+import { AuthenticationModule } from "./authentication.module.js";
+import { AuthenticationService } from "./authentication.service.js";
 
 describe("AuthenticationService", () => {
     let authenticationService: AuthenticationService;
