@@ -8,6 +8,7 @@ import { FrontendCookieKey } from "../../constant/cookie/FrontendCookieKey";
 import { components, paths } from "../../generated/api-client/backend-schema";
 import { createLogger } from "../logger/createLogger";
 import { captureApiCallError } from "../sentry/captureApiCallError";
+import { isBrowserEnvironment } from "../utility/isBrowserEnvironment";
 
 export const isErrorResponse = (response: Response): boolean =>
     response.status >= 400;
@@ -72,6 +73,30 @@ apiClient.use({
             method: request.method,
             url: request.url,
         });
+
+        if (!isBrowserEnvironment()) {
+            return;
+        }
+
+        let accessToken = (
+            await window.cookieStore.get(FrontendCookieKey.AccessToken)
+        )?.value;
+        if (!accessToken) {
+            return;
+        }
+
+        if (isExpiredAccessToken(accessToken)) {
+            accessToken =
+                (await refreshAccessToken(
+                    (
+                        await window.cookieStore.get(
+                            FrontendCookieKey.RefreshToken,
+                        )
+                    )?.value ?? "refresh_token_not_found",
+                )) ?? "invalid_access_token";
+        }
+
+        request.headers.set(RequestHeaderName.Authentication, accessToken);
     },
     onResponse: async ({ response, request }) => {
         if (isServerErrorResponse(response)) {

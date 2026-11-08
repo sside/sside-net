@@ -172,20 +172,21 @@ export const validateBlogEntryTitle: Validator = (input) => {
 };
 
 /**
+ *
+ */
+export const validateBlogEntryMetaTag: Validator = (input) => {
+    const requiredResult = validateRequired(input);
+    if (requiredResult !== true) {
+        return requiredResult;
+    }
+
+    return validateLength(input, {
+        maximum: getAppConfig().blog.validation.metaTag.maxLength,
+    });
+};
+
+/**
  * BlogEntryMetaTag名称のバリデーションを行います。
  */
 export const validateBlogEntryMetaTags: IteratorValidator = (inputs) =>
-    iteratorValidator(
-        inputs,
-        (input) => {
-            const requiredResult = validateRequired(input);
-            if (requiredResult !== true) {
-                return requiredResult;
-            }
-
-            return validateLength(input, {
-                maximum: getAppConfig().blog.validation.metaTag.maxLength,
-            });
-        },
-        1,
-    );
+    iteratorValidator(inputs, validateBlogEntryMetaTag);

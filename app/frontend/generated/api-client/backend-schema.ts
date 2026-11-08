@@ -221,8 +221,24 @@ export interface paths {
         };
         get: operations["BlogEntryMetaTagController_getAllWithCount"];
         put?: never;
-        post?: never;
+        post: operations["BlogEntryMetaTagController_postCreateBlogEntryMetaTag"];
         delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/private/blog-entry-meta-tag/{blogEntryMetaTagId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["BlogEntryMetaTagController_putUpdateBlogEntryMetaTag"];
+        post?: never;
+        delete: operations["BlogEntryMetaTagController_deleteBlogEntryMetaTag"];
         options?: never;
         head?: never;
         patch?: never;
@@ -286,21 +302,15 @@ export interface components {
         };
         BlogEntryResponse: {
             id: number;
-            /**
-            Format: date-time
-            */
+            /** Format: date-time */
             createdAt: string;
-            /**
-            Format: date-time
-            */
+            /** Format: date-time */
             updatedAt: string;
             slug: string;
             title: string;
             bodyMarkdown: string;
             metaTags: components["schemas"]["BlogEntryMetaTagResponse"][];
-            /**
-            Format: date-time
-            */
+            /** Format: date-time */
             publishAt?: string;
         };
         BlogEntryRequest: {
@@ -314,9 +324,7 @@ export interface components {
             title: string;
             bodyMarkdown: string;
             blogEntryMetaTagNames: string[];
-            /**
-            Format: date-time
-            */
+            /** Format: date-time */
             publishAt?: string;
         };
         BlogEntryMetaTagCountResponse: {
@@ -326,21 +334,15 @@ export interface components {
         };
         PublishedBlogEntryResponse: {
             id: number;
-            /**
-            Format: date-time
-            */
+            /** Format: date-time */
             createdAt: string;
             slug: string;
             title: string;
-            /**
-            Format: date-time
-            */
+            /** Format: date-time */
             publishAt: string;
             bodyMarkdown: string;
             metaTags: components["schemas"]["BlogEntryMetaTagCountResponse"][];
-            /**
-            Format: date-time
-            */
+            /** Format: date-time */
             updatedAt?: string;
         };
         BlogEntryArchivePublishDatesResponse: {
@@ -348,10 +350,11 @@ export interface components {
             month: number;
             count: number;
         };
+        BlogEntryMetaTagRequest: {
+            name: string;
+        };
         SignInRequest: {
-            /**
-            @example Pa55w0rd
-            */
+            /** @example Pa55w0rd */
             password: string;
         };
         AuthenticationResponse: {
@@ -567,9 +570,7 @@ export interface operations {
                     "application/json": components["schemas"]["PublishedBlogEntryResponse"];
                 };
             };
-            /**
-            @description 指定した方向に公開済みBlogEntryがない場合に返ります。
-            */
+            /** @description 指定した方向に公開済みBlogEntryがない場合に返ります。 */
             204: {
                 headers: {
                     [name: string]: unknown;
@@ -686,6 +687,73 @@ export interface operations {
             };
         };
     };
+    BlogEntryMetaTagController_postCreateBlogEntryMetaTag: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BlogEntryMetaTagRequest"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BlogEntryMetaTagResponse"];
+                };
+            };
+        };
+    };
+    BlogEntryMetaTagController_putUpdateBlogEntryMetaTag: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                blogEntryMetaTagId: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BlogEntryMetaTagRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BlogEntryMetaTagResponse"];
+                };
+            };
+        };
+    };
+    BlogEntryMetaTagController_deleteBlogEntryMetaTag: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                blogEntryMetaTagId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     PublicBlogEntryMetaTagController_getAllPublishedBlogEntryMetaTag: {
         parameters: {
             query?: never;
@@ -718,9 +786,7 @@ export interface operations {
             };
         };
         responses: {
-            /**
-            @description 認証JWTトークンを返します。
-            */
+            /** @description 認証JWTトークンを返します。 */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -750,9 +816,7 @@ export interface operations {
             };
         };
         responses: {
-            /**
-            @description 認証JWTトークンを返します。
-            */
+            /** @description 認証JWTトークンを返します。 */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -785,6 +849,9 @@ export enum ApiPaths {
     PublicBlogEntryController_getBlogEntryArchiveByYearMonth = "/blog-entry/archive/{year}/{month}",
     PublicBlogEntryController_getBlogEntryArchiveYearMonths = "/blog-entry/archive-year-month",
     BlogEntryMetaTagController_getAllWithCount = "/private/blog-entry-meta-tag",
+    BlogEntryMetaTagController_postCreateBlogEntryMetaTag = "/private/blog-entry-meta-tag",
+    BlogEntryMetaTagController_putUpdateBlogEntryMetaTag = "/private/blog-entry-meta-tag/{blogEntryMetaTagId}",
+    BlogEntryMetaTagController_deleteBlogEntryMetaTag = "/private/blog-entry-meta-tag/{blogEntryMetaTagId}",
     PublicBlogEntryMetaTagController_getAllPublishedBlogEntryMetaTag = "/blog-entry-meta-tag",
     AuthenticationController_postSignIn = "/authentication/sign-in",
     AuthenticationController_refreshAccessToken = "/authentication/refresh"

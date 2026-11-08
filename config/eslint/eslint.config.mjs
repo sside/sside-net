@@ -67,6 +67,7 @@ export default defineConfig([
             "unicorn/no-unreadable-object-destructuring": "off",
             "unicorn/no-top-level-side-effects": "off",
             "unicorn/prefer-simple-condition-first": "off",
+            "unicorn/single-line-block-comment-style": "off",
 
             "@typescript-eslint/member-ordering": "warn",
             "unicorn/name-replacements": [

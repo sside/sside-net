@@ -5,6 +5,7 @@ import {
     notImplementedStab,
     parseDecimalFloat,
     parseDecimalInt,
+    trimPathsTrailingSlash,
     wait,
 } from "./index";
 
@@ -83,6 +84,33 @@ describe("createIntegerRange", () => {
         expect(() => createIntegerRange(3, -2)).toThrow(/負/);
         expect(() => createIntegerRange(-1, -2)).toThrow(/負/);
         expect(() => createIntegerRange(-1, 2)).toThrow(/負/);
+    });
+});
+
+describe("trimPathsTrailingSlash", () => {
+    test("末尾のスラッシュが除去できていること。", () => {
+        expect(trimPathsTrailingSlash("/private/trim-slash/")).toBe(
+            "/private/trim-slash",
+        );
+        expect(trimPathsTrailingSlash("/private/trim-slash//")).toBe(
+            "/private/trim-slash",
+        );
+        expect(trimPathsTrailingSlash("/private/trim-slash//")).toBe(
+            "/private/trim-slash",
+        );
+    });
+    test("入力値の前後にスペースがある場合は除かれること。", () => {
+        expect(trimPathsTrailingSlash("/private/not-trimmed ")).toBe(
+            "/private/not-trimmed",
+        );
+        expect(trimPathsTrailingSlash(" /private/not-trimmed//")).toBe(
+            "/private/not-trimmed",
+        );
+    });
+    test("末尾にスラッシュがなければ元の入力が返ること。", () => {
+        expect(trimPathsTrailingSlash("/private/trimmed")).toBe(
+            "/private/trimmed",
+        );
     });
 });
 

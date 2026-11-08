@@ -58,6 +58,19 @@ export const createIntegerRange = (start: number, end: number): number[] => {
 };
 
 /**
+ * 渡されたパスの末尾スラッシュを削除します。
+ */
+export const trimPathsTrailingSlash = (pathname: string): string => {
+    let trimmed = pathname.trim();
+
+    while (trimmed.endsWith("/")) {
+        trimmed = trimmed.slice(0, -1);
+    }
+
+    return trimmed;
+};
+
+/**
  * 環境変数種別を取得します。
  */
 export const getEnvironmentType = (

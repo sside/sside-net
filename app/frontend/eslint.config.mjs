@@ -12,6 +12,7 @@ export default defineConfig([
         "build/**",
         "next-env.d.ts",
         "public/**",
+        "generated/**",
     ]),
     {
         plugins: {

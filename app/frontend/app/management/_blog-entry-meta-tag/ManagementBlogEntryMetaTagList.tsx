@@ -1,7 +1,8 @@
 "use client";
 
 import { FC, useMemo } from "react";
-import { notImplementedVoid, parseDecimalInt } from "@sside-net/utility";
+import { parseDecimalInt } from "@sside-net/utility";
+import { QueryClient, useQueryClient } from "@tanstack/react-query";
 import {
     columnVisibilityFeature,
     createColumnHelper,
@@ -12,15 +13,23 @@ import {
 import { FaEdit } from "react-icons/fa";
 import { FaTrashCan } from "react-icons/fa6";
 import { components } from "../../../generated/api-client/backend-schema";
-import { $apiClient } from "../../../library/api-client/api-client";
+import { $apiClient, apiClient } from "../../../library/api-client/api-client";
 import { createLogger } from "../../../library/logger/createLogger";
 import { ManagementSectionHeader } from "../ManagementSectionHeader";
 import { BackendErrorDisplay } from "../_backend-error/BackendErrorDisplay";
+import { ManagementCreateBlogEntryMetaTagButton } from "./ManagementCreateBlogEntryMetaTagButton";
+
+export const refetchMetaTags = async (queryClient: QueryClient) =>
+    await queryClient.refetchQueries({
+        queryKey: ["get", `/private/blog-entry-meta-tag`],
+    });
 
 const DeleteIcon: FC<{ blogMetaTagId: number; metaTagName: string }> = ({
     blogMetaTagId,
     metaTagName,
 }) => {
+    const queryClient = useQueryClient();
+
     const deleteBlogMetaTag = async () => {
         const logger = createLogger(DeleteIcon.name);
         logger.log("Logging sample");
@@ -30,9 +39,18 @@ const DeleteIcon: FC<{ blogMetaTagId: number; metaTagName: string }> = ({
             return;
         }
 
-        notImplementedVoid({
-            deleteBlogMetaTagId: blogMetaTagId,
-        });
+        await apiClient.DELETE(
+            `/private/blog-entry-meta-tag/{blogEntryMetaTagId}`,
+            {
+                params: {
+                    path: {
+                        blogEntryMetaTagId: blogMetaTagId,
+                    },
+                },
+            },
+        );
+
+        await refetchMetaTags(queryClient);
     };
 
     return <FaTrashCan onClick={deleteBlogMetaTag} />;
@@ -42,16 +60,29 @@ const RenameIcon: FC<{ blogMetaTagId: number; currentName: string }> = ({
     blogMetaTagId,
     currentName,
 }) => {
+    const queryClient = useQueryClient();
+
     const renameBlogMetaTag = async (): Promise<void> => {
         const updateName = prompt("BlogMetaTagの名称を変更", currentName);
         if (!updateName || updateName === currentName) {
             return;
         }
 
-        notImplementedVoid({
-            blogMetaTagId,
-            updateName,
-        });
+        await apiClient.PUT(
+            "/private/blog-entry-meta-tag/{blogEntryMetaTagId}",
+            {
+                body: {
+                    name: updateName,
+                },
+                params: {
+                    path: {
+                        blogEntryMetaTagId: blogMetaTagId,
+                    },
+                },
+            },
+        );
+
+        await refetchMetaTags(queryClient);
     };
 
     return <FaEdit onClick={renameBlogMetaTag} />;
@@ -96,7 +127,9 @@ const BlogMetaTagTable: FC = () => {
                             currentName={props.row.getValue("name")}
                         />
                         <DeleteIcon
-                            blogMetaTagId={parseDecimalInt(props.row.id)}
+                            blogMetaTagId={parseDecimalInt(
+                                props.row.getValue("id"),
+                            )}
                             metaTagName={props.row.getValue("name")}
                         />
                     </div>
@@ -184,7 +217,9 @@ const BlogMetaTagTable: FC = () => {
 export const ManagementBlogEntryMetaTagList: FC<{}> = ({}) => {
     return (
         <div className="management-blog-entry-meta-tag-list grid gap-8">
-            <ManagementSectionHeader text="Blog Entry Meta Tag" />
+            <ManagementSectionHeader text="Blog Entry Meta Tag">
+                <ManagementCreateBlogEntryMetaTagButton />
+            </ManagementSectionHeader>
             <BlogMetaTagTable />
         </div>
     );

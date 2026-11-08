@@ -35,6 +35,17 @@ export class BlogEntryMetaTagQuery {
 
     constructor(private readonly databaseService: DatabaseService) {}
 
+    async findOneById(
+        blogEntryMetaTagId: number,
+        transaction?: Prisma.TransactionClient,
+    ): Promise<BlogEntryMetaTag | null> {
+        return await this.blogEntryMetaTag(transaction).findUnique({
+            where: {
+                id: blogEntryMetaTagId,
+            },
+        });
+    }
+
     async findOneByName(
         metaTagName: string,
         transaction?: Prisma.TransactionClient,
@@ -56,10 +67,6 @@ export class BlogEntryMetaTagQuery {
         transaction?: Prisma.TransactionClient,
     ): Promise<BlogEntryMetaTagCountBlogEntry[]> {
         return await this.blogEntryMetaTag(transaction).findMany({
-            where: {
-                blogEntries:
-                    BlogEntryMetaTagQuery.WHERE_RELATE_PUBLISHED_BLOG_ENTRY,
-            },
             include: BlogEntryMetaTagQuery.INCLUDE_COUNT_BLOG_ENTRY,
         });
     }
@@ -116,6 +123,19 @@ export class BlogEntryMetaTagQuery {
                 name: metaTagName,
             },
         });
+    }
+
+    async deleteOne(
+        blogEntryMetaTagId: number,
+        transaction?: Prisma.TransactionClient,
+    ): Promise<void> {
+        await this.blogEntryMetaTag(transaction).delete({
+            where: {
+                id: blogEntryMetaTagId,
+            },
+        });
+
+        return;
     }
 
     private blogEntryMetaTag(transaction?: Prisma.TransactionClient) {

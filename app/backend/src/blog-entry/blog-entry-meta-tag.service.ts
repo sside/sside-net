@@ -1,5 +1,5 @@
 import { fakerEN } from "@faker-js/faker";
-import { Injectable, Logger } from "@nestjs/common";
+import { Injectable, Logger, NotFoundException } from "@nestjs/common";
 import { BlogEntryMetaTag, Prisma } from "../generated/prisma/client";
 import {
     BlogEntryMetaTagCountBlogEntry,
@@ -13,6 +13,23 @@ export class BlogEntryMetaTagService {
     constructor(
         private readonly blogEntryMetaTagQuery: BlogEntryMetaTagQuery,
     ) {}
+
+    /**
+     * idでBlogEntryMetaTagを取得します。
+     */
+    async getById(blogEntryMetaTagId: number): Promise<BlogEntryMetaTag> {
+        this.logger.log("idでBlogEntryMetaTagを取得します。", {
+            blogEntryMetaTagId,
+        });
+
+        const found =
+            await this.blogEntryMetaTagQuery.findOneById(blogEntryMetaTagId);
+        if (!found) {
+            throw new NotFoundException();
+        }
+
+        return found;
+    }
 
     /**
      * 全てのBlogEntryMetaTagを取得します。
@@ -152,11 +169,23 @@ export class BlogEntryMetaTagService {
             ongoingTransaction: !!ongoingTransaction,
         });
 
+        await this.getById(blogEntryMetaTagId);
+
         return await this.blogEntryMetaTagQuery.updateNameByBlogEntryMetaTagId(
             blogEntryMetaTagId,
             metaTagName,
             ongoingTransaction,
         );
+    }
+
+    async remove(blogEntryMetaTagId: number): Promise<void> {
+        this.logger.log("BlogEntryMetaTagを削除します。", {
+            blogEntryMetaTagId,
+        });
+
+        await this.blogEntryMetaTagQuery.deleteOne(blogEntryMetaTagId);
+
+        return;
     }
 
     /**

@@ -1,7 +1,22 @@
-import { Controller, Get } from "@nestjs/common";
-import { ApiOkResponse } from "@nestjs/swagger";
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    ParseIntPipe,
+    Post,
+    Put,
+} from "@nestjs/common";
+import {
+    ApiCreatedResponse,
+    ApiNoContentResponse,
+    ApiOkResponse,
+} from "@nestjs/swagger";
 import { SignedIn } from "../authentication/decorator/signed-in.decorator";
 import { BlogEntryMetaTagService } from "./blog-entry-meta-tag.service";
+import { BlogEntryMetaTagRequest } from "./request/BlogEntryMetaTag.request";
+import { BlogEntryMetaTagResponse } from "./response/BlogEntryMetaTag.response";
 import { BlogEntryMetaTagCountResponse } from "./response/BlogEntryMetaTagCount.response";
 
 @Controller("private/blog-entry-meta-tag")
@@ -24,5 +39,43 @@ export class BlogEntryMetaTagController {
                 count,
             ),
         );
+    }
+
+    @Post()
+    @ApiCreatedResponse({
+        type: BlogEntryMetaTagResponse,
+    })
+    async postCreateBlogEntryMetaTag(
+        @Body() { name }: BlogEntryMetaTagRequest,
+    ): Promise<BlogEntryMetaTagResponse> {
+        return BlogEntryMetaTagResponse.fromEntity(
+            await this.blogEntryMetaTagService.getOrCreateByName(name),
+        );
+    }
+
+    @Put(":blogEntryMetaTagId")
+    @ApiOkResponse({
+        type: BlogEntryMetaTagResponse,
+    })
+    async putUpdateBlogEntryMetaTag(
+        @Body() { name }: BlogEntryMetaTagRequest,
+        @Param("blogEntryMetaTagId", ParseIntPipe) blogEntryMetaTagId: number,
+    ): Promise<BlogEntryMetaTagResponse> {
+        return BlogEntryMetaTagResponse.fromEntity(
+            await this.blogEntryMetaTagService.updateName(
+                blogEntryMetaTagId,
+                name,
+            ),
+        );
+    }
+
+    @Delete(":blogEntryMetaTagId")
+    @ApiNoContentResponse()
+    async deleteBlogEntryMetaTag(
+        @Param("blogEntryMetaTagId", ParseIntPipe) blogEntryMetaTagId: number,
+    ): Promise<void> {
+        await this.blogEntryMetaTagService.remove(blogEntryMetaTagId);
+
+        return;
     }
 }

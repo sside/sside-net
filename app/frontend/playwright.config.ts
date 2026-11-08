@@ -46,10 +46,10 @@ export default defineConfig({
     //         name: "Google Chrome",
     //         use: { ...devices["Desktop Chrome"], channel: "chrome" },
     //     },
-    // {
-    //     name: "Mobile Safari",
-    //     use: { ...devices["iPhone 15"] },
-    // },
+    //     {
+    //         name: "Mobile Safari",
+    //         use: { ...devices["iPhone 15"] },
+    //     },
     // ],
 
     /* Run your local dev server before starting the tests */
