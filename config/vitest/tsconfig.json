@@ -1,0 +1,10 @@
+{
+    "extends": "@sside-net/tsconfig",
+    "compilerOptions": {
+        "rootDir": "./",
+        "outDir": "dist",
+        "types": ["node"]
+    },
+    "include": ["vitest.config.ts", "src"],
+    "exclude": ["node_modules", "dist"]
+}

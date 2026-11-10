@@ -1,0 +1,17 @@
+{
+    "name": "@sside-net/vitest",
+    "version": "0.0.0",
+    "description": "sside.net shared Vitest config",
+    "main": "vitest.config.ts",
+    "scripts": {
+        "update:check": "ncu",
+        "update:execute": "ncu -u"
+    },
+    "devDependencies": {
+        "@dotenvx/dotenvx": "2.38.2",
+        "@sside-net/tsconfig": "*",
+        "typescript": "6.0.3",
+        "vitest": "5.0.5"
+    },
+    "private": true
+}

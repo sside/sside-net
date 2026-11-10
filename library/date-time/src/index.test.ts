@@ -1,5 +1,5 @@
-import { describe, expect, test } from "@jest/globals";
 import { DateTime } from "luxon";
+import { describe, expect, test } from "vitest";
 import { DateTimeFormat, formatDateByJst, setJst } from "./index";
 
 describe("date-time", () => {

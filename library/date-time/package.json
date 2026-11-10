@@ -9,7 +9,7 @@
         "build": "rimraf dist && tsc --build",
         "build:shared": "npm run build",
         "lint": "eslint --fix",
-        "test": "dotenvx run --env-file ../../.env.test -- jest",
+        "test": "dotenvx run --env-file ../../.env.test -- vitest run",
         "update:check": "ncu",
         "update:execute": "ncu -u"
     },
@@ -18,8 +18,8 @@
     },
     "devDependencies": {
         "@sside-net/eslint": "*",
-        "@sside-net/jest": "*",
         "@sside-net/tsconfig": "*",
+        "@sside-net/vitest": "*",
         "@types/luxon": "3.7.6",
         "rimraf": "6.1.3",
         "typescript": "6.0.3"

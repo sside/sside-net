@@ -1,6 +1,6 @@
 import { fakerEN } from "@faker-js/faker";
-import { describe, expect, test } from "@jest/globals";
 import { getAppConfig } from "@sside-net/app-config";
+import { describe, expect, test } from "vitest";
 import {
     validateBlogEntrySlug,
     validateBlogEntryTitle,

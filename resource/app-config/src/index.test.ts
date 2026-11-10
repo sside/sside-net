@@ -1,5 +1,5 @@
-import { describe, expect, test } from "@jest/globals";
 import { EnvironmentType } from "@sside-net/constant";
+import { describe, expect, test } from "vitest";
 import { localAppConfig } from "./config/localAppConfig";
 import { productionAppConfig } from "./config/productionAppConfig";
 import { testAppConfig } from "./config/testAppConfig";

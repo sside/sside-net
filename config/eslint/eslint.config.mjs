@@ -10,7 +10,13 @@ export default defineConfig([
     TsEslint.configs.recommended,
     EslintPluginUnicorn.configs.recommended,
     EslintConfigPrettier,
-    globalIgnores(["dist/", ".turbo/", "node_modules/", "tsconfig.json"]),
+    globalIgnores([
+        "dist/",
+        ".turbo/",
+        "node_modules/",
+        "tsconfig.json",
+        "vitest.config.ts",
+    ]),
     {
         // ts, js共通のルール
         rules: {
