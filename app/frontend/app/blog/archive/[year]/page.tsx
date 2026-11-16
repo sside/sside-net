@@ -1,15 +1,14 @@
 import { notFound } from "next/navigation";
-import { getAppConfig } from "@sside-net/app-config";
+import { validateYear } from "@sside-net/validator";
 import { IntegerPathParameterName } from "../../../../constant/path-parameter/IntegerPathParameterName";
-import {
-    apiClient,
-    isNotFoundErrorResponse,
-} from "../../../../library/api-client/api-client";
+import { apiClient } from "../../../../library/api-client/api-client";
 import {
     getPagePathParameters,
     NextPagePathParameter,
 } from "../../../../library/path-parameter/getPagePathParameters";
-import { BlogEntryFromPublishedBlogEntryResponse } from "../../BlogEntryFromPublishedBlogEntryResponse";
+import { captureApiCallError } from "../../../../library/sentry/captureApiCallError";
+import { BlogEntriesFromPublishedBlogEntryResponses } from "../../BlogEntriesFromPublishedBlogEntryResponses";
+import { YearlyBlogEntryArchivePager } from "./YearlyBlogEntryArchivePager";
 
 export default async function YearArchivePage(
     nextPagePathParameter: NextPagePathParameter,
@@ -18,6 +17,10 @@ export default async function YearArchivePage(
         nextPagePathParameter,
         IntegerPathParameterName.Year,
     );
+    if (validateYear(year) !== true) {
+        return notFound();
+    }
+
     const { data, error, response } = await apiClient.GET(
         "/blog-entry/archive/{year}",
         {
@@ -25,30 +28,26 @@ export default async function YearArchivePage(
                 path: {
                     year,
                 },
-                query: {
-                    count: getAppConfig().frontend.blog.blogEntry
-                        .displayPerPage,
-                },
             },
         },
     );
 
-    if (error && isNotFoundErrorResponse(response)) {
+    if (error) {
+        await captureApiCallError(response, YearArchivePage);
+
+        throw error;
+    }
+
+    if (!data.length) {
         return notFound();
     }
 
-    if (!data) {
-        return null;
-    }
-
     return (
-        <>
-            {data.map((publishedBlogEntry) => (
-                <BlogEntryFromPublishedBlogEntryResponse
-                    key={publishedBlogEntry.id}
-                    publishedBlogEntryResponse={publishedBlogEntry}
-                />
-            ))}
-        </>
+        <div className="year-archive-page grid w-full gap-4">
+            <BlogEntriesFromPublishedBlogEntryResponses
+                publishedBlogEntryResponses={data}
+            />
+            <YearlyBlogEntryArchivePager year={year} />
+        </div>
     );
 }

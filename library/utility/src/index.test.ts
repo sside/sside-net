@@ -6,6 +6,7 @@ import {
     parseDecimalFloat,
     parseDecimalInt,
     trimPathsTrailingSlash,
+    unique,
     wait,
 } from "./index";
 
@@ -33,6 +34,21 @@ describe("parseDecimalInt", () => {
         expect(parseDecimalInt("0.123456")).toBe(0);
         expect(parseDecimalInt("-123456")).toBe(-123_456);
         expect(parseDecimalInt("0")).toBe(0);
+    });
+});
+
+describe("unique", () => {
+    test("重複値が除かれていること。", () => {
+        const numberSamples = createIntegerArray(10);
+        expect(
+            unique([...numberSamples, ...createIntegerArray(5)]).toSorted(),
+        ).toEqual(numberSamples);
+        const samples = createIntegerArray(10).map((value) =>
+            value.toString(10),
+        );
+        expect(
+            unique([...samples, ...samples.toSpliced(5, 2)]).toSorted(),
+        ).toEqual(samples);
     });
 });
 

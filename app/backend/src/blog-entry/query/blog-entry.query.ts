@@ -121,18 +121,11 @@ export class BlogEntryQuery {
     async findManyPublishedByRange(
         searchStartAtGte: Date,
         searchEndAtLt: Date,
-        count: number,
-        pointerPublishAtLte?: Date,
     ): Promise<PublishedBlogEntryWithRelations[]> {
         return (await this.findManyWithRelation({
             where: {
                 AND: [
                     BlogEntryQuery.WHERE_PUBLISHED(),
-                    {
-                        publishAt: {
-                            lte: pointerPublishAtLte,
-                        },
-                    },
                     {
                         publishAt: {
                             gte: searchStartAtGte,
@@ -145,7 +138,6 @@ export class BlogEntryQuery {
                     },
                 ],
             },
-            take: count,
         })) as PublishedBlogEntryWithRelations[];
     }
 

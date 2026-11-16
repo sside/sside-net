@@ -29,7 +29,7 @@ test.describe("LatestBlogEntryPager", () => {
     }) => {
         const endpointUrl = new URL(
             getAppConfig().global.baseUrl.backend +
-                `/blog-entry/latest/adjecent/${PagingDirection.Earlier}`,
+                `/blog-entry/latest/adjacent/${PagingDirection.Earlier}`,
         );
         msw.use(
             http.get(
@@ -60,7 +60,7 @@ test.describe("LatestBlogEntryPager", () => {
     }) => {
         const endpointUrl = new URL(
             getAppConfig().global.baseUrl.backend +
-                `/blog-entry/latest/adjecent/${PagingDirection.Later}`,
+                `/blog-entry/latest/adjacent/${PagingDirection.Later}`,
         );
         msw.use(
             http.get(

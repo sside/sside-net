@@ -42,7 +42,7 @@ export default async function BlogEntryBySlugPage(
     const { slug } = data;
 
     return (
-        <div className="blog-entry-by-slug-page w-blog-entry grid gap-4">
+        <div className="blog-entry-by-slug-page w-full">
             <BlogEntryFromPublishedBlogEntryResponse
                 publishedBlogEntryResponse={data}
             />

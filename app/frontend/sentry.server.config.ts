@@ -11,7 +11,4 @@ Sentry.init({
     // Capture 100% in dev, 10% in production
     // Adjust based on your traffic volume
     tracesSampleRate: isProductionEnvironment() ? 0.1 : 1,
-
-    // Enable logs to be sent to Sentry
-    enableLogs: true,
 });

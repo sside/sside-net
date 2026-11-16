@@ -17,9 +17,8 @@ export const PreviousLatestBlogEntryLink: FC<{
                                 pointerBlogEntrySlug,
                         })) as Route
                 }
-            >
-                <span>Previous</span>
-            </AdjacentBlogLink>
+                bodyText="previous"
+            />
         </div>
     );
 };

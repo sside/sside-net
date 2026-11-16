@@ -57,7 +57,7 @@ export class PublicBlogEntryController {
         );
     }
 
-    @Get("latest/adjecent/:direction")
+    @Get("latest/adjacent/:direction")
     @ApiOkResponse({
         type: PublishedBlogEntryResponse,
     })
@@ -134,29 +134,13 @@ export class PublicBlogEntryController {
     @ApiOkResponse({
         type: [PublishedBlogEntryResponse],
     })
-    @ApiQuery({
-        name: "pointer-blog-entry-slug",
-        required: false,
-    })
     async getBlogEntryArchiveByYear(
         @Param("year", YearValidationPipe) year: number,
-        @Query(
-            "count",
-            new NumberLimitationPipe(
-                getAppConfig().backend.blogEntry.public
-                    .maximumFetchCountPerOnce,
-            ),
-        )
-        count: number,
-        @Query("pointer-blog-entry-slug")
-        pointerBlogEntrySlug?: string,
     ): Promise<PublishedBlogEntryResponse[]> {
         return Promise.all(
             (
                 await this.publicBlogEntryService.getBlogEntriesByPublishYear(
                     year,
-                    count,
-                    pointerBlogEntrySlug,
                 )
             ).map(async (blogEntry) =>
                 PublishedBlogEntryResponse.fromEntities(
@@ -173,31 +157,15 @@ export class PublicBlogEntryController {
     @ApiOkResponse({
         type: [PublishedBlogEntryResponse],
     })
-    @ApiQuery({
-        name: "pointer-blog-entry-slug",
-        required: false,
-    })
     async getBlogEntryArchiveByYearMonth(
         @Param("year", YearValidationPipe) year: number,
         @Param("month", MonthValidationPipe) month: number,
-        @Query(
-            "count",
-            new NumberLimitationPipe(
-                getAppConfig().backend.blogEntry.public
-                    .maximumFetchCountPerOnce,
-            ),
-        )
-        count: number,
-        @Query("pointer-blog-entry-slug")
-        pointerBlogEntrySlug?: string,
     ): Promise<PublishedBlogEntryResponse[]> {
         return Promise.all(
             (
                 await this.publicBlogEntryService.getBlogEntriesByPublishYearMonth(
                     year,
                     month,
-                    count,
-                    pointerBlogEntrySlug,
                 )
             ).map(async (blogEntry) =>
                 PublishedBlogEntryResponse.fromEntities(

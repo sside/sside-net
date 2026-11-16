@@ -1,12 +1,12 @@
 import { MswFixture } from "next/dist/experimental/testmode/playwright/msw";
 import { fakerEN, fakerJA } from "@faker-js/faker";
 import { MARKDOWN_SAMPLE_OLD_BLOG_1 } from "@sside-net/constant";
-import { createIntegerRange } from "@sside-net/utility";
+import { createIntegerArray } from "@sside-net/utility";
 import { components } from "../../generated/api-client/backend-schema";
 import { mockBackendGetResponse } from "../mockBackendGetResponse";
 
 export const mockValuePublicBlogEntryController_getLatestBlogEntries =
-    createIntegerRange(1, 3)
+    createIntegerArray(3)
         .map((id): components["schemas"]["PublishedBlogEntryResponse"] => ({
             id,
             bodyMarkdown: MARKDOWN_SAMPLE_OLD_BLOG_1,

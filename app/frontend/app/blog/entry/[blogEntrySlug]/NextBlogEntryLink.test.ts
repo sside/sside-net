@@ -27,7 +27,7 @@ test.describe("NextBlogEntryLink", () => {
     }) => {
         const endpointUrl = new URL(
             getAppConfig().global.baseUrl.backend +
-                `/blog-entry/latest/adjecent/${PagingDirection.Earlier}`,
+                `/blog-entry/latest/adjacent/${PagingDirection.Earlier}`,
         );
         endpointUrl.searchParams.set(
             "pointer-blog-entry-slug",

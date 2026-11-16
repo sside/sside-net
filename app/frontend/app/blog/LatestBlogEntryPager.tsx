@@ -37,7 +37,7 @@ export const LatestBlogEntryPager: FC<{
         response,
     }: Awaited<
         ReturnType<
-            Client<paths["/blog-entry/latest/adjecent/{direction}"]>["GET"]
+            Client<paths["/blog-entry/latest/adjacent/{direction}"]>["GET"]
         >
     >): Promise<string | undefined> => {
         if (error) {
@@ -54,7 +54,7 @@ export const LatestBlogEntryPager: FC<{
     const [previousSlug, nextSlug] = await Promise.all([
         previousPointerSlug ?
             pickPointerSlug(
-                await apiClient.GET("/blog-entry/latest/adjecent/{direction}", {
+                await apiClient.GET("/blog-entry/latest/adjacent/{direction}", {
                     params: {
                         path: {
                             direction: PagingDirection.Later,
@@ -69,7 +69,7 @@ export const LatestBlogEntryPager: FC<{
         :   undefined,
         nextPointerSlug ?
             pickPointerSlug(
-                await apiClient.GET("/blog-entry/latest/adjecent/{direction}", {
+                await apiClient.GET("/blog-entry/latest/adjacent/{direction}", {
                     params: {
                         path: {
                             direction: PagingDirection.Earlier,

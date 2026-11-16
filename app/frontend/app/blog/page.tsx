@@ -11,7 +11,7 @@ export default async function BlogRootPage(
         await nextPageSearchParameters.searchParams;
 
     return (
-        <div className="blog-root-page w-full gap-4">
+        <div className="blog-root-page grid w-full gap-4">
             <RecentBlogEntries
                 fetchCount={fetchCount}
                 pointerBlogEntrySlug={pointerBlogEntrySlug}

@@ -54,10 +54,6 @@
     grid-area: --value(--grid-area-\*);
 }
 
-@utility w-blog-entry {
-    @apply w-full max-w-240;
-}
-
 @utility px-menu {
     @apply px-2;
 }

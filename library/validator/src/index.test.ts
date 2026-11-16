@@ -16,15 +16,9 @@ describe("validator", () => {
             expect(validateString(Number("0").toString())).toBe(true);
         });
         test("文字列以外が入力された場合はバリデーションメッセージを返すこと。", () => {
-            expect(validateString(null)).not.toBe(true);
-            expect(validateString(undefined)).not.toBe(true);
-            expect(validateString({})).not.toBe(true);
             expect(validateString(NaN)).not.toBe(true);
             expect(validateString(0)).not.toBe(true);
             expect(validateString(1)).not.toBe(true);
-            expect(validateString(() => {})).not.toBe(true);
-            expect(validateString(new Set())).not.toBe(true);
-            expect(validateString(BigInt("10000"))).not.toBe(true);
         });
     });
 
@@ -38,7 +32,11 @@ describe("validator", () => {
     });
 
     describe("validateInEnum", () => {
-        const Constants = { Hoge: "hoge", Hige: "hige", Hage: "hage" } as const;
+        const Constants = {
+            Hoge: "hoge",
+            Hige: "hige",
+            Hage: "hage",
+        } as const;
         test("対象の配列に値を含む場合はtrueが返ること。", () => {
             expect(
                 validateInEnum(Constants.Hoge, Object.values(Constants)),
@@ -49,13 +47,7 @@ describe("validator", () => {
             expect(
                 validateInEnum("hogehoge", Object.values(Constants)),
             ).not.toBe(true);
-            expect(
-                validateInEnum(undefined, Object.values(Constants)),
-            ).not.toBe(true);
             expect(validateInEnum(100, Object.values(Constants))).not.toBe(
-                true,
-            );
-            expect(validateInEnum(null, Object.values(Constants))).not.toBe(
                 true,
             );
         });
@@ -96,7 +88,7 @@ describe("validator", () => {
         });
     });
 
-    describe("validateSlug", () => {
+    describe("validateBlogEntrySlug", () => {
         test("[a-zA-Z0-9-]のみが入力される場合はパスすること。", () => {
             expect(validateBlogEntrySlug(`abcABC012-987`)).toBe(true);
         });

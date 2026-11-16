@@ -132,7 +132,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/blog-entry/latest/adjecent/{direction}": {
+    "/blog-entry/latest/adjacent/{direction}": {
         parameters: {
             query?: never;
             header?: never;
@@ -602,10 +602,7 @@ export interface operations {
     };
     PublicBlogEntryController_getBlogEntryArchiveByYear: {
         parameters: {
-            query: {
-                count: number;
-                "pointer-blog-entry-slug"?: string;
-            };
+            query?: never;
             header?: never;
             path: {
                 year: number;
@@ -626,10 +623,7 @@ export interface operations {
     };
     PublicBlogEntryController_getBlogEntryArchiveByYearMonth: {
         parameters: {
-            query: {
-                count: number;
-                "pointer-blog-entry-slug"?: string;
-            };
+            query?: never;
             header?: never;
             path: {
                 year: number;
@@ -843,7 +837,7 @@ export enum ApiPaths {
     BlogEntryController_putUpdateBlogEntryDraft = "/private/blog-entry/{blogEntryId}/draft",
     BlogEntryController_putPublishBlogEntry = "/private/blog-entry/{blogEntryId}/publish",
     PublicBlogEntryController_getLatestBlogEntries = "/blog-entry/latest",
-    PublicBlogEntryController_getAdjacentLatestBlogEntries = "/blog-entry/latest/adjecent/{direction}",
+    PublicBlogEntryController_getAdjacentLatestBlogEntries = "/blog-entry/latest/adjacent/{direction}",
     PublicBlogEntryController_getBlogEntryBySlug = "/blog-entry/slug/{slug}",
     PublicBlogEntryController_getBlogEntryArchiveByYear = "/blog-entry/archive/{year}",
     PublicBlogEntryController_getBlogEntryArchiveByYearMonth = "/blog-entry/archive/{year}/{month}",

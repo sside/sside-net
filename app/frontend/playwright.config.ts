@@ -57,5 +57,7 @@ export default defineConfig({
         command: `npm run dev:test`,
         url: frontendBaseUrl + "/icon.svg",
         reuseExistingServer: !process.env.CI,
+        stdout: "pipe",
+        stderr: "pipe",
     },
 });

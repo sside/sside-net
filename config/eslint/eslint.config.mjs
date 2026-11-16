@@ -76,6 +76,10 @@ export default defineConfig([
             "unicorn/single-line-block-comment-style": "off",
             "unicorn/no-asterisk-prefix-in-documentation-comments": "off",
             "unicorn/no-unnecessary-parameters": "off",
+            "unicorn/require-array-sort-compare": "off",
+            "unicorn/no-negated-condition": "off",
+            "unicorn/prefer-ternary": "off",
+            "unicorn/no-await-in-promise-methods": "off",
 
             "@typescript-eslint/member-ordering": "warn",
             "unicorn/name-replacements": [

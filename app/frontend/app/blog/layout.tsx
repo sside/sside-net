@@ -13,7 +13,9 @@ export default async function BlogLayout({ children }: ChildrenProp) {
     return (
         <div className="layout-mobile desktop:layout-desktop desktop:grid-cols-[18rem_1fr] grid min-h-dvh w-full grid-rows-[auto_1fr_auto]">
             <BlogTitle />
-            <main className="layout-area-main w-full p-8">{children}</main>
+            <main className="layout-area-main w-full max-w-240 p-8">
+                {children}
+            </main>
             <BlogMenu />
             <BlogFooter />
         </div>

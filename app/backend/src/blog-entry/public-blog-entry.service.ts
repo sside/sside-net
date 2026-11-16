@@ -114,22 +114,16 @@ export class PublicBlogEntryService {
      */
     async getBlogEntriesByPublishYear(
         year: number,
-        count: number,
-        pointerBlogEntrySlug?: string,
     ): Promise<PublishedBlogEntryWithRelations[]> {
         this.logger.log("年度を指定して公開されたBlogEntryを取得します。", {
             year,
-            count,
-            pointerBlogEntrySlug,
         });
 
         const [startOfTargetYear, startOfNextYear] = createJstYearRange(year);
 
-        return await this.getBlogEntriesByRange(
+        return await this.blogEntryQuery.findManyPublishedByRange(
             startOfTargetYear,
             startOfNextYear,
-            count,
-            pointerBlogEntrySlug,
         );
     }
 
@@ -139,14 +133,10 @@ export class PublicBlogEntryService {
     async getBlogEntriesByPublishYearMonth(
         year: number,
         month: number,
-        count: number,
-        pointerBlogEntrySlug?: string,
     ): Promise<BlogEntryWithRelations[]> {
         this.logger.log("年度を指定して公開されたBlogEntryを取得します。", {
             year,
             month,
-            count,
-            pointerBlogEntrySlug,
         });
 
         const [startOfTargetMonth, startOfNextMonth] = createJstMonthRange(
@@ -154,11 +144,9 @@ export class PublicBlogEntryService {
             month,
         );
 
-        return this.getBlogEntriesByRange(
+        return this.blogEntryQuery.findManyPublishedByRange(
             startOfTargetMonth,
             startOfNextMonth,
-            count,
-            pointerBlogEntrySlug,
         );
     }
 
@@ -169,43 +157,5 @@ export class PublicBlogEntryService {
         this.logger.log("全ての公開済みBlogEntryの公開日を取得します。");
 
         return await this.blogEntryQuery.findManyPublishAt();
-    }
-
-    /**
-     * 公開日の範囲を指定してページング考慮済み公開済みBlogEntryを取得します。
-     */
-    private async getBlogEntriesByRange(
-        searchStartAtGte: Date,
-        searchEndAtLt: Date,
-        count: number,
-        pointerBlogEntrySlug?: string,
-    ): Promise<PublishedBlogEntryWithRelations[]> {
-        this.logger.log("公開日範囲を指定して公開済みBlogEntryを取得します。", {
-            searchStartAtGte,
-            searchEndAtLt,
-            count,
-            pointerBlogEntrySlug,
-        });
-
-        const pointerPublishAt =
-            pointerBlogEntrySlug ?
-                (await this.getBySlug(pointerBlogEntrySlug)).publishAt
-            :   undefined;
-        const searchCount = count + 1;
-
-        const blogEntries = await this.blogEntryQuery.findManyPublishedByRange(
-            searchStartAtGte,
-            searchEndAtLt,
-            searchCount,
-            pointerPublishAt,
-        );
-
-        if (!blogEntries.length) {
-            throw new NotFoundException(
-                `指定の検索日時範囲では公開済みBlogEntryが見つかりませんでした。 searchStartAtGte: ${searchStartAtGte}, searchEndAtLt: ${searchEndAtLt}, count: ${count}, pointerBlogEntryId: ${pointerBlogEntrySlug},`,
-            );
-        }
-
-        return blogEntries;
     }
 }

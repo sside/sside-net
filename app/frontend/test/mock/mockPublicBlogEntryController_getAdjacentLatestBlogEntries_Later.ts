@@ -30,7 +30,7 @@ export const mockValuePublicBlogEntryController_getAdjacentLatestBlogEntries_Lat
 export const mockPublicBlogEntryController_getAdjacentLatestBlogEntries_Later =
     (mswFixture: MswFixture) => {
         mockBackendGetResponse(
-            `/blog-entry/latest/adjecent/${PagingDirection.Later}` as "/blog-entry/latest/adjecent/{direction}",
+            `/blog-entry/latest/adjacent/${PagingDirection.Later}` as "/blog-entry/latest/adjacent/{direction}",
             mockValuePublicBlogEntryController_getAdjacentLatestBlogEntries_Later,
             mswFixture,
         );

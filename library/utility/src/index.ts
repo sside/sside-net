@@ -58,6 +58,11 @@ export const createIntegerRange = (start: number, end: number): number[] => {
 };
 
 /**
+ * 配列から重複を除いた配列を返します。
+ */
+export const unique = <T>(values: T[]): T[] => [...new Set(values)];
+
+/**
  * 渡されたパスの末尾スラッシュを削除します。
  */
 export const trimPathsTrailingSlash = (pathname: string): string => {

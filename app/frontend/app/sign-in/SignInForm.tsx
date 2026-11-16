@@ -56,7 +56,7 @@ export const SignInForm: FC<{}> = ({}) => {
             >
                 <input
                     {...register("password", {
-                        validate: validateRequired,
+                        validate: (value) => validateRequired(value),
                     })}
                     className="rounded-md border p-2"
                     id={passwordElementId}
