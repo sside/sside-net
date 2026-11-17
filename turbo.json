@@ -23,10 +23,12 @@
             "cache": false
         },
         "lint": {
-            "dependsOn": ["^lint"]
+            "dependsOn": ["^lint"],
+            "cache": false
         },
         "test": {
-            "dependsOn": ["^test"]
+            "dependsOn": ["^test"],
+            "cache": false
         },
         "update:check": {
             "cache": false
