@@ -556,7 +556,7 @@ export interface operations {
             };
             header?: never;
             path: {
-                direction: string;
+                direction: "later" | "earlier";
             };
             cookie?: never;
         };

@@ -7,7 +7,12 @@ import {
     Query,
     Res,
 } from "@nestjs/common";
-import { ApiNoContentResponse, ApiOkResponse, ApiQuery } from "@nestjs/swagger";
+import {
+    ApiNoContentResponse,
+    ApiOkResponse,
+    ApiParam,
+    ApiQuery,
+} from "@nestjs/swagger";
 import { getAppConfig } from "@sside-net/app-config";
 import { PagingDirection } from "@sside-net/constant";
 import { Response as ExpressResponse } from "express";
@@ -70,6 +75,10 @@ export class PublicBlogEntryController {
     @ApiQuery({
         name: "count",
         type: Number,
+    })
+    @ApiParam({
+        name: "direction",
+        enum: Object.values(PagingDirection),
     })
     async getAdjacentLatestBlogEntries(
         @Res({

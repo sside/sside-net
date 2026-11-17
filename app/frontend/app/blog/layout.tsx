@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { connection } from "next/server";
 import { getAppConfig } from "@sside-net/app-config";
 import { ChildrenProp } from "../../type/ChildrenProp";
 import { BlogTitle } from "./BlogTitle";
@@ -10,6 +11,8 @@ export const metadata: Metadata = {
 };
 
 export default async function BlogLayout({ children }: ChildrenProp) {
+    await connection();
+
     return (
         <div className="layout-mobile desktop:layout-desktop desktop:grid-cols-[18rem_1fr] grid min-h-dvh w-full grid-rows-[auto_1fr_auto]">
             <BlogTitle />
