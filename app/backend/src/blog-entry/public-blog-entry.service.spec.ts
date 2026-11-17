@@ -234,10 +234,7 @@ describe("PublicBlogEntryService", () => {
             );
 
             const publishedBlogEntries =
-                await publicBlogEntryService.getBlogEntriesByPublishYear(
-                    2026,
-                    PUBLISH_COUNT,
-                );
+                await publicBlogEntryService.getBlogEntriesByPublishYear(2026);
 
             for (const { publishAt } of publishedBlogEntries) {
                 expect(publishAt?.getTime()).toBeGreaterThanOrEqual(
@@ -288,10 +285,7 @@ describe("PublicBlogEntryService", () => {
             );
 
             const publishedBlogEntries =
-                await publicBlogEntryService.getBlogEntriesByPublishYear(
-                    2025,
-                    PUBLISH_COUNT * 100,
-                );
+                await publicBlogEntryService.getBlogEntriesByPublishYear(2025);
 
             expect(publishedBlogEntries.length).toBe(PUBLISH_COUNT);
         });
@@ -355,24 +349,9 @@ describe("PublicBlogEntryService", () => {
             );
 
             const publishedBlogEntries =
-                await publicBlogEntryService.getBlogEntriesByPublishYear(
-                    2026,
-                    PUBLISH_COUNT * 100,
-                );
+                await publicBlogEntryService.getBlogEntriesByPublishYear(2026);
 
             expect(publishedBlogEntries.length).toBe(PUBLISH_COUNT);
-        });
-
-        test("検索対象がない場合はNotFoundExceptionを投げること。", async () => {
-            await blogEntryService.createPublished(
-                createBlogEntryInput(),
-                [],
-                new Date("2027-01-01T00:00:00+09:00"),
-            );
-
-            await expect(
-                publicBlogEntryService.getBlogEntriesByPublishYear(2026, 1),
-            ).rejects.toThrow(/検索日時範囲/);
         });
     });
 
@@ -421,7 +400,6 @@ describe("PublicBlogEntryService", () => {
                 await publicBlogEntryService.getBlogEntriesByPublishYearMonth(
                     2026,
                     1,
-                    PUBLISH_COUNT,
                 );
 
             for (const { publishAt } of publishedBlogEntries) {
@@ -432,22 +410,6 @@ describe("PublicBlogEntryService", () => {
                     endOfMonth.getTime(),
                 );
             }
-        });
-
-        test("検索対象がない場合はNotFoundExceptionを投げること。", async () => {
-            await blogEntryService.createPublished(
-                createBlogEntryInput(),
-                [],
-                new Date("2027-01-01T00:00:00+09:00"),
-            );
-
-            await expect(
-                publicBlogEntryService.getBlogEntriesByPublishYearMonth(
-                    2026,
-                    1,
-                    1,
-                ),
-            ).rejects.toThrow(/検索日時範囲/);
         });
     });
 
