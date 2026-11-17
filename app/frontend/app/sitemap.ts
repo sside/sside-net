@@ -4,7 +4,7 @@ import { getAppConfig } from "@sside-net/app-config";
 import { apiClient } from "../library/api-client/api-client";
 import { createLogger } from "../library/logger/createLogger";
 import { captureApiCallError } from "../library/sentry/captureApiCallError";
-import { padTwoDigit } from "../library/utility/padTwoDigit";
+import { formatMonthToTwoDigits } from "../library/utility/formatMonthToTwoDigits";
 
 const logger = createLogger("sitemap");
 
@@ -171,7 +171,7 @@ async function getArchives(): Promise<MetadataRoute.Sitemap> {
             url: `${baseUrl}/blog/archive/${year}`,
         })),
         ...data.map(({ year, month }): MetadataRoute.Sitemap[0] => ({
-            url: `${baseUrl}/blog/archive/${year}/${padTwoDigit(month)}`,
+            url: `${baseUrl}/blog/archive/${year}/${formatMonthToTwoDigits(month)}`,
         })),
     ];
 }

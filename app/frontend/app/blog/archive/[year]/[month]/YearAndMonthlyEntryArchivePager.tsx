@@ -4,7 +4,7 @@ import { AdjacentBlogLink } from "../../../../../component/adjacent-blog-link/Ad
 import { AdjacentBlogLinksContainer } from "../../../../../component/adjacent-blog-link/AdjacentBlogLinksContainer";
 import { apiClient } from "../../../../../library/api-client/api-client";
 import { captureApiCallError } from "../../../../../library/sentry/captureApiCallError";
-import { padTwoDigit } from "../../../../../library/utility/padTwoDigit";
+import { formatMonthToTwoDigits } from "../../../../../library/utility/formatMonthToTwoDigits";
 
 export const YearAndMonthlyEntryArchivePager: FC<{
     year: number;
@@ -40,7 +40,7 @@ export const YearAndMonthlyEntryArchivePager: FC<{
     const later = sorted[currentIndex + 1];
 
     const formatYearMonth = ({ year, month }: (typeof sorted)[0]) =>
-        `${year}-${padTwoDigit(month)}`;
+        `${year}-${formatMonthToTwoDigits(month)}`;
 
     return (
         <div className="year-and-monthly-entry-archive-pager">
