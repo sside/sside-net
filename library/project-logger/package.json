@@ -20,7 +20,7 @@
         "utility-types": "3.11.0"
     },
     "devDependencies": {
-        "@sentry/core": "11.9.0",
+        "@sentry/core": "11.10.0",
         "@sside-net/eslint": "*",
         "@sside-net/tsconfig": "*",
         "@sside-net/vitest": "*",

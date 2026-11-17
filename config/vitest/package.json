@@ -11,7 +11,7 @@
         "@dotenvx/dotenvx": "2.38.2",
         "@sside-net/tsconfig": "*",
         "typescript": "6.0.3",
-        "vitest": "5.0.5"
+        "vitest": "5.1.0"
     },
     "private": true
 }
