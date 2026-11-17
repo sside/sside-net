@@ -80,6 +80,9 @@ export default defineConfig([
             "unicorn/no-negated-condition": "off",
             "unicorn/prefer-ternary": "off",
             "unicorn/no-await-in-promise-methods": "off",
+            "unicorn/prefer-early-return": "off",
+            "unicorn/prefer-logical-operator-over-ternary": "off",
+            "unicorn/prefer-default-parameters": "off",
 
             "@typescript-eslint/member-ordering": "warn",
             "unicorn/name-replacements": [
