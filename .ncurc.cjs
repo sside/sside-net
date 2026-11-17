@@ -1,5 +1,5 @@
 module.exports = {
-    cooldown: 14,
+    cooldown: 7,
     reject: [
         // プロジェクトのnodeのメジャーバージョンに合わせる
         "@types/node",
