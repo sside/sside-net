@@ -1,0 +1,5 @@
+User-agent: *
+User-agent: AdsBot-Google
+Disallow: /management
+Disallow: /sign-in
+Crawl-delay: 1
