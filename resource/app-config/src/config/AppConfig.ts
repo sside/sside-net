@@ -3,6 +3,7 @@ import { LogLevel } from "@sside-net/constant";
 export type AppConfig = {
     global: {
         appName: "sside.net";
+        author: "sside";
         log: {
             level: LogLevel;
         };
@@ -25,6 +26,11 @@ export type AppConfig = {
             };
             menu: {
                 recentBlogEntryCount: number;
+            };
+            feed: {
+                recentFeedEntryCount: number;
+                description: string;
+                copyright: string;
             };
         };
         sentry: {

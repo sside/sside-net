@@ -4,6 +4,7 @@ import { AppConfig } from "./AppConfig";
 export const baseAppConfig = {
     global: {
         appName: "sside.net",
+        author: "sside",
         log: {
             level: "info",
         },
@@ -22,6 +23,11 @@ export const baseAppConfig = {
             },
             menu: {
                 recentBlogEntryCount: 6,
+            },
+            feed: {
+                recentFeedEntryCount: 10,
+                description: "sside.net Blog",
+                copyright: "© sside.net 2026",
             },
         },
         sentry: {
